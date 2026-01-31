@@ -1,0 +1,314 @@
+[
+  {
+    "name": "Ad Hominem",
+    "description": "An argumentative strategy where one attacks the character, motive, or some other attribute of the person making an argument rather than attacking the substance of the argument itself. This is a diversionary tactic that avoids engaging with the actual topic of discussion.",
+    "examples": [
+      "We can't trust this mouth-breathing dummy to make a good point.",
+      "Of course, you would say that; you're a college dropout who has never held a real job."
+    ]
+  },
+  {
+    "name": "Straw Man",
+    "description": "Misrepresenting someone's argument to make it easier to attack. This involves substituting a person's actual position or argument with a distorted, exaggerated, or misrepresented version of the position of the argument.",
+    "examples": [
+      "You claim to like cats, so you must hate puppies and want all dogs to be banned.",
+      "Person A: 'I think we should increase funding for public schools.' Person B: 'So you're saying we should just throw money at a broken system and neglect all other public services? That's absurd.'"
+    ]
+  },
+  {
+    "name": "Scapegoat",
+    "description": "Unjustly blaming a person or group for a problem or wrongdoing. This deflects attention from the real cause and often targets marginalized groups.",
+    "examples": [
+      "Yes, we had a party, but the dog made the mess, not us.",
+      "The reason our economy is struggling is because of the immigrants, not corporate policy."
+    ]
+  },
+  {
+    "name": "No True Scotsman",
+    "description": "A way of reinterpreting evidence in order to prevent the refutation of one's position. An arguer attempts to protect their universal generalization from a counterexample by simply excluding the counterexample.",
+    "examples": [
+      "Angus: 'No Scotsman puts sugar on his porridge.' Lachlan: 'But my uncle is a Scotsman and he puts sugar on his porridge.' Angus: 'Ah, but no *true* Scotsman puts sugar on his porridge.'",
+      "A real gamer would never play on a mobile phone."
+    ]
+  },
+  {
+    "name": "Tu Quoque",
+    "description": "A type of ad hominem fallacy that attempts to discredit an opponent's argument by asserting the opponent's failure to act consistently in accordance with its conclusion(s). It's a form of hypocrisy charge.",
+    "examples": [
+      "I may smell, but you stink just as much, so you have no right to criticize me.",
+      "My doctor told me to lose weight, but why should I listen to him? He's overweight himself."
+    ]
+  },
+  {
+    "name": "Argument from Motive",
+    "description": "Challenging a thesis by calling into question the motives of its proposer. This is a fallacy because the motives of a person do not logically determine the truth or falsehood of their argument.",
+    "examples": [
+      "He wants to ban cars because he has a bike store and wants to make more money.",
+      "This politician is only proposing this tax cut because she wants to get re-elected."
+    ]
+  },
+  {
+    "name": "Red Herring",
+    "description": "An irrelevant topic introduced in an argument to divert the attention of listeners or readers from the original issue. The arguer changes the subject to something they are more comfortable or knowledgeable about.",
+    "examples": [
+      "The government says to 'trust vaccines,' but they still haven't come clean about the moon landings.",
+      "While it's true that our company polluted the river, you should be more concerned about the other companies that are doing even worse things."
+    ]
+  },
+  {
+    "name": "Appeal to Nature",
+    "description": "The belief or suggestion that 'natural' is always better than 'unnatural'. This fallacy argues that if something is 'natural' it must be good, and if it's 'unnatural' it must be bad.",
+    "examples": [
+      "Our chicken is fried in organic grease. It's basically a health food because it's all-natural.",
+      "Vaccines are unnatural, so they must be bad for you. It's better to build immunity the natural way."
+    ]
+  },
+  {
+    "name": "Appeal to Authority",
+    "description": "Insisting that a claim is true simply because a valid authority or expert on the issue said it was true, without any other supporting evidence offered. The authority's expertise must be relevant to the subject.",
+    "examples": [
+      "Of course, we should invade Kalijaway. It's what the President wants, and he's the expert.",
+      "A famous actor said this diet is the only way to lose weight, so it must be true."
+    ]
+  },
+  {
+    "name": "Appeal to Money",
+    "description": "The fallacy of believing that wealth or the cost of something is a measure of its quality or truth. It assumes that if someone is rich, they must be right, or if something is expensive, it must be good.",
+    "examples": [
+      "We could save the whales, but at what cost to the harpoon makers' profits?",
+      "This car is the most expensive on the market, so it must be the best one."
+    ]
+  },
+  {
+    "name": "Appeal to Probability",
+    "description": "A statement that takes something for granted because it would probably be the case (or might be the case). It assumes that because something could happen, it is inevitable that it will happen.",
+    "examples": [
+      "If something can go wrong, then it will go wrong.",
+      "There are millions of stars, so there must be intelligent life out there somewhere."
+    ]
+  },
+  {
+    "name": "Appeal to Closure",
+    "description": "The need to reach a conclusion, even if it means sacrificing accuracy or ignoring evidence. This is often driven by a desire to avoid ambiguity or uncertainty.",
+    "examples": [
+      "We need to make a decision now, so let's just go with the first option, even if it's not perfect.",
+      "I don't care what the evidence says; he's guilty. We need to close this case."
+    ]
+  },
+  {
+    "name": "Appeal to Tradition",
+    "description": "A fallacy that occurs when it is assumed that something is better or correct simply because it is older, traditional, or 'has always been done.'",
+    "examples": [
+      "Bloodletting has been practiced for decades, so it must do some good.",
+      "Our family has always voted for this party, so I will too."
+    ]
+  },
+  {
+    "name": "Appeal to Popularity",
+    "description": "Arguing that a claim must be true, or an action right, simply because it is popular. This is also known as the bandwagon fallacy.",
+    "examples": [
+      "Eating detergent pods is cool. It's all over social media, so it can't be that bad.",
+      "Millions of people believe in this, so it must be true."
+    ]
+  },
+  {
+    "name": "Appeal to Novelty",
+    "description": "The fallacy of assuming that something is better or more correct simply because it is new or modern.",
+    "examples": [
+      "We should at least try curing COVID by injecting bleach; it's a new idea.",
+      "This new software update is guaranteed to be better than the old version."
+    ]
+  },
+  {
+    "name": "Cherry Picking",
+    "description": "The act of pointing to individual cases or data that seem to confirm a particular position, while ignoring a significant portion of related cases or data that may contradict that position.",
+    "examples": [
+      "Kids are now so tall! Just look at that basketball team and ignore the gymnastics team.",
+      "My grandfather smoked his whole life and lived to be 90, so smoking can't be that bad for you."
+    ]
+  },
+  {
+    "name": "Gambler's Fallacy",
+    "description": "The mistaken belief that if a particular event occurs more frequently than normal during the past, it is less likely to happen in the future (or vice versa), when it has been established that the probability of such events does not depend on what has happened in the past.",
+    "examples": [
+      "The roulette wheel landed on red the last five times, so it's due to land on black next.",
+      "I've failed the last three exams, so I'm bound to pass this one."
+    ]
+  },
+  {
+    "name": "Texas Sharpshooter",
+    "description": "A fallacy which is committed when differences in data are ignored, but similarities are stressed. From this reasoning, a false conclusion is inferred. This is related to the clustering illusion.",
+    "examples": [
+      "A psychic predicted that a major disaster would happen in a big city, and then a hurricane hit New Orleans. He must be a real psychic!",
+      "The company's marketing report showed that sales were highest in the cities where they advertised the most, ignoring the fact that those were also the most populated cities."
+    ]
+  },
+  {
+    "name": "Non Sequitur",
+    "description": "A conclusion or statement that does not logically follow from the previous argument or statement. The conclusion could be either true or false, but the argument is fallacious because there is a disconnection between the premise and the conclusion.",
+    "examples": [
+      "Cats are better than dogs because apples aren't oranges.",
+      "I have a great car, so I must be a great driver."
+    ]
+  },
+  {
+    "name": "Magical Thinking",
+    "description": "The belief that one's own thoughts, wishes, or desires can influence the external world. It's a belief in a causal relationship between an action and an event, where there is no plausible physical mechanism.",
+    "examples": [
+      "A blue moon is a good time to invest, so I'm going to buy stocks now.",
+      "I wore my lucky socks, and my team won. My socks made them win."
+    ]
+  },
+  {
+    "name": "Moving the Goalposts",
+    "description": "Demanding from an opponent that he or she address more and more points after the initial counter-argument has been satisfied, refusing to concede or accept the opponent's argument.",
+    "examples": [
+      "The motion surely demands more than a simple majority to pass; it needs a supermajority.",
+      "You proved that the world isn't flat, but can you prove that it's not a hollow sphere?"
+    ]
+  },
+  {
+    "name": "Overgeneralization",
+    "description": "A broad conclusion based on a small or unrepresentative sample. It's a hasty generalization that can lead to stereotypes and incorrect assumptions.",
+    "examples": [
+      "Jogging is healthy, so it should help your broken leg.",
+      "I met a rude person from that country, so everyone from that country must be rude."
+    ]
+  },
+  {
+    "name": "Affective Fallacy",
+    "description": "The fallacy of assuming that one's emotions or feelings are a valid guide to truth. It's the belief that if something feels right, it must be true.",
+    "examples": [
+      "This is just how I feel, so it must be true.",
+      "I have a bad feeling about this, so we shouldn't do it."
+    ]
+  },
+  {
+    "name": "Black & White",
+    "description": "A fallacy that presents only two choices or outcomes when in fact there are more. It's an 'either/or' argument that ignores nuance and complexity.",
+    "examples": [
+      "You want a pet? Will it be a cat or a dog? (Ignoring the possibility of a hamster, bird, etc.)",
+      "You're either with us or against us."
+    ]
+  },
+  {
+    "name": "Conflicting Conditions",
+    "description": "An argument that contains a contradiction and is therefore self-refuting. The premises of the argument are inconsistent with each other.",
+    "examples": [
+      "The only certainty is uncertainty.",
+      "This statement is false."
+    ]
+  },
+  {
+    "name": "Excluded Middle",
+    "description": "Assuming there are only two alternatives to consider when there are in fact more. This is a type of false dilemma.",
+    "examples": [
+      "It's all or nothing. We either go all in or we don't do it at all.",
+      "If you're not a socialist, you must be a greedy capitalist."
+    ]
+  },
+  {
+    "name": "Proof of Non-existence",
+    "description": "The fallacy of assuming that if you cannot prove something exists, then it must not exist. This is an appeal to ignorance.",
+    "examples": [
+      "No one has ever proven that aliens exist, so they must not be real.",
+      "I've never seen a unicorn, so they don't exist."
+    ]
+  },
+  {
+    "name": "Sunk-Cost Fallacy",
+    "description": "The phenomenon whereby a person is reluctant to abandon a strategy or course of action because they have invested heavily in it, even when it is clear that abandonment would be more beneficial.",
+    "examples": [
+      "We've already spent millions on this project, so we have to see it through, even if it's failing.",
+      "I've been in this relationship for five years. I can't break up now, even though I'm unhappy."
+    ]
+  },
+  {
+    "name": "Nirvana Fallacy",
+    "description": "The logical error of comparing actual things with unrealistic, idealized alternatives. It can also refer to the tendency to assume there is a perfect solution to a particular problem.",
+    "examples": [
+      "Trains aren't 100% carbon neutral, so I might as well fly.",
+      "What's the point of voting? The system is corrupt and no candidate is perfect."
+    ]
+  },
+  {
+    "name": "Begging the Question",
+    "description": "A fallacy in which the premises include the claim that the conclusion is true or (directly or indirectly) assume that the conclusion is true. This is a form of circular reasoning.",
+    "examples": [
+      "When did you start cheating on your taxes? (This assumes you have been cheating on your taxes).",
+      "The Bible is the word of God because God says so in the Bible."
+    ]
+  },
+  {
+    "name": "Denying the Antecedent",
+    "description": "A formal fallacy of inferring the inverse from the original statement. It is committed by reasoning in the form: If P, then Q. Therefore, if not P, then not Q.",
+    "examples": [
+      "If you are thin, you are fit. You are not thin, therefore you are not fit.",
+      "If it's raining, the ground is wet. It's not raining, so the ground must be dry."
+    ]
+  },
+  {
+    "name": "Definist Fallacy",
+    "description": "The logical fallacy of defining a term in such a way that it makes one's own position immune to counter-argument. It's a form of moving the goalposts.",
+    "examples": [
+      "Soccer is a dull sport, so it can't possibly be more fun than basketball.",
+      "A 'real' fan would never criticize their team."
+    ]
+  },
+  {
+    "name": "Suppressed Correlative",
+    "description": "An argument that tries to redefine a correlative (one of two mutually exclusive options) so that one alternative is no longer possible.",
+    "examples": [
+      "If we consider religion as a structure to understand the world, then science is just another religion.",
+      "There are no such things as 'good' or 'bad' people, only people."
+    ]
+  },
+  {
+    "name": "Affirming the Consequent",
+    "description": "A formal fallacy of inferring the converse from the original statement. It is committed by reasoning in the form: If P, then Q. Therefore, if Q, then P.",
+    "examples": [
+      "All Parisians live in France, so all French must be Parisians.",
+      "If you have the flu, you have a sore throat. You have a sore throat, so you must have the flu."
+    ]
+  },
+  {
+    "name": "Fallacy Fallacy",
+    "description": "The formal fallacy of analyzing an argument and inferring that, since it contains a fallacy, its conclusion must be false.",
+    "examples": [
+      "You used a straw man argument, so your conclusion must be wrong.",
+      "Your argument for why we should eat healthy was an appeal to nature, so we should just eat junk food."
+    ]
+  },
+  {
+    "name": "Equivocation",
+    "description": "A fallacy that uses a single word or phrase with multiple meanings in a way that misleads the audience. The meaning of the word is shifted during the argument.",
+    "examples": [
+      "He was attacked with a bat. Was it a flying bat or a baseball bat?",
+      "The sign said 'Fine for parking here,' and since it was fine, I parked there."
+    ]
+  },
+  {
+    "name": "Continuum Fallacy",
+    "description": "A fallacy that rejects a claim because it is not possible to draw a clear line between two states of being. It's also known as the fallacy of the heap or the sorites paradox.",
+    "examples": [
+      "Who can say when stubble becomes a beard? It's impossible to draw a line.",
+      "One grain of sand is not a heap. Adding one grain of sand doesn't make it a heap. Therefore, you can never have a heap of sand."
+    ]
+  },
+  {
+    "name": "Fallacy of Composition",
+    "description": "The error of assuming that what is true of a member of a group is true for the group as a whole.",
+    "examples": [
+      "A baby bit me. Therefore, all young kids are violent.",
+      "Each player on this team is a star, so the team must be the best in the league."
+    ]
+  },
+  {
+    "name": "Homunculus Fallacy",
+    "description": "An argument that accounts for a phenomenon in terms of the very phenomenon that it is supposed to explain. This is a form of circular reasoning.",
+    "examples": [
+      "The gods were created by gods, who were created by gods, and so on.",
+      "I have a little man in my head who tells me what to do."
+    ]
+  }
+]

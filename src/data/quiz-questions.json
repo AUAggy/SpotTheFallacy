@@ -1,0 +1,705 @@
+
+[
+  {
+    "fallacy_name": "Ad Hominem",
+    "question": "A city council member presents a detailed plan for improving local parks. Her opponent responds, 'How can we trust a plan from someone who was fined for a parking ticket last year?' What fallacy is being used?",
+    "options": ["Straw Man", "Ad Hominem", "Appeal to Nature", "Red Herring"],
+    "correct_answer": "Ad Hominem"
+  },
+  {
+    "fallacy_name": "Ad Hominem",
+    "question": "On a tech forum, a user posts a well-researched critique of a new smartphone. Another user replies, 'You're probably just an angry fan of the rival brand.' This is an example of...",
+    "options": ["Ad Hominem", "Slippery Slope", "Black & White", "Appeal to Authority"],
+    "correct_answer": "Ad Hominem"
+  },
+  {
+    "fallacy_name": "Ad Hominem",
+    "question": "During a debate about economic policy, one candidate says, 'My opponent's proposal is worthless. He's a billionaire who is completely out of touch with the common person.' This argument is a...",
+    "options": ["Fallacy of Composition", "Tu Quoque", "Ad Hominem", "Begging the Question"],
+    "correct_answer": "Ad Hominem"
+  },
+  {
+    "fallacy_name": "Straw Man",
+    "question": "Parent: 'I think children should have a more balanced diet and eat less candy.' Friend: 'So you're saying they should never have any treats and be miserable all the time?' The friend is using what fallacy?",
+    "options": ["Straw Man", "Appeal to Money", "Non Sequitur", "Gambler's Fallacy"],
+    "correct_answer": "Straw Man"
+  },
+  {
+    "fallacy_name": "Straw Man",
+    "question": "Senator A: 'I believe we need to invest more in our public transportation system.' Senator B: 'My colleague wants to force everyone onto crowded buses and take away their freedom to drive. This is an attack on the suburban way of life.' Senator B's argument is a...",
+    "options": ["Red Herring", "Straw Man", "Proof of Non-existence", "Affective Fallacy"],
+    "correct_answer": "Straw Man"
+  },
+  {
+    "fallacy_name": "Straw Man",
+    "question": "A student suggests to their teacher that the class could benefit from more hands-on projects. The teacher replies, 'So you're saying I should throw out the entire curriculum and just let you play with toys all day?' This is a...",
+    "options": ["Appeal to Closure", "Texas Sharpshooter", "Straw Man", "Equivocation"],
+    "correct_answer": "Straw Man"
+  },
+  {
+    "fallacy_name": "Scapegoat",
+    "question": "A company's profits are down. The CEO announces, 'The reason for our poor performance this quarter isn't our strategy, but the negative attitude of a few employees in the sales department.' This is an example of...",
+    "options": ["Scapegoat", "Sunk-Cost Fallacy", "Nirvana Fallacy", "Appeal to Tradition"],
+    "correct_answer": "Scapegoat"
+  },
+  {
+    "fallacy_name": "Scapegoat",
+    "question": "A sports team loses a championship game. The coach blames the loss entirely on a single referee's call, ignoring the team's own mistakes throughout the game. This is...",
+    "options": ["Moving the Goalposts", "Scapegoat", "Conflicting Conditions", "Appeal to Novelty"],
+    "correct_answer": "Scapegoat"
+  },
+  {
+    "fallacy_name": "Scapegoat",
+    "question": "After a community project fails to get funding, a local leader says, 'This project was perfect, but it was sabotaged by a small group of critics who spread misinformation.' This is an example of...",
+    "options": ["Argument from Motive", "Fallacy Fallacy", "Scapegoat", "Overgeneralization"],
+    "correct_answer": "Scapegoat"
+  },
+  {
+    "fallacy_name": "No True Scotsman",
+    "question": "Person A: 'All dedicated programmers write code every single day.' Person B: 'I consider myself a dedicated programmer, but I take weekends off.' Person A: 'Well, no *truly* dedicated programmer would do that.' This is a classic case of...",
+    "options": ["No True Scotsman", "Definist Fallacy", "Continuum Fallacy", "Homunculus Fallacy"],
+    "correct_answer": "No True Scotsman"
+  },
+  {
+    "fallacy_name": "No True Scotsman",
+    "question": "A food critic states, 'No respectable chef would ever use canned tomatoes.' When presented with a famous chef who does, the critic replies, 'Then that chef isn't truly respectable.' This is...",
+    "options": ["Appeal to Authority", "No True Scotsman", "Suppressed Correlative", "Fallacy of Composition"],
+    "correct_answer": "No True Scotsman"
+  },
+  {
+    "fallacy_name": "No True Scotsman",
+    "question": "A fan says, 'Any real fan of this band would own all their albums on vinyl.' When a friend says they love the band but only stream their music, the fan scoffs, 'Then you're not a *real* fan.' This is an example of...",
+    "options": ["Black & White", "Ad Hominem", "No True Scotsman", "Appeal to Popularity"],
+    "correct_answer": "No True Scotsman"
+  },
+  {
+    "fallacy_name": "Tu Quoque",
+    "question": "After being told by his friend that he should stop smoking because it's unhealthy, John replies, 'Why should I listen to you? You eat junk food every day!' John's response is a...",
+    "options": ["Tu Quoque", "Red Herring", "Slippery Slope", "Appeal to Nature"],
+    "correct_answer": "Tu Quoque"
+  },
+  {
+    "fallacy_name": "Tu Quoque",
+    "question": "A politician is criticized for voting against an environmental protection bill. She responds, 'My opponent, who is criticizing me, drove a gas-guzzling SUV to this debate.' This is an example of...",
+    "options": ["Straw Man", "Tu Quoque", "Argument from Motive", "Scapegoat"],
+    "correct_answer": "Tu Quoque"
+  },
+  {
+    "fallacy_name": "Tu Quoque",
+    "question": "A manager tells an employee they need to improve their punctuality. The employee replies, 'Well, I saw you come in late twice last week, so you can't talk.' This is a...",
+    "options": ["Ad Hominem", "Appeal to Closure", "Tu Quoque", "Non Sequitur"],
+    "correct_answer": "Tu Quoque"
+  },
+  {
+    "fallacy_name": "Argument from Motive",
+    "question": "A scientist publishes a study showing a certain pesticide is harmful. A critic dismisses the study by saying, 'This scientist's research was funded by a rival chemical company, so of course, the results are biased.' This is an...",
+    "options": ["Argument from Motive", "Cherry Picking", "Texas Sharpshooter", "Gambler's Fallacy"],
+    "correct_answer": "Argument from Motive"
+  },
+  {
+    "fallacy_name": "Argument from Motive",
+    "question": "A celebrity advocates for a vegetarian diet. Someone comments, 'She's only saying that because she's invested in a company that sells plant-based foods.' This is an example of...",
+    "options": ["Appeal to Money", "Argument from Motive", "Ad Hominem", "Straw Man"],
+    "correct_answer": "Argument from Motive"
+  },
+  {
+    "fallacy_name": "Argument from Motive",
+    "question": "A group of citizens protests the construction of a new factory. A local official tells the media, 'They are only protesting because they don't want their property values to go down.' This is a...",
+    "options": ["Red Herring", "Sunk-Cost Fallacy", "Argument from Motive", "Overgeneralization"],
+    "correct_answer": "Argument from Motive"
+  },
+  {
+    "fallacy_name": "Red Herring",
+    "question": "When a reporter asks a CEO about his company's poor environmental record, the CEO replies, 'We are very proud of the new employee wellness program we've introduced this year, which is a model for the industry.' This is a...",
+    "options": ["Red Herring", "Nirvana Fallacy", "Appeal to Novelty", "Conflicting Conditions"],
+    "correct_answer": "Red Herring"
+  },
+  {
+    "fallacy_name": "Red Herring",
+    "question": "During a discussion about whether a school needs more funding for its arts program, a parent says, 'The real issue is that students these days don't have enough discipline.' This is an example of...",
+    "options": ["Appeal to Tradition", "Red Herring", "Excluded Middle", "Proof of Non-existence"],
+    "correct_answer": "Red Herring"
+  },
+  {
+    "fallacy_name": "Red Herring",
+    "question": "A student is caught cheating on a test. When confronted by the teacher, the student says, 'I know I made a mistake, but think about how much pressure students are under these days.' This is a...",
+    "options": ["Begging the Question", "Ad Hominem", "Red Herring", "Fallacy Fallacy"],
+    "correct_answer": "Red Herring"
+  },
+  {
+    "fallacy_name": "Appeal to Nature",
+    "question": "A company advertises its new soda with the slogan, 'Made with 100% natural sugars, so you know it's good for you.' This marketing relies on...",
+    "options": ["Appeal to Nature", "Appeal to Popularity", "Appeal to Money", "Appeal to Novelty"],
+    "correct_answer": "Appeal to Nature"
+  },
+  {
+    "fallacy_name": "Appeal to Nature",
+    "question": "Someone argues, 'Herbal remedies are much safer than modern medicine because they come from plants.' This reasoning is an example of...",
+    "options": ["Appeal to Tradition", "Appeal to Nature", "Slippery Slope", "Black & White"],
+    "correct_answer": "Appeal to Nature"
+  },
+  {
+    "fallacy_name": "Appeal to Nature",
+    "question": "A fitness influencer claims, 'Our ancestors didn't eat processed foods, so we shouldn't either. Stick to what's natural.' This is an...",
+    "options": ["Overgeneralization", "Ad Hominem", "Appeal to Nature", "Straw Man"],
+    "correct_answer": "Appeal to Nature"
+  },
+  {
+    "fallacy_name": "Appeal to Authority",
+    "question": "A commercial features a famous basketball player endorsing a specific brand of car, suggesting it's the best choice. This is an...",
+    "options": ["Appeal to Authority", "Appeal to Money", "Appeal to Popularity", "Tu Quoque"],
+    "correct_answer": "Appeal to Authority"
+  },
+  {
+    "fallacy_name": "Appeal to Authority",
+    "question": "Someone says, 'My doctor, who is a leading expert in cardiology, said that this political candidate is the best choice for the country.' This is an example of...",
+    "options": ["Red Herring", "Appeal to Authority", "Argument from Motive", "Ad Hominem"],
+    "correct_answer": "Appeal to Authority"
+  },
+  {
+    "fallacy_name": "Appeal to Authority",
+    "question": "A student tells their friend, 'We should use this textbook because our professor, who has a Ph.D., said it's the best one.' This is an...",
+    "options": ["Appeal to Tradition", "Appeal to Closure", "Appeal to Authority", "Appeal to Probability"],
+    "correct_answer": "Appeal to Authority"
+  },
+  {
+    "fallacy_name": "Appeal to Money",
+    "question": "Someone argues, 'This new smartphone must be the best on the market. It's the most expensive one available.' This is an example of...",
+    "options": ["Appeal to Money", "Appeal to Novelty", "Sunk-Cost Fallacy", "Nirvana Fallacy"],
+    "correct_answer": "Appeal to Money"
+  },
+  {
+    "fallacy_name": "Appeal to Money",
+    "question": "A person decides to see a particular lawyer because their office is in a very expensive building, thinking they must be the most skilled. This is an...",
+    "options": ["Ad Hominem", "Appeal to Money", "Straw Man", "Red Herring"],
+    "correct_answer": "Appeal to Money"
+  },
+  {
+    "fallacy_name": "Appeal to Money",
+    "question": "A company's CEO is considered a genius visionary simply because he is incredibly wealthy. This is an example of...",
+    "options": ["Appeal to Authority", "Appeal to Popularity", "Appeal to Money", "Argument from Motive"],
+    "correct_answer": "Appeal to Money"
+  },
+  {
+    "fallacy_name": "Appeal to Probability",
+    "question": "Someone decides not to fly on a plane because they think, 'With so many flights every day, one of them is bound to crash, and it might be mine.' This is an...",
+    "options": ["Appeal to Probability", "Gambler's Fallacy", "Magical Thinking", "Non Sequitur"],
+    "correct_answer": "Appeal to Probability"
+  },
+  {
+    "fallacy_name": "Appeal to Probability",
+    "question": "A student doesn't study for a test because they think, 'It's very likely the teacher will ask questions about the topics I already know.' This is an example of...",
+    "options": ["Slippery Slope", "Appeal to Probability", "Black & White", "Appeal to Nature"],
+    "correct_answer": "Appeal to Probability"
+  },
+  {
+    "fallacy_name": "Appeal to Probability",
+    "question": "A person buys a lottery ticket every week, thinking, 'Sooner or later, my numbers are bound to come up.' This is an...",
+    "options": ["Appeal to Popularity", "Appeal to Money", "Appeal to Probability", "Appeal to Novelty"],
+    "correct_answer": "Appeal to Probability"
+  },
+  {
+    "fallacy_name": "Appeal to Closure",
+    "question": "In a jury room, one juror says, 'We've been deliberating for hours. Let's just agree on a guilty verdict so we can all go home.' This is an example of...",
+    "options": ["Appeal to Closure", "Appeal to Tradition", "Appeal to Authority", "Appeal to Popularity"],
+    "correct_answer": "Appeal to Closure"
+  },
+  {
+    "fallacy_name": "Appeal to Closure",
+    "question": "A manager says to their team, 'I don't care if the plan is perfect, we need to make a decision by the end of the day. Any decision is better than no decision.' This is an...",
+    "options": ["Red Herring", "Appeal to Closure", "Sunk-Cost Fallacy", "Nirvana Fallacy"],
+    "correct_answer": "Appeal to Closure"
+  },
+  {
+    "fallacy_name": "Appeal to Closure",
+    "question": "A detective, frustrated with a lack of leads in a case, decides to focus on the first suspect they identified, ignoring other possibilities, just to close the case. This is an example of...",
+    "options": ["Argument from Motive", "Ad Hominem", "Appeal to Closure", "Straw Man"],
+    "correct_answer": "Appeal to Closure"
+  },
+  {
+    "fallacy_name": "Appeal to Tradition",
+    "question": "A university's board of trustees rejects a proposal to update its curriculum, saying, 'We have taught the same way for 100 years, and that has served us well. There is no need for change.' This is an...",
+    "options": ["Appeal to Tradition", "Appeal to Novelty", "Sunk-Cost Fallacy", "Nirvana Fallacy"],
+    "correct_answer": "Appeal to Tradition"
+  },
+  {
+    "fallacy_name": "Appeal to Tradition",
+    "question": "Someone argues that a certain holiday should be celebrated in a specific way because 'that's how we've always done it.' This is an example of...",
+    "options": ["Red Herring", "Appeal to Tradition", "Black & White", "Slippery Slope"],
+    "correct_answer": "Appeal to Tradition"
+  },
+  {
+    "fallacy_name": "Appeal to Tradition",
+    "question": "A company refuses to adopt new, more efficient technology because 'the old way of doing things has worked for us for generations.' This is an...",
+    "options": ["Appeal to Authority", "Appeal to Money", "Appeal to Tradition", "Appeal to Popularity"],
+    "correct_answer": "Appeal to Tradition"
+  },
+  {
+    "fallacy_name": "Appeal to Popularity",
+    "question": "A teenager argues to their parents, 'Everyone at my school has the new smartphone, so I need one too.' This is an example of...",
+    "options": ["Appeal to Popularity", "Appeal to Novelty", "Appeal to Money", "Appeal to Authority"],
+    "correct_answer": "Appeal to Popularity"
+  },
+  {
+    "fallacy_name": "Appeal to Popularity",
+    "question": "A movie is advertised as the '#1 movie in the country,' implying that because it's popular, it must be good. This is an...",
+    "options": ["Ad Hominem", "Appeal to Popularity", "Straw Man", "Red Herring"],
+    "correct_answer": "Appeal to Popularity"
+  },
+  {
+    "fallacy_name": "Appeal to Popularity",
+    "question": "A political candidate's main argument is that their poll numbers are higher than their opponents, so they are the best choice. This is an example of...",
+    "options": ["Argument from Motive", "Appeal to Popularity", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Appeal to Popularity"
+  },
+  {
+    "fallacy_name": "Appeal to Novelty",
+    "question": "A company launches a 'new and improved' version of its product, and its marketing campaign focuses solely on the fact that it's new, implying it's better. This is an...",
+    "options": ["Appeal to Novelty", "Appeal to Tradition", "Sunk-Cost Fallacy", "Nirvana Fallacy"],
+    "correct_answer": "Appeal to Novelty"
+  },
+  {
+    "fallacy_name": "Appeal to Novelty",
+    "question": "A manager decides to implement a new workflow system simply because it's the latest trend in management, without considering if it's a good fit for the team. This is an example of...",
+    "options": ["Red Herring", "Appeal to Novelty", "Black & White", "Slippery Slope"],
+    "correct_answer": "Appeal to Novelty"
+  },
+  {
+    "fallacy_name": "Appeal to Novelty",
+    "question": "Someone argues that a new diet is the best way to lose weight simply because it's the newest one on the market. This is an...",
+    "options": ["Appeal to Authority", "Appeal to Money", "Appeal to Novelty", "Appeal to Popularity"],
+    "correct_answer": "Appeal to Novelty"
+  },
+  {
+    "fallacy_name": "Cherry Picking",
+    "question": "A report on the safety of a new car highlights the car's excellent performance in a few specific crash tests, while ignoring the tests where it performed poorly. This is an example of...",
+    "options": ["Cherry Picking", "Texas Sharpshooter", "Gambler's Fallacy", "Magical Thinking"],
+    "correct_answer": "Cherry Picking"
+  },
+  {
+    "fallacy_name": "Cherry Picking",
+    "question": "A person who believes that a certain city is unsafe points to a few recent crime stories in the news, while ignoring the city's overall low crime rate. This is...",
+    "options": ["Red Herring", "Cherry Picking", "Straw Man", "Ad Hominem"],
+    "correct_answer": "Cherry Picking"
+  },
+  {
+    "fallacy_name": "Cherry Picking",
+    "question": "A company's annual report boasts about its record sales in one division, while conveniently leaving out the poor performance of its other divisions. This is an example of...",
+    "options": ["Argument from Motive", "Appeal to Money", "Cherry Picking", "Sunk-Cost Fallacy"],
+    "correct_answer": "Cherry Picking"
+  },
+  {
+    "fallacy_name": "Gambler's Fallacy",
+    "question": "After flipping a coin and getting heads five times in a row, a person believes that the next flip is more likely to be tails. This is an example of...",
+    "options": ["Gambler's Fallacy", "Appeal to Probability", "Magical Thinking", "Non Sequitur"],
+    "correct_answer": "Gambler's Fallacy"
+  },
+  {
+    "fallacy_name": "Gambler's Fallacy",
+    "question": "A basketball player has missed their last ten shots. A fan thinks, 'He's due for a basket now.' This is an example of...",
+    "options": ["Slippery Slope", "Gambler's Fallacy", "Black & White", "Appeal to Nature"],
+    "correct_answer": "Gambler's Fallacy"
+  },
+  {
+    "fallacy_name": "Gambler's Fallacy",
+    "question": "A person has had a string of bad luck. They think, 'Something good is bound to happen to me soon to balance it out.' This is an...",
+    "options": ["Appeal to Popularity", "Appeal to Money", "Gambler's Fallacy", "Appeal to Novelty"],
+    "correct_answer": "Gambler's Fallacy"
+  },
+  {
+    "fallacy_name": "Texas Sharpshooter",
+    "question": "A psychic claims to have predicted a major earthquake. It turns out they made hundreds of vague predictions, and one of them happened to be close to a real event. They then highlight this one 'hit' as proof of their powers. This is an example of...",
+    "options": ["Texas Sharpshooter", "Cherry Picking", "Gambler's Fallacy", "Magical Thinking"],
+    "correct_answer": "Texas Sharpshooter"
+  },
+  {
+    "fallacy_name": "Texas Sharpshooter",
+    "question": "A study finds a correlation between eating a specific type of berry and living a long life. It turns out the researchers looked at thousands of different foods and only reported the one that showed a statistically significant (but likely random) correlation. This is...",
+    "options": ["Red Herring", "Texas Sharpshooter", "Straw Man", "Ad Hominem"],
+    "correct_answer": "Texas Sharpshooter"
+  },
+  {
+    "fallacy_name": "Texas Sharpshooter",
+    "question": "A conspiracy theorist points to a few seemingly related events and claims they are part of a massive, coordinated plot, while ignoring all the evidence that contradicts their theory. This is an example of...",
+    "options": ["Argument from Motive", "Appeal to Money", "Texas Sharpshooter", "Sunk-Cost Fallacy"],
+    "correct_answer": "Texas Sharpshooter"
+  },
+  {
+    "fallacy_name": "Non Sequitur",
+    "question": "Someone argues, 'This is the best movie of the year because the lead actor is my favorite.' This is an example of...",
+    "options": ["Non Sequitur", "Magical Thinking", "Gambler's Fallacy", "Appeal to Probability"],
+    "correct_answer": "Non Sequitur"
+  },
+  {
+    "fallacy_name": "Non Sequitur",
+    "question": "A politician says, 'I'm a family man, so you can trust me to balance the budget.' This is a...",
+    "options": ["Slippery Slope", "Non Sequitur", "Black & White", "Appeal to Nature"],
+    "correct_answer": "Non Sequitur"
+  },
+  {
+    "fallacy_name": "Non Sequitur",
+    "question": "A student writes in an essay, 'The sky is blue, therefore, dogs are the best pets.' This is an example of...",
+    "options": ["Appeal to Popularity", "Appeal to Money", "Non Sequitur", "Appeal to Novelty"],
+    "correct_answer": "Non Sequitur"
+  },
+  {
+    "fallacy_name": "Magical Thinking",
+    "question": "A person wears their 'lucky' shirt to every job interview, believing it's the reason they get offers. This is an example of...",
+    "options": ["Magical Thinking", "Gambler's Fallacy", "Appeal to Probability", "Non Sequitur"],
+    "correct_answer": "Magical Thinking"
+  },
+  {
+    "fallacy_name": "Magical Thinking",
+    "question": "A fan believes that if they don't watch their favorite team's game, the team will lose. This is...",
+    "options": ["Slippery Slope", "Magical Thinking", "Black & White", "Appeal to Nature"],
+    "correct_answer": "Magical Thinking"
+  },
+  {
+    "fallacy_name": "Magical Thinking",
+    "question": "A person avoids stepping on cracks in the sidewalk because they believe it will bring them bad luck. This is an example of...",
+    "options": ["Appeal to Popularity", "Appeal to Money", "Magical Thinking", "Appeal to Novelty"],
+    "correct_answer": "Magical Thinking"
+  },
+  {
+    "fallacy_name": "Moving the Goalposts",
+    "question": "Person A: 'You need to prove that your new diet works.' Person B provides scientific studies. Person A: 'Okay, but now you need to prove that it works for people with my specific genetic makeup.' This is an example of...",
+    "options": ["Moving the Goalposts", "Slippery Slope", "Black & White", "Red Herring"],
+    "correct_answer": "Moving the Goalposts"
+  },
+  {
+    "fallacy_name": "Moving the Goalposts",
+    "question": "A software developer fixes a bug reported by a client. The client then says, 'Okay, it's fixed, but now the button should be a different color.' This is...",
+    "options": ["Straw Man", "Moving the Goalposts", "Ad Hominem", "Appeal to Closure"],
+    "correct_answer": "Moving the Goalposts"
+  },
+  {
+    "fallacy_name": "Moving the Goalposts",
+    "question": "A conspiracy theorist is shown evidence that disproves their theory. They respond by saying, 'That's what they want you to believe. Now you have to prove that this evidence isn't fake.' This is an example of...",
+    "options": ["Argument from Motive", "Texas Sharpshooter", "Moving the Goalposts", "Sunk-Cost Fallacy"],
+    "correct_answer": "Moving the Goalposts"
+  },
+  {
+    "fallacy_name": "Overgeneralization",
+    "question": "After visiting a new city and having a bad experience at one restaurant, a person concludes that all restaurants in that city are terrible. This is an example of...",
+    "options": ["Overgeneralization", "Cherry Picking", "Texas Sharpshooter", "Gambler's Fallacy"],
+    "correct_answer": "Overgeneralization"
+  },
+  {
+    "fallacy_name": "Overgeneralization",
+    "question": "A student fails one math test and concludes, 'I'm just bad at math.' This is...",
+    "options": ["Red Herring", "Overgeneralization", "Straw Man", "Ad Hominem"],
+    "correct_answer": "Overgeneralization"
+  },
+  {
+    "fallacy_name": "Overgeneralization",
+    "question": "A person meets a friendly dog and concludes that all dogs of that breed are friendly. This is an example of...",
+    "options": ["Argument from Motive", "Appeal to Money", "Overgeneralization", "Sunk-Cost Fallacy"],
+    "correct_answer": "Overgeneralization"
+  },
+  {
+    "fallacy_name": "Affective Fallacy",
+    "question": "Someone argues, 'I don't care what the experts say, I just feel in my gut that this is the right decision.' This is an example of...",
+    "options": ["Affective Fallacy", "Appeal to Authority", "Appeal to Popularity", "Appeal to Tradition"],
+    "correct_answer": "Affective Fallacy"
+  },
+  {
+    "fallacy_name": "Affective Fallacy",
+    "question": "A person dismisses a scientific study because the conclusion makes them feel uncomfortable. This is...",
+    "options": ["Red Herring", "Affective Fallacy", "Black & White", "Slippery Slope"],
+    "correct_answer": "Affective Fallacy"
+  },
+  {
+    "fallacy_name": "Affective Fallacy",
+    "question": "A jury member decides a defendant is guilty based on a 'bad feeling' they get from them, rather than the evidence presented. This is an example of...",
+    "options": ["Appeal to Money", "Argument from Motive", "Affective Fallacy", "Ad Hominem"],
+    "correct_answer": "Affective Fallacy"
+  },
+  {
+    "fallacy_name": "Black & White",
+    "question": "A politician tells voters, 'You can either support my plan to fix the economy, or you can watch the country fall into ruin.' This is an example of...",
+    "options": ["Black & White", "Slippery Slope", "Red Herring", "Straw Man"],
+    "correct_answer": "Black & White"
+  },
+  {
+    "fallacy_name": "Black & White",
+    "question": "A friend says to another, 'You're either my best friend, or you're my enemy.' This is...",
+    "options": ["Ad Hominem", "Black & White", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Black & White"
+  },
+  {
+    "fallacy_name": "Black & White",
+    "question": "A company tells its employees, 'You can either work overtime this weekend, or you're not a dedicated member of the team.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Black & White", "Non Sequitur"],
+    "correct_answer": "Black & White"
+  },
+  {
+    "fallacy_name": "Conflicting Conditions",
+    "question": "A sign reads, 'Please ignore this sign.' This is an example of...",
+    "options": ["Conflicting Conditions", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Conflicting Conditions"
+  },
+  {
+    "fallacy_name": "Conflicting Conditions",
+    "question": "Someone says, 'I am a compulsive liar.' This is...",
+    "options": ["Ad Hominem", "Conflicting Conditions", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Conflicting Conditions"
+  },
+  {
+    "fallacy_name": "Conflicting Conditions",
+    "question": "A company's mission statement says, 'Our only rule is that there are no rules.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Conflicting Conditions", "Non Sequitur"],
+    "correct_answer": "Conflicting Conditions"
+  },
+  {
+    "fallacy_name": "Excluded Middle",
+    "question": "Someone argues, 'If you're not with us, you're against us.' This is an example of...",
+    "options": ["Excluded Middle", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Excluded Middle"
+  },
+  {
+    "fallacy_name": "Excluded Middle",
+    "question": "A person says, 'You either love this movie, or you hate it. There is no in-between.' This is...",
+    "options": ["Ad Hominem", "Excluded Middle", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Excluded Middle"
+  },
+  {
+    "fallacy_name": "Excluded Middle",
+    "question": "A political ad claims, 'You can either vote for our candidate and a prosperous future, or vote for the other candidate and economic chaos.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Excluded Middle", "Non Sequitur"],
+    "correct_answer": "Excluded Middle"
+  },
+  {
+    "fallacy_name": "Proof of Non-existence",
+    "question": "Someone argues, 'No one has ever been able to prove that ghosts don't exist, therefore they must be real.' This is an example of...",
+    "options": ["Proof of Non-existence", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Proof of Non-existence"
+  },
+  {
+    "fallacy_name": "Proof of Non-existence",
+    "question": "A person claims that a certain herbal remedy cures cancer. When asked for proof, they say, 'No one has ever proven that it *doesn't* work.' This is...",
+    "options": ["Ad Hominem", "Proof of Non-existence", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Proof of Non-existence"
+  },
+  {
+    "fallacy_name": "Proof of Non-existence",
+    "question": "A conspiracy theorist argues that a secret society controls the world. When asked for evidence, they say, 'The fact that there's no evidence is proof of how well they cover their tracks.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Proof of Non-existence", "Non Sequitur"],
+    "correct_answer": "Proof of Non-existence"
+  },
+  {
+    "fallacy_name": "Sunk-Cost Fallacy",
+    "question": "Someone continues to pour money into a failing business, saying, 'I've already invested so much, I can't give up now.' This is an example of...",
+    "options": ["Sunk-Cost Fallacy", "Nirvana Fallacy", "Appeal to Novelty", "Appeal to Tradition"],
+    "correct_answer": "Sunk-Cost Fallacy"
+  },
+  {
+    "fallacy_name": "Sunk-Cost Fallacy",
+    "question": "A person finishes a movie they are not enjoying because they 'already paid for the ticket.' This is...",
+    "options": ["Red Herring", "Sunk-Cost Fallacy", "Black & White", "Slippery Slope"],
+    "correct_answer": "Sunk-Cost Fallacy"
+  },
+  {
+    "fallacy_name": "Sunk-Cost Fallacy",
+    "question": "A student continues to pursue a major they dislike because they have 'already completed so many of the required courses.' This is an example of...",
+    "options": ["Appeal to Authority", "Appeal to Money", "Sunk-Cost Fallacy", "Appeal to Popularity"],
+    "correct_answer": "Sunk-Cost Fallacy"
+  },
+  {
+    "fallacy_name": "Nirvana Fallacy",
+    "question": "Someone argues against installing solar panels because they 'don't work on cloudy days,' ignoring the fact that they still significantly reduce electricity consumption. This is an example of...",
+    "options": ["Nirvana Fallacy", "Sunk-Cost Fallacy", "Appeal to Novelty", "Appeal to Tradition"],
+    "correct_answer": "Nirvana Fallacy"
+  },
+  {
+    "fallacy_name": "Nirvana Fallacy",
+    "question": "A person decides not to start exercising because they 'can't afford a gym membership,' ignoring the fact that there are many free ways to exercise. This is...",
+    "options": ["Red Herring", "Nirvana Fallacy", "Black & White", "Slippery Slope"],
+    "correct_answer": "Nirvana Fallacy"
+  },
+  {
+    "fallacy_name": "Nirvana Fallacy",
+    "question": "A city council votes against a plan to build a new homeless shelter because it 'won't solve the entire homelessness problem.' This is an example of...",
+    "options": ["Appeal to Authority", "Appeal to Money", "Nirvana Fallacy", "Appeal to Popularity"],
+    "correct_answer": "Nirvana Fallacy"
+  },
+  {
+    "fallacy_name": "Begging the Question",
+    "question": "An advertisement claims, 'Our new product is the best on the market because no other product is better.' This is an example of...",
+    "options": ["Begging the Question", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Begging the Question"
+  },
+  {
+    "fallacy_name": "Begging the Question",
+    "question": "Someone argues, 'Supernatural phenomena exist because I have had experiences that can only be described as supernatural.' This is...",
+    "options": ["Ad Hominem", "Begging the Question", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Begging the Question"
+  },
+  {
+    "fallacy_name": "Begging the Question",
+    "question": "A person says, 'I'm right because I'm never wrong.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Begging the Question", "Non Sequitur"],
+    "correct_answer": "Begging the Question"
+  },
+  {
+    "fallacy_name": "Denying the Antecedent",
+    "question": "If it is raining, then the ground is wet. It is not raining. Therefore, the ground is not wet. This is an example of...",
+    "options": ["Denying the Antecedent", "Affirming the Consequent", "Red Herring", "Black & White"],
+    "correct_answer": "Denying the Antecedent"
+  },
+  {
+    "fallacy_name": "Denying the Antecedent",
+    "question": "If you have a driver's license, you are over 16 years old. You do not have a driver's license. Therefore, you are not over 16 years old. This is...",
+    "options": ["Ad Hominem", "Denying the Antecedent", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Denying the Antecedent"
+  },
+  {
+    "fallacy_name": "Denying the Antecedent",
+    "question": "If a car is out of gas, it will not start. This car is not out of gas. Therefore, it will start. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Denying the Antecedent", "Non Sequitur"],
+    "correct_answer": "Denying the Antecedent"
+  },
+  {
+    "fallacy_name": "Definist Fallacy",
+    "question": "Someone argues, 'A true patriot would never question the government.' This is an example of...",
+    "options": ["Definist Fallacy", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Definist Fallacy"
+  },
+  {
+    "fallacy_name": "Definist Fallacy",
+    "question": "A person says, 'Anyone who doesn't like this movie just doesn't understand good cinema.' This is...",
+    "options": ["Ad Hominem", "Definist Fallacy", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Definist Fallacy"
+  },
+  {
+    "fallacy_name": "Definist Fallacy",
+    "question": "A company claims its product is 'healthy' because it defines 'healthy' as 'containing at least one vitamin,' even if the product is also full of sugar. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Definist Fallacy", "Non Sequitur"],
+    "correct_answer": "Definist Fallacy"
+  },
+  {
+    "fallacy_name": "Suppressed Correlative",
+    "question": "Someone argues, 'There are no such things as good or bad people, only people.' This is an example of...",
+    "options": ["Suppressed Correlative", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Suppressed Correlative"
+  },
+  {
+    "fallacy_name": "Suppressed Correlative",
+    "question": "A person says, 'There is no such thing as a 'lie.' There are only different versions of the truth.' This is...",
+    "options": ["Ad Hominem", "Suppressed Correlative", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Suppressed Correlative"
+  },
+  {
+    "fallacy_name": "Suppressed Correlative",
+    "question": "A philosopher argues that since everything is made of atoms, there is no real difference between a rock and a person. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Suppressed Correlative", "Non Sequitur"],
+    "correct_answer": "Suppressed Correlative"
+  },
+  {
+    "fallacy_name": "Affirming the Consequent",
+    "question": "If it is raining, then the ground is wet. The ground is wet. Therefore, it is raining. This is an example of...",
+    "options": ["Affirming the Consequent", "Denying the Antecedent", "Red Herring", "Black & White"],
+    "correct_answer": "Affirming the Consequent"
+  },
+  {
+    "fallacy_name": "Affirming the Consequent",
+    "question": "If you have the flu, you will have a fever. You have a fever. Therefore, you have the flu. This is...",
+    "options": ["Ad Hominem", "Affirming the Consequent", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Affirming the Consequent"
+  },
+  {
+    "fallacy_name": "Affirming the Consequent",
+    "question": "All dogs are mammals. My pet is a mammal. Therefore, my pet is a dog. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Affirming the Consequent", "Non Sequitur"],
+    "correct_answer": "Affirming the Consequent"
+  },
+  {
+    "fallacy_name": "Fallacy Fallacy",
+    "question": "Someone presents a flawed argument for why we should eat healthy. Another person replies, 'Your argument is fallacious, therefore, eating healthy is a bad idea.' This is an example of...",
+    "options": ["Fallacy Fallacy", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Fallacy Fallacy"
+  },
+  {
+    "fallacy_name": "Fallacy Fallacy",
+    "question": "A person makes a poor argument for why a certain movie is good. Their friend says, 'That's a terrible argument, so the movie must be bad.' This is...",
+    "options": ["Ad Hominem", "Fallacy Fallacy", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Fallacy Fallacy"
+  },
+  {
+    "fallacy_name": "Fallacy Fallacy",
+    "question": "A political candidate makes a fallacious argument for a new policy. An opponent says, 'His argument is full of holes, so the policy itself must be a disaster.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Fallacy Fallacy", "Non Sequitur"],
+    "correct_answer": "Fallacy Fallacy"
+  },
+  {
+    "fallacy_name": "Equivocation",
+    "question": "A sign says, 'Fine for parking here.' A person parks their car and gets a ticket. They argue, 'The sign said it was fine!' This is an example of...",
+    "options": ["Equivocation", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Equivocation"
+  },
+  {
+    "fallacy_name": "Equivocation",
+    "question": "A person says, 'The priest told me I should have faith. I have faith that my favorite team will win the championship. Therefore, the priest wants me to believe my team will win.' This is...",
+    "options": ["Ad Hominem", "Equivocation", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Equivocation"
+  },
+  {
+    "fallacy_name": "Equivocation",
+    "question": "A student is asked to write a paper on a famous author. They write a paper about the author's childhood, and when the teacher says it's not what they asked for, the student says, 'You said to write about the author, and their childhood is part of their life.' This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Equivocation", "Non Sequitur"],
+    "correct_answer": "Equivocation"
+  },
+  {
+    "fallacy_name": "Continuum Fallacy",
+    "question": "Someone argues that since we can't pinpoint the exact moment a person becomes 'old,' the concept of 'old age' is meaningless. This is an example of...",
+    "options": ["Continuum Fallacy", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Continuum Fallacy"
+  },
+  {
+    "fallacy_name": "Continuum Fallacy",
+    "question": "A person argues that since there is no clear line between 'rich' and 'poor,' there is no real difference between the two. This is...",
+    "options": ["Ad Hominem", "Continuum Fallacy", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Continuum Fallacy"
+  },
+  {
+    "fallacy_name": "Continuum Fallacy",
+    "question": "A student argues that since one missed class won't make them fail, and two missed classes won't make them fail, then they can miss as many classes as they want and never fail. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Continuum Fallacy", "Non Sequitur"],
+    "correct_answer": "Continuum Fallacy"
+  },
+  {
+    "fallacy_name": "Fallacy of Composition",
+    "question": "Each brick in this wall is light, therefore, the wall is light. This is an example of...",
+    "options": ["Fallacy of Composition", "Fallacy of Division", "Red Herring", "Black & White"],
+    "correct_answer": "Fallacy of Composition"
+  },
+  {
+    "fallacy_name": "Fallacy of Composition",
+    "question": "Every player on this basketball team is a star. Therefore, the team is guaranteed to be the best in the league. This is...",
+    "options": ["Ad Hominem", "Fallacy of Composition", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Fallacy of Composition"
+  },
+  {
+    "fallacy_name": "Fallacy of Composition",
+    "question": "A car is made of lightweight parts, therefore, the car is lightweight. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Fallacy of Composition", "Non Sequitur"],
+    "correct_answer": "Fallacy of Composition"
+  },
+  {
+    "fallacy_name": "Homunculus Fallacy",
+    "question": "Someone explains that a person's ability to see is because there is a tiny person inside their head looking at a screen. This is an example of...",
+    "options": ["Homunculus Fallacy", "Red Herring", "Black & White", "Slippery Slope"],
+    "correct_answer": "Homunculus Fallacy"
+  },
+  {
+    "fallacy_name": "Homunculus Fallacy",
+    "question": "A person explains that a computer works because there is a little man inside who does all the calculations. This is...",
+    "options": ["Ad Hominem", "Homunculus Fallacy", "Tu Quoque", "Scapegoat"],
+    "correct_answer": "Homunculus Fallacy"
+  },
+  {
+    "fallacy_name": "Homunculus Fallacy",
+    "question": "A philosopher argues that consciousness is explained by a 'central processor' in the brain that experiences everything. This is an example of...",
+    "options": ["Appeal to Closure", "Argument from Motive", "Homunculus Fallacy", "Non Sequitur"],
+    "correct_answer": "Homunculus Fallacy"
+  }
+]
