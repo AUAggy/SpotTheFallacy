@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Deployment scripts with sensitive configuration
+deploy.sh
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
