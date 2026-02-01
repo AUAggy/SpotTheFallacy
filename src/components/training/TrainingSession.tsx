@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { 
-  LearningMode, 
-  FallacyCategory, 
-  ContextTag 
+import {
+  LearningMode,
+  FallacyCategory,
+  ContextTag
 } from "@/data/types";
 import { useLearningEngine } from "@/hooks/useLearningEngine";
 import { useProgress } from "@/hooks/useProgress";
@@ -21,11 +21,11 @@ interface TrainingSessionProps {
   onExit: () => void;
 }
 
-export function TrainingSession({ 
-  mode, 
-  categoryFilter, 
-  contextFilter, 
-  onExit 
+export function TrainingSession({
+  mode,
+  categoryFilter,
+  contextFilter,
+  onExit
 }: TrainingSessionProps) {
   const {
     session,
@@ -67,10 +67,10 @@ export function TrainingSession({
       const interval = setInterval(() => {
         updateTimer(session.timer! - 1);
       }, 1000);
-      
+
       return () => clearInterval(interval);
     }
-    
+
     // Time's up in challenge mode
     if (mode === "challenge" && session?.timer === 0 && !showFeedback && currentQuestion) {
       handleAnswer("");
@@ -80,7 +80,7 @@ export function TrainingSession({
   const handleAnswer = useCallback((selectedAnswer: string) => {
     const result = submitAnswer(selectedAnswer);
     setLastAnswer(result);
-    
+
     if (result.isCorrect || mode === "challenge") {
       if (currentQuestion) {
         recordAnswer(
@@ -90,7 +90,7 @@ export function TrainingSession({
           result.attempts
         );
       }
-      
+
       // Check for Feynman challenge
       if (result.isCorrect && shouldShowFeynmanChallenge() && mode !== "challenge") {
         setQuestionForFeynman(currentQuestion);
@@ -99,14 +99,14 @@ export function TrainingSession({
         setShowFeedback(true);
       }
     }
-    
+
     return result;
   }, [submitAnswer, currentQuestion, mode, recordAnswer, shouldShowFeynmanChallenge]);
 
   const handleContinue = useCallback(() => {
     setShowFeedback(false);
     setLastAnswer(null);
-    
+
     if (isSessionComplete) {
       // Record session completion
       if (sessionStats) {
@@ -181,15 +181,15 @@ export function TrainingSession({
             <ArrowLeft className="h-4 w-4 mr-2" />
             Exit
           </Button>
-          
+
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">
               {progressInfo.current} / {progressInfo.total}
             </span>
             <div className="w-32 md:w-48">
-              <Progress 
-                value={(progressInfo.current / progressInfo.total) * 100} 
-                className="h-2" 
+              <Progress
+                value={(progressInfo.current / progressInfo.total) * 100}
+                className="h-2"
               />
             </div>
           </div>
@@ -208,14 +208,15 @@ export function TrainingSession({
             onComplete={handleFeynmanComplete}
             onSkip={handleFeynmanSkip}
           />
-        ) : showFeedback && lastAnswer?.isCorrect ? (
+        ) : showFeedback ? (
           <FeedbackPanel
             question={currentQuestion}
-            attempts={lastAnswer.attempts}
+            attempts={lastAnswer?.attempts || 0}
             onContinue={handleContinue}
           />
         ) : (
           <QuestionCard
+            key={currentQuestion.id}
             question={currentQuestion}
             onAnswer={handleAnswer}
             attempts={currentAttempts}
