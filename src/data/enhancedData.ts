@@ -1,7 +1,7 @@
-import { 
-  EnhancedFallacy, 
-  EnhancedQuestion, 
-  FallacyCategory, 
+import {
+  EnhancedFallacy,
+  EnhancedQuestion,
+  FallacyCategory,
   ContextTag,
   Difficulty,
   Fallacy,
@@ -16,23 +16,23 @@ const categoryMappings: Record<string, FallacyCategory> = {
   "Tu Quoque": "Personal Attack",
   "Argument from Motive": "Personal Attack",
   "Scapegoat": "Personal Attack",
-  
+
   "Straw Man": "Misrepresentation",
   "Red Herring": "Misrepresentation",
   "Cherry Picking": "Misrepresentation",
   "Equivocation": "Misrepresentation",
   "Moving the Goalposts": "Misrepresentation",
-  
+
   "Appeal to Nature": "Emotional Manipulation",
   "Appeal to Tradition": "Emotional Manipulation",
   "Appeal to Popularity": "Emotional Manipulation",
   "Appeal to Novelty": "Emotional Manipulation",
   "Appeal to Closure": "Emotional Manipulation",
   "Affective Fallacy": "Emotional Manipulation",
-  
+
   "Appeal to Authority": "False Authority",
   "Appeal to Money": "False Authority",
-  
+
   "Appeal to Probability": "Faulty Logic",
   "Gambler's Fallacy": "Faulty Logic",
   "Non Sequitur": "Faulty Logic",
@@ -50,7 +50,7 @@ const categoryMappings: Record<string, FallacyCategory> = {
   "Homunculus Fallacy": "Faulty Logic",
   "Proof of Non-existence": "Faulty Logic",
   "Nirvana Fallacy": "Faulty Logic",
-  
+
   "Texas Sharpshooter": "Causal Errors",
   "Magical Thinking": "Causal Errors",
   "Overgeneralization": "Causal Errors",
@@ -73,7 +73,7 @@ const structureDiagrams: Record<string, string> = {
 ┌─────────────────────┐
 │ "Therefore X false" │
 └─────────────────────┘`,
-  
+
   "Straw Man": `┌─────────────────────┐
 │  Person A claims X  │
 └──────────┬──────────┘
@@ -87,7 +87,7 @@ const structureDiagrams: Record<string, string> = {
 ┌─────────────────────┐
 │   Attack Y instead  │
 └─────────────────────┘`,
-  
+
   "Appeal to Authority": `┌─────────────────────┐
 │ Authority says X    │
 └──────────┬──────────┘
@@ -290,7 +290,7 @@ const confusionPairs: Record<string, string[]> = {
 function detectContexts(question: string): ContextTag[] {
   const contexts: ContextTag[] = [];
   const q = question.toLowerCase();
-  
+
   if (q.includes("politician") || q.includes("vote") || q.includes("senator") || q.includes("government") || q.includes("campaign") || q.includes("election") || q.includes("policy")) {
     contexts.push("Politics");
   }
@@ -309,7 +309,7 @@ function detectContexts(question: string): ContextTag[] {
   if (q.includes("business") || q.includes("company") || q.includes("ceo") || q.includes("employee") || q.includes("manager") || q.includes("profit") || q.includes("investment")) {
     contexts.push("Business");
   }
-  
+
   return contexts.length > 0 ? contexts : ["Business"]; // Default to Business if no context detected
 }
 
@@ -317,20 +317,20 @@ function detectContexts(question: string): ContextTag[] {
 function assessDifficulty(question: QuizQuestion): Difficulty {
   const q = question.question.toLowerCase();
   const wordCount = q.split(/\s+/).length;
-  
+
   // Check for complexity indicators
   const hasMultiplePeople = (q.match(/person [a-z]:|senator [a-z]:/gi) || []).length > 1;
   const hasNuancedScenario = wordCount > 50;
-  const hasSimilarOptions = question.options.filter(opt => 
+  const hasSimilarOptions = question.options.filter(opt =>
     opt.includes("Appeal") || opt.includes("Fallacy")
   ).length > 2;
-  
+
   let score = 0;
   if (hasMultiplePeople) score++;
   if (hasNuancedScenario) score++;
   if (hasSimilarOptions) score++;
   if (wordCount > 40) score++;
-  
+
   if (score >= 3) return 3;
   if (score >= 1) return 2;
   return 1;
@@ -350,30 +350,30 @@ function generateValidVersion(fallacy: Fallacy, question: string): string {
     "Begging the Question": "A valid argument provides independent support for the conclusion. For example: 'X is true because of evidence Y and Z, which are separate from X.'",
     "Sunk-Cost Fallacy": "A valid decision focuses on future value, not past investment. For example: 'Regardless of what we've spent, what's the best use of our resources going forward?'",
   };
-  
-  return validVersionTemplates[fallacy.name] || 
+
+  return validVersionTemplates[fallacy.name] ||
     `A valid argument would provide relevant evidence and sound reasoning rather than relying on ${fallacy.name.toLowerCase()}.`;
 }
 
 // Generate explanations for each option
 function generateOptionExplanations(
-  question: QuizQuestion, 
+  question: QuizQuestion,
   fallacies: Fallacy[]
 ): Record<string, string> {
   const explanations: Record<string, string> = {};
   const fallacyMap = new Map(fallacies.map(f => [f.name, f]));
-  
+
   question.options.forEach(option => {
     const fallacy = fallacyMap.get(option);
     if (option === question.correct_answer) {
-      explanations[option] = `Correct! This is ${option} because the argument ${fallacy?.description.toLowerCase().slice(0, 100)}...`;
+      explanations[option] = `Correct! This is ${option} because the argument ${fallacy?.description.toLowerCase()}...`;
     } else if (fallacy) {
-      explanations[option] = `Not quite. ${option} would be if the argument ${fallacy.description.toLowerCase().slice(0, 80)}... But that's not what's happening here.`;
+      explanations[option] = `Not quite. ${option} would be if the argument ${fallacy.description.toLowerCase()}... But that's not what's happening here.`;
     } else {
       explanations[option] = `This isn't the right answer. Look more carefully at the structure of the argument.`;
     }
   });
-  
+
   return explanations;
 }
 
@@ -381,7 +381,7 @@ function generateOptionExplanations(
 function assessFrequency(fallacyName: string): "common" | "moderate" | "rare" {
   const common = ["Ad Hominem", "Straw Man", "Appeal to Authority", "Red Herring", "Appeal to Popularity", "Black & White", "Tu Quoque"];
   const rare = ["Homunculus Fallacy", "Suppressed Correlative", "Continuum Fallacy", "Affirming the Consequent", "Denying the Antecedent"];
-  
+
   if (common.includes(fallacyName)) return "common";
   if (rare.includes(fallacyName)) return "rare";
   return "moderate";
