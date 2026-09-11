@@ -22,8 +22,8 @@ export function WelcomeScreen({ onStart, onSkipTutorial }: WelcomeScreenProps) {
         
         <CardContent className="space-y-6">
           <p className="text-center text-muted-foreground text-lg">
-            Develop your skill in recognizing logical fallacies; those sneaky 
-            errors in reasoning that can fool even the smartest people.
+            Train yourself to spot logical fallacies: the flawed arguments
+            that slip past smart people every day.
           </p>
 
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
@@ -34,37 +34,37 @@ export function WelcomeScreen({ onStart, onSkipTutorial }: WelcomeScreenProps) {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">1.</span>
-                <span>You'll see real-world scenarios with flawed reasoning</span>
+                <span>Read a short scenario built on flawed reasoning</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">2.</span>
-                <span>Identify which logical fallacy is being used</span>
+                <span>Name the fallacy</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">3.</span>
-                <span>Get immediate feedback with detailed explanations</span>
+                <span>See exactly why each answer is right or wrong</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">4.</span>
-                <span>Track your progress as you master each fallacy</span>
+                <span>Track which fallacies you have mastered</span>
               </li>
             </ul>
           </div>
 
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
             <p className="text-sm text-green-700 dark:text-green-300 text-center">
-              <strong>Remember:</strong> This is practice, not a test. 
-              Making mistakes is part of learning! You can always try again.
+              Practice, not a test. Wrong answers show the app what to
+              teach you next, and you can always try again.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button onClick={onStart} size="lg" className="flex-1">
-              Start with a Tutorial
+              Start Training
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button onClick={onSkipTutorial} variant="outline" size="lg">
-              Skip to Training
+              Browse All Modes
             </Button>
           </div>
         </CardContent>

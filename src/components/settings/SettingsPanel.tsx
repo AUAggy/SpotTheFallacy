@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { useProgress } from "@/hooks/useProgress";
+import { enhancedFallacies, enhancedQuestions } from "@/data/enhancedData";
 import { 
   Download, 
   Upload, 
@@ -110,11 +111,11 @@ export function SettingsPanel({ onBack }: SettingsPanelProps) {
               </div>
               <div className="flex justify-between p-2 bg-muted rounded">
                 <span className="text-muted-foreground">Current Streak</span>
-                <span className="font-medium">{progress.streak.current} days</span>
+                <span className="font-medium">{progress.streak.current} {progress.streak.current === 1 ? "day" : "days"}</span>
               </div>
               <div className="flex justify-between p-2 bg-muted rounded">
                 <span className="text-muted-foreground">Longest Streak</span>
-                <span className="font-medium">{progress.streak.longest} days</span>
+                <span className="font-medium">{progress.streak.longest} {progress.streak.longest === 1 ? "day" : "days"}</span>
               </div>
             </div>
           </div>
@@ -205,7 +206,7 @@ export function SettingsPanel({ onBack }: SettingsPanelProps) {
                     <ul className="list-disc list-inside mt-2 space-y-1">
                       <li>{progress.totalQuestionsAnswered} questions answered</li>
                       <li>{progress.sessionsCompleted} sessions completed</li>
-                      <li>Your {progress.streak.longest} day longest streak</li>
+                      <li>Your best streak of {progress.streak.longest} {progress.streak.longest === 1 ? "day" : "days"}</li>
                       <li>All fallacy mastery data</li>
                     </ul>
                     <p className="mt-2 font-medium">This cannot be undone!</p>
@@ -230,12 +231,13 @@ export function SettingsPanel({ onBack }: SettingsPanelProps) {
           <div className="space-y-2">
             <h3 className="font-medium">About</h3>
             <p className="text-sm text-muted-foreground">
-              The Fallacy Trainer is designed to help you recognize logical fallacies 
-              in real-time. Built on principles of spaced repetition and the Feynman 
-              technique, it adapts to your learning style and focuses on your weak spots.
+              The trainer brings back the fallacies you miss, right away and
+              in later sessions, until you stop missing them. When you keep
+              getting one right, it asks you to explain why it is wrong.
+              That last part is the Feynman technique.
             </p>
             <p className="text-sm text-muted-foreground">
-              Contains {40} fallacies and {120}+ practice scenarios.
+              Contains {enhancedFallacies.length} fallacies and {enhancedQuestions.length} practice scenarios.
             </p>
           </div>
         </CardContent>

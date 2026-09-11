@@ -31,18 +31,18 @@ export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeS
       {/* Welcome message */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-          Fallacy Trainer
+          Spot The Fallacy
         </h1>
         <p className="text-muted-foreground text-lg">
-          Develop your skill in recognizing logical fallacies
+          Train your eye for bad arguments
         </p>
         <div className="flex items-center justify-center gap-4 mt-4">
           <Badge variant="outline" className="text-sm py-1 px-3">
-            Level {currentDifficulty}
+            Difficulty {currentDifficulty}
           </Badge>
           {streak > 0 && (
             <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-300 text-sm py-1 px-3">
-              🔥 {streak} day streak
+              🔥 {streak} {streak === 1 ? "day" : "days"} streak
             </Badge>
           )}
         </div>
@@ -70,12 +70,13 @@ export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeS
           </CardHeader>
           <CardContent className="flex-1 flex flex-col">
             <p className="text-sm text-muted-foreground mb-4">
-              Adaptive difficulty that responds to your performance. Start at your level and grow.
+              Questions adapt to your accuracy: answer well and they get
+              harder; struggle and they ease off.
             </p>
             <ul className="text-xs text-muted-foreground space-y-1 mb-4">
               <li>• 10 questions per session</li>
-              <li>• Detailed explanations for all answers</li>
-              <li>• Focuses on your weak spots</li>
+              <li>• An explanation for every answer</li>
+              <li>• Extra practice on your weak spots</li>
             </ul>
             <Button className="w-full mt-auto" variant="secondary">
               Start Training
@@ -98,18 +99,18 @@ export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeS
                 <CardTitle className="text-lg group-hover:text-primary transition-colors">
                   Challenge Mode
                 </CardTitle>
-                <CardDescription>For experts</CardDescription>
+                <CardDescription>Hardest questions, timed</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col">
             <p className="text-sm text-muted-foreground mb-4">
-              Only the hardest questions. Timed. One shot. No retries.
+              The hardest questions we have. Timed. One shot. No retries.
             </p>
             <ul className="text-xs text-muted-foreground space-y-1 mb-4">
               <li>• 30 seconds per question</li>
-              <li>• Difficulty level 3 only</li>
-              <li>• Personal best leaderboard</li>
+              <li>• Every session score saved to your history</li>
+              <li>• One attempt per question</li>
             </ul>
             <Button className="w-full mt-auto" variant="secondary">
               Take the Challenge
@@ -157,7 +158,7 @@ export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeS
               <Globe2 className="h-5 w-5" />
             </div>
             <div>
-              <CardTitle className="text-lg">Context Training</CardTitle>
+              <CardTitle className="text-lg">Context Focus</CardTitle>
               <CardDescription>Practice fallacies in specific contexts</CardDescription>
             </div>
           </div>

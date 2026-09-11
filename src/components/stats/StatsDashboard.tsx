@@ -75,7 +75,7 @@ export function StatsDashboard({ progress, getCategoryMastery }: StatsDashboardP
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Your Progress</h2>
         <p className="text-muted-foreground">
-          Track your journey to fallacy mastery
+          Your stats at a glance
         </p>
       </div>
 

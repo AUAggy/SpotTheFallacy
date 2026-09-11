@@ -22,7 +22,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="underline hover:text-foreground transition-colors"
             >
-              Let me and Faith know
+              Message me and Faith on Signal
             </a>
           </p>
         </div>

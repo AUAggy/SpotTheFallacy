@@ -42,16 +42,16 @@ export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChalle
       let feedback = "";
       if (passed) {
         if (score >= 0.6) {
-          feedback = "Excellent explanation! You've demonstrated a strong understanding of this fallacy.";
+          feedback = "Sharp explanation. You covered the key ideas.";
         } else {
-          feedback = "Good explanation! You've captured the core concept. Consider also mentioning: " + 
+          feedback = "Good explanation. You have the core idea. Worth also mentioning: " + 
             keyTerms.filter(t => !matchedTerms.includes(t)).slice(0, 2).join(", ");
         }
       } else {
         if (text.length < 50) {
-          feedback = "Try to explain in a bit more detail. Why does this type of reasoning fail?";
+          feedback = "Add a little more detail. Why does this reasoning fail?";
         } else {
-          feedback = "You're on the right track! Key concepts to consider: " + 
+          feedback = "You are circling the idea but not landing it. Key concepts to hit: " + 
             keyTerms.slice(0, 3).join(", ");
         }
       }
@@ -88,7 +88,7 @@ export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChalle
               Feynman Challenge! 🧠
             </CardTitle>
             <CardDescription>
-              Explain it to truly understand it
+              Explaining it simply is the test of understanding
             </CardDescription>
           </div>
         </div>
@@ -102,17 +102,17 @@ export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChalle
 
         <div className="space-y-2">
           <label className="text-sm font-medium">
-            In your own words, explain WHY this is <strong>{fallacy.name}</strong>:
+            In your own words, why is this <strong>{fallacy.name}</strong>?
           </label>
           <Textarea
             value={explanation}
             onChange={(e) => setExplanation(e.target.value)}
-            placeholder="The reason this is a fallacy is because..."
+            placeholder="This is a fallacy because..."
             className="min-h-[120px] resize-none"
             disabled={submitted}
           />
           <p className="text-xs text-muted-foreground">
-            {explanation.length} characters {explanation.length < 50 && "(aim for at least 50)"}
+            {explanation.length} characters {explanation.length < 50 && "(aim for at least 50 characters)"}
           </p>
         </div>
 
@@ -149,6 +149,12 @@ export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChalle
                   <p className="text-sm text-muted-foreground">
                     {result.feedback}
                   </p>
+                  {result.passed && (
+                    <p className="text-xs text-muted-foreground">
+                      This check matches key terms, not understanding. You are
+                      the judge of whether your explanation truly lands.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
