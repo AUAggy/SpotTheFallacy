@@ -4,53 +4,117 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { EnhancedQuestion } from "@/data/types";
 import { getFallacyByName } from "@/data/enhancedData";
-import { CheckCircle2, ArrowRight, BookOpen, Lightbulb } from "lucide-react";
+import { CheckCircle2, XCircle, ArrowRight, BookOpen, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FeedbackPanelProps {
   question: EnhancedQuestion;
   attempts: number;
+  /** Whether the user's submitted answer was correct. */
+  isCorrect: boolean;
+  /** True when the question was missed because the timer ran out. */
+  timedOut?: boolean;
+  /** The answer the user picked (null when timed out). */
+  selectedAnswer?: string | null;
   onContinue: () => void;
 }
 
-export function FeedbackPanel({ question, attempts, onContinue }: FeedbackPanelProps) {
+export function FeedbackPanel({
+  question,
+  attempts,
+  isCorrect,
+  timedOut = false,
+  selectedAnswer,
+  onContinue
+}: FeedbackPanelProps) {
   const fallacy = getFallacyByName(question.fallacy_name);
-  
+
   if (!fallacy) return null;
 
-  const isFirstTry = attempts === 1;
+  const isFirstTry = isCorrect && attempts === 1;
+  const isWrong = !isCorrect;
+
+  const headerTitle = isWrong
+    ? timedOut
+      ? "Time's up! ⏰"
+      : "Not quite! 🤔"
+    : isFirstTry
+      ? "Excellent! First try! 🎉"
+      : `Got it in ${attempts} tries! 💪`;
+
+  const selectedExplanation = isWrong && !timedOut && selectedAnswer
+    ? question.optionExplanations[selectedAnswer]
+    : undefined;
 
   return (
     <Card className={cn(
       "w-full max-w-3xl mx-auto border-2 transition-all duration-500",
-      isFirstTry ? "border-green-500 bg-green-500/5" : "border-yellow-500 bg-yellow-500/5"
+      isWrong
+        ? "border-red-500 bg-red-500/5"
+        : isFirstTry
+          ? "border-green-500 bg-green-500/5"
+          : "border-yellow-500 bg-yellow-500/5"
     )}>
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className={cn(
             "flex h-12 w-12 items-center justify-center rounded-full",
-            isFirstTry ? "bg-green-500/20" : "bg-yellow-500/20"
+            isWrong
+              ? "bg-red-500/20"
+              : isFirstTry
+                ? "bg-green-500/20"
+                : "bg-yellow-500/20"
           )}>
-            <CheckCircle2 className={cn(
-              "h-6 w-6",
-              isFirstTry ? "text-green-600" : "text-yellow-600"
-            )} />
+            {isWrong ? (
+              <XCircle className="h-6 w-6 text-red-600" />
+            ) : (
+              <CheckCircle2 className={cn(
+                "h-6 w-6",
+                isFirstTry ? "text-green-600" : "text-yellow-600"
+              )} />
+            )}
           </div>
           <div>
             <CardTitle className={cn(
               "text-xl",
-              isFirstTry ? "text-green-700 dark:text-green-300" : "text-yellow-700 dark:text-yellow-300"
+              isWrong
+                ? "text-red-700 dark:text-red-300"
+                : isFirstTry
+                  ? "text-green-700 dark:text-green-300"
+                  : "text-yellow-700 dark:text-yellow-300"
             )}>
-              {isFirstTry ? "Excellent! First try! 🎉" : `Got it in ${attempts} tries! 💪`}
+              {headerTitle}
             </CardTitle>
             <p className="text-muted-foreground">
-              This is <strong>{fallacy.name}</strong>
+              {isWrong ? "The correct answer is " : "This is "}
+              <strong>{fallacy.name}</strong>
             </p>
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
+        {/* What the user picked and why it was wrong */}
+        {isWrong && !timedOut && selectedAnswer && (
+          <>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-sm font-medium text-red-700 dark:text-red-300">
+                <XCircle className="h-4 w-4" />
+                You selected:
+              </div>
+              <p className="text-sm text-foreground leading-relaxed bg-red-500/10 border border-red-500/20 p-3 rounded-lg italic">
+                "{selectedAnswer}"
+              </p>
+              {selectedExplanation && (
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {selectedExplanation}
+                </p>
+              )}
+            </div>
+            <Separator />
+          </>
+        )}
+
         {/* Fallacy Description */}
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
@@ -80,7 +144,7 @@ export function FeedbackPanel({ question, attempts, onContinue }: FeedbackPanelP
         {/* Valid Version */}
         <div className="space-y-2">
           <div className="text-sm font-medium text-green-700 dark:text-green-300">
-            ✓ A valid argument would be:
+            ✓ The fallacy-free version:
           </div>
           <p className="text-muted-foreground text-sm leading-relaxed bg-green-500/10 p-3 rounded-lg">
             {question.validVersion}

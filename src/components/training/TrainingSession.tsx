@@ -52,7 +52,12 @@ export function TrainingSession({
 
   const [showFeedback, setShowFeedback] = useState(false);
   const [showFeynman, setShowFeynman] = useState(false);
-  const [lastAnswer, setLastAnswer] = useState<{ isCorrect: boolean; attempts: number } | null>(null);
+  const [lastAnswer, setLastAnswer] = useState<{
+    isCorrect: boolean;
+    attempts: number;
+    selectedAnswer: string | null;
+    timedOut: boolean;
+  } | null>(null);
   const [questionForFeynman, setQuestionForFeynman] = useState(currentQuestion);
 
   // Initialize session
@@ -71,15 +76,26 @@ export function TrainingSession({
       return () => clearInterval(interval);
     }
 
-    // Time's up in challenge mode
-    if (mode === "challenge" && session?.timer === 0 && !showFeedback && currentQuestion) {
-      handleAnswer("");
+    // Time's up in challenge mode (only while a question is still pending)
+    if (
+      mode === "challenge" &&
+      session?.timer === 0 &&
+      !showFeedback &&
+      !isSessionComplete &&
+      currentQuestion
+    ) {
+      handleAnswer("", true);
     }
-  }, [mode, session?.timer, showFeedback, currentQuestion, updateTimer]);
+  }, [mode, session?.timer, showFeedback, isSessionComplete, currentQuestion, updateTimer]);
 
-  const handleAnswer = useCallback((selectedAnswer: string) => {
+  const handleAnswer = useCallback((selectedAnswer: string, timedOut = false) => {
     const result = submitAnswer(selectedAnswer);
-    setLastAnswer(result);
+    setLastAnswer({
+      isCorrect: result.isCorrect,
+      attempts: result.attempts,
+      selectedAnswer,
+      timedOut,
+    });
 
     if (result.isCorrect || mode === "challenge") {
       if (currentQuestion) {
@@ -148,8 +164,8 @@ export function TrainingSession({
 
   const progressInfo = getProgressInSession();
 
-  // Show session summary when complete
-  if (isSessionComplete && sessionStats && showFeedback) {
+  // Show session summary once the last question's feedback has been dismissed
+  if (isSessionComplete && sessionStats && !showFeedback && !showFeynman) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <SessionSummary
@@ -212,6 +228,9 @@ export function TrainingSession({
           <FeedbackPanel
             question={currentQuestion}
             attempts={lastAnswer?.attempts || 0}
+            isCorrect={lastAnswer?.isCorrect ?? false}
+            timedOut={lastAnswer?.timedOut ?? false}
+            selectedAnswer={lastAnswer?.selectedAnswer ?? null}
             onContinue={handleContinue}
           />
         ) : (
