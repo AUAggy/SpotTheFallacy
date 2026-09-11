@@ -71,6 +71,24 @@ function listFiles(dir: string, ext: string): string[] {
 }
 
 describe("copy: coverage and correctness", () => {
+  const RETIRED_OR_MERGED = [
+    "Homunculus Fallacy", "Conflicting Conditions", "Appeal to Closure",
+    "Excluded Middle", "Appeal to Money", "Suppressed Correlative",
+  ];
+
+  it("retired and merged fallacies are gone from the catalog and every question", () => {
+    const names = new Set(enhancedFallacies.map(f => f.name));
+    for (const name of RETIRED_OR_MERGED) {
+      expect(names.has(name), `${name} is retired but still in the catalog`).toBe(false);
+    }
+    for (const q of enhancedQuestions) {
+      expect(RETIRED_OR_MERGED).not.toContain(q.fallacy_name);
+      for (const opt of q.options) {
+        expect(RETIRED_OR_MERGED, `${q.id} still offers retired option "${opt}"`).not.toContain(opt);
+      }
+    }
+  });
+
   it("every fallacy has at least 3 questions", () => {
     for (const f of enhancedFallacies) {
       const n = enhancedQuestions.filter(q => q.fallacy_name === f.name).length;

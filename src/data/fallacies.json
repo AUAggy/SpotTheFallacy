@@ -72,27 +72,11 @@
     ]
   },
   {
-    "name": "Appeal to Money",
-    "description": "The fallacy of believing that wealth or the cost of something is a measure of its quality or truth. It assumes that if someone is rich, they must be right, or if something is expensive, it must be good.",
-    "examples": [
-      "We could save the whales, but at what cost to the harpoon makers' profits?",
-      "This car is the most expensive on the market, so it must be the best one."
-    ]
-  },
-  {
     "name": "Appeal to Probability",
     "description": "A statement that takes something for granted because it would probably be the case (or might be the case). It assumes that because something could happen, it is inevitable that it will happen.",
     "examples": [
       "If something can go wrong, then it will go wrong.",
       "There are millions of stars, so there must be intelligent life out there somewhere."
-    ]
-  },
-  {
-    "name": "Appeal to Closure",
-    "description": "The need to reach a conclusion, even if it means sacrificing accuracy or ignoring evidence. This is often driven by a desire to avoid ambiguity or uncertainty.",
-    "examples": [
-      "We need to make a decision now, so let's just go with the first option, even if it's not perfect.",
-      "I don't care what the evidence says; he's guilty. We need to close this case."
     ]
   },
   {
@@ -192,22 +176,6 @@
     ]
   },
   {
-    "name": "Conflicting Conditions",
-    "description": "An argument that contains a contradiction and is therefore self-refuting. The premises of the argument are inconsistent with each other.",
-    "examples": [
-      "The only certainty is uncertainty.",
-      "This statement is false."
-    ]
-  },
-  {
-    "name": "Excluded Middle",
-    "description": "Assuming there are only two alternatives to consider when there are in fact more. This is a type of false dilemma.",
-    "examples": [
-      "It's all or nothing. We either go all in or we don't do it at all.",
-      "If you're not a socialist, you must be a greedy capitalist."
-    ]
-  },
-  {
     "name": "Proof of Non-existence",
     "description": "The fallacy of assuming that if you cannot prove something exists, then it must not exist. This is an appeal to ignorance.",
     "examples": [
@@ -256,14 +224,6 @@
     ]
   },
   {
-    "name": "Suppressed Correlative",
-    "description": "An argument that tries to redefine a correlative (one of two mutually exclusive options) so that one alternative is no longer possible.",
-    "examples": [
-      "If we consider religion as a structure to understand the world, then science is just another religion.",
-      "There are no such things as 'good' or 'bad' people, only people."
-    ]
-  },
-  {
     "name": "Affirming the Consequent",
     "description": "A formal fallacy of inferring the converse from the original statement. It is committed by reasoning in the form: If P, then Q. Therefore, if Q, then P.",
     "examples": [
@@ -301,14 +261,6 @@
     "examples": [
       "A baby bit me. Therefore, all young kids are violent.",
       "Each player on this team is a star, so the team must be the best in the league."
-    ]
-  },
-  {
-    "name": "Homunculus Fallacy",
-    "description": "An argument that accounts for a phenomenon in terms of the very phenomenon that it is supposed to explain. This is a form of circular reasoning.",
-    "examples": [
-      "The gods were created by gods, who were created by gods, and so on.",
-      "I have a little man in my head who tells me what to do."
     ]
   }
 ]

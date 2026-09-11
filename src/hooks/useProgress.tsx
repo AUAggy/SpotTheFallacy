@@ -19,6 +19,47 @@ import {
 import { enhancedFallacies } from "@/data/enhancedData";
 
 const STORAGE_KEY = "fallacy_trainer_progress";
+const SCHEMA_VERSION = 2;
+
+/**
+ * Fallacy identity changes (retirements, merges) remap stored stats so
+ * player progress survives content updates. Phase 3 appends rename keys.
+ */
+const FALLACY_KEY_MIGRATION: Record<string, string> = {
+  "Excluded Middle": "Black & White",
+  "Appeal to Money": "Appeal to Authority",
+  "Suppressed Correlative": "Definist Fallacy",
+};
+
+const RETIRED_FALLACIES = new Set([
+  "Homunculus Fallacy",
+  "Conflicting Conditions",
+  "Appeal to Closure",
+]);
+
+export function migrateFallacyKeys(stats: Record<string, FallacyStats> | undefined): Record<string, FallacyStats> {
+  const migrated: Record<string, FallacyStats> = {};
+  for (const [key, value] of Object.entries(stats ?? {})) {
+    if (RETIRED_FALLACIES.has(key)) continue;
+    let target = FALLACY_KEY_MIGRATION[key] ?? key;
+    // follow rename chains until stable (Phase 3 extends the map)
+    while (FALLACY_KEY_MIGRATION[target]) target = FALLACY_KEY_MIGRATION[target];
+    const existing = migrated[target];
+    if (existing) {
+      migrated[target] = {
+        totalSeen: existing.totalSeen + value.totalSeen,
+        correctFirstTry: existing.correctFirstTry + value.correctFirstTry,
+        correctAfterRetry: existing.correctAfterRetry + value.correctAfterRetry,
+        incorrect: existing.incorrect + value.incorrect,
+        lastSeen: Math.max(existing.lastSeen ?? 0, value.lastSeen ?? 0),
+        attempts: [...existing.attempts, ...value.attempts].slice(-20),
+      };
+    } else {
+      migrated[target] = value;
+    }
+  }
+  return migrated;
+}
 
 const defaultStats: FallacyStats = {
   totalSeen: 0,
@@ -35,6 +76,7 @@ const defaultPreferences: UserPreferences = {
 };
 
 const defaultProgress: UserProgress = {
+  schemaVersion: SCHEMA_VERSION,
   currentDifficulty: 1,
   fallacyStats: {},
   sessionHistory: [],
@@ -71,6 +113,10 @@ function loadProgress(): UserProgress {
       }
       delete parsed.consecutiveCorrect;
       delete parsed.feynmanStreak;
+
+      // v2: retired and merged fallacies remap onto surviving keys
+      parsed.fallacyStats = migrateFallacyKeys(parsed.fallacyStats);
+      parsed.schemaVersion = SCHEMA_VERSION;
 
       return { ...defaultProgress, ...parsed };
     }
@@ -248,7 +294,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const importProgress = useCallback((data: string) => {
     try {
       const parsed = JSON.parse(data);
-      setProgress({ ...defaultProgress, ...parsed });
+      // stored backups run through the same migration as loadProgress
+      const migrated = migrateFallacyKeys(parsed.fallacyStats);
+      setProgress({ ...defaultProgress, ...parsed, fallacyStats: migrated, schemaVersion: SCHEMA_VERSION });
       return true;
     } catch {
       return false;

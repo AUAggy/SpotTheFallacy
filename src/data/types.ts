@@ -60,6 +60,7 @@ export interface FallacyStats {
 }
 
 export interface UserProgress {
+  schemaVersion: number;
   currentDifficulty: Difficulty;
   fallacyStats: Record<string, FallacyStats>;
   sessionHistory: SessionRecord[];

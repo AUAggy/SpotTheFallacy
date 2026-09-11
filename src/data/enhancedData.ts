@@ -27,27 +27,21 @@ const categoryMappings: Record<string, FallacyCategory> = {
   "Appeal to Tradition": "Emotional Manipulation",
   "Appeal to Popularity": "Emotional Manipulation",
   "Appeal to Novelty": "Emotional Manipulation",
-  "Appeal to Closure": "Emotional Manipulation",
   "Affective Fallacy": "Emotional Manipulation",
 
   "Appeal to Authority": "False Authority",
-  "Appeal to Money": "False Authority",
 
   "Appeal to Probability": "Faulty Logic",
   "Gambler's Fallacy": "Faulty Logic",
   "Non Sequitur": "Faulty Logic",
   "Black & White": "Faulty Logic",
-  "Excluded Middle": "Faulty Logic",
   "Begging the Question": "Faulty Logic",
   "Denying the Antecedent": "Faulty Logic",
   "Affirming the Consequent": "Faulty Logic",
-  "Conflicting Conditions": "Faulty Logic",
   "Fallacy Fallacy": "Faulty Logic",
   "Definist Fallacy": "Faulty Logic",
-  "Suppressed Correlative": "Faulty Logic",
   "Continuum Fallacy": "Faulty Logic",
   "Fallacy of Composition": "Faulty Logic",
-  "Homunculus Fallacy": "Faulty Logic",
   "Proof of Non-existence": "Faulty Logic",
   "Nirvana Fallacy": "Faulty Logic",
 
@@ -246,20 +240,6 @@ const structureDiagrams: Record<string, string> = {
 │ So X is false       │
 └─────────────────────┘`,
 
-  "Appeal to Money": `┌──────────────────────┐
-│ X is expensive      │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Price read as quality│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is good        │
-└─────────────────────┘`,
-
   "Appeal to Probability": `┌──────────────────────┐
 │ X could happen      │
 └────┬────────────────┘
@@ -272,20 +252,6 @@ const structureDiagrams: Record<string, string> = {
      ▼
 ┌──────────────────────┐
 │ So X will happen    │
-└─────────────────────┘`,
-
-  "Appeal to Closure": `┌──────────────────────┐
-│ Decision still open │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ We must decide NOW  │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Rushed, underinformed│
 └─────────────────────┘`,
 
   "Appeal to Tradition": `┌──────────────────────┐
@@ -428,34 +394,6 @@ const structureDiagrams: Record<string, string> = {
 │ So X is wrong       │
 └─────────────────────┘`,
 
-  "Conflicting Conditions": `┌──────────────────────┐
-│ Rule 1 demands X    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Rule 2 forbids X    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Both claimed at once│
-└─────────────────────┘`,
-
-  "Excluded Middle": `┌──────────────────────┐
-│ Two extremes offered│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Middle ground ignored│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ A or B, pick one    │
-└─────────────────────┘`,
-
   "Proof of Non-existence": `┌──────────────────────┐
 │ Prove X is NOT real │
 └────┬────────────────┘
@@ -568,20 +506,6 @@ const structureDiagrams: Record<string, string> = {
 │ Whole has trait T   │
 └─────────────────────┘`,
 
-  "Homunculus Fallacy": `┌──────────────────────┐
-│ Mind has inner viewer│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Viewer needs its own│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Regress, no answer  │
-└─────────────────────┘`,
-
   "Definist Fallacy": `┌──────────────────────┐
 │ Term defined to win │
 └────┬────────────────┘
@@ -594,20 +518,6 @@ const structureDiagrams: Record<string, string> = {
      ▼
 ┌──────────────────────┐
 │ Opponent can't engage│
-└─────────────────────┘`,
-
-  "Suppressed Correlative": `┌──────────────────────┐
-│ A vs B: real contrast│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Redefine B until blur│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ No difference       │
 └─────────────────────┘`,
 };
 // Default structure diagram for fallacies without specific ones
@@ -627,70 +537,11 @@ const defaultDiagram = `┌─────────────────�
 
 // Key terms for Feynman technique evaluation
 const keyTermsMap: Record<string, string[]> = {
-  "Ad Hominem": ["person", "character", "attack", "irrelevant", "argument", "not the point"],
-  "Straw Man": ["misrepresent", "distort", "exaggerate", "not what", "twist", "easier to attack"],
-  "Appeal to Authority": ["expert", "relevant", "qualified", "evidence", "credentials", "field"],
-  "Red Herring": ["distract", "divert", "irrelevant", "change subject", "avoid", "sidestep"],
-  "Tu Quoque": ["hypocrisy", "you too", "you also", "doesn't change", "still valid"],
-  "Appeal to Nature": ["natural", "unnatural", "doesn't mean", "good or bad", "naturalistic"],
-  "Gambler's Fallacy": ["independent", "probability", "due", "random", "past doesn't affect"],
-  "Black & White": ["false dilemma", "only two", "other options", "more choices", "spectrum"],
-  "Begging the Question": ["circular", "assume", "conclusion in premise", "presuppose"],
-  "Sunk-Cost Fallacy": ["already spent", "past investment", "future value", "cut losses"],
-  "Scapegoat": ["blame", "deflect", "not responsible", "target", "unfair"],
-  "No True Scotsman": ["redefine", "move definition", "exclude", "ad hoc", "protect claim"],
-  "Appeal to Tradition": ["always done", "old", "tradition", "doesn't prove", "past"],
-  "Appeal to Popularity": ["everyone", "popular", "bandwagon", "many people", "doesn't prove"],
-  "Cherry Picking": ["select", "ignore", "convenient", "incomplete", "biased sample"],
-  "Non Sequitur": ["doesn't follow", "unrelated", "no connection", "leap", "random"],
-  "Appeal to Money": ["expensive", "wealthy", "cost", "price", "doesn't mean quality"],
-  "Appeal to Novelty": ["new", "modern", "latest", "doesn't mean better", "recency"],
-  "Moving the Goalposts": ["change criteria", "new demand", "never satisfied", "shift"],
-  "Overgeneralization": ["one case", "all", "hasty", "sample too small", "stereotype"],
-  "Affective Fallacy": ["feel", "emotion", "gut", "intuition", "not evidence"],
-  "Nirvana Fallacy": ["perfect", "ideal", "imperfect solution", "better than nothing"],
-  "Appeal to Probability": ["could happen", "might", "possible", "not inevitable"],
-  "Appeal to Closure": ["decide now", "uncertainty", "rush", "premature"],
-  "Texas Sharpshooter": ["pattern", "coincidence", "after the fact", "data mining"],
-  "Magical Thinking": ["superstition", "luck", "causation", "correlation"],
-  "Argument from Motive": ["motive", "reason", "doesn't affect truth", "bias"],
-  "Conflicting Conditions": ["contradiction", "self-refuting", "paradox", "inconsistent"],
-  "Excluded Middle": ["false dilemma", "spectrum", "middle ground", "nuance"],
-  "Proof of Non-existence": ["can't prove negative", "absence of evidence", "burden of proof"],
-  "Denying the Antecedent": ["if then", "inverse", "not valid", "formal fallacy"],
-  "Affirming the Consequent": ["if then", "converse", "not valid", "formal fallacy"],
-  "Definist Fallacy": ["define", "rigged definition", "loaded", "circular definition"],
-  "Suppressed Correlative": ["eliminate distinction", "false equivalence", "deny difference"],
-  "Fallacy Fallacy": ["bad argument", "still true", "conclusion could be right"],
-  "Equivocation": ["multiple meanings", "shift meaning", "ambiguous", "word play"],
-  "Continuum Fallacy": ["no clear line", "gradual", "heap", "sorites"],
-  "Fallacy of Composition": ["part", "whole", "doesn't transfer", "individual vs group"],
-  "Homunculus Fallacy": ["explain with itself", "infinite regress", "circular explanation"],
-};
+  "Ad Hominem": ["person", "character", "attack", "irrelevant", "argument", "not the point"],  "Straw Man": ["misrepresent", "distort", "exaggerate", "not what", "twist", "easier to attack"],  "Appeal to Authority": ["expert", "relevant", "qualified", "evidence", "credentials", "field"],  "Red Herring": ["distract", "divert", "irrelevant", "change subject", "avoid", "sidestep"],  "Tu Quoque": ["hypocrisy", "you too", "you also", "doesn't change", "still valid"],  "Appeal to Nature": ["natural", "unnatural", "doesn't mean", "good or bad", "naturalistic"],  "Gambler's Fallacy": ["independent", "probability", "due", "random", "past doesn't affect"],  "Black & White": ["false dilemma", "only two", "other options", "more choices", "spectrum"],  "Begging the Question": ["circular", "assume", "conclusion in premise", "presuppose"],  "Sunk-Cost Fallacy": ["already spent", "past investment", "future value", "cut losses"],  "Scapegoat": ["blame", "deflect", "not responsible", "target", "unfair"],  "No True Scotsman": ["redefine", "move definition", "exclude", "ad hoc", "protect claim"],  "Appeal to Tradition": ["always done", "old", "tradition", "doesn't prove", "past"],  "Appeal to Popularity": ["everyone", "popular", "bandwagon", "many people", "doesn't prove"],  "Cherry Picking": ["select", "ignore", "convenient", "incomplete", "biased sample"],  "Non Sequitur": ["doesn't follow", "unrelated", "no connection", "leap", "random"],  "Appeal to Novelty": ["new", "modern", "latest", "doesn't mean better", "recency"],  "Moving the Goalposts": ["change criteria", "new demand", "never satisfied", "shift"],  "Overgeneralization": ["one case", "all", "hasty", "sample too small", "stereotype"],  "Affective Fallacy": ["feel", "emotion", "gut", "intuition", "not evidence"],  "Nirvana Fallacy": ["perfect", "ideal", "imperfect solution", "better than nothing"],  "Appeal to Probability": ["could happen", "might", "possible", "not inevitable"],  "Texas Sharpshooter": ["pattern", "coincidence", "after the fact", "data mining"],  "Magical Thinking": ["superstition", "luck", "causation", "correlation"],  "Argument from Motive": ["motive", "reason", "doesn't affect truth", "bias"],  "Proof of Non-existence": ["can't prove negative", "absence of evidence", "burden of proof"],  "Denying the Antecedent": ["if then", "inverse", "not valid", "formal fallacy"],  "Affirming the Consequent": ["if then", "converse", "not valid", "formal fallacy"],  "Definist Fallacy": ["define", "rigged definition", "loaded", "circular definition"],  "Fallacy Fallacy": ["bad argument", "still true", "conclusion could be right"],  "Equivocation": ["multiple meanings", "shift meaning", "ambiguous", "word play"],  "Continuum Fallacy": ["no clear line", "gradual", "heap", "sorites"],  "Fallacy of Composition": ["part", "whole", "doesn't transfer", "individual vs group"],};
 
 // Confusion pairs - fallacies often mistaken for each other
 const confusionPairs: Record<string, string[]> = {
-  "Ad Hominem": ["Tu Quoque", "Argument from Motive"],
-  "Tu Quoque": ["Ad Hominem", "Red Herring"],
-  "Straw Man": ["Red Herring", "Ad Hominem"],
-  "Red Herring": ["Straw Man", "Tu Quoque"],
-  "Black & White": ["Excluded Middle", "Nirvana Fallacy"],
-  "Excluded Middle": ["Black & White", "False Dilemma"],
-  "Appeal to Authority": ["Appeal to Popularity", "Argument from Motive"],
-  "Appeal to Popularity": ["Appeal to Authority", "Appeal to Tradition"],
-  "Appeal to Tradition": ["Appeal to Nature", "Appeal to Popularity"],
-  "Appeal to Nature": ["Appeal to Tradition", "Affective Fallacy"],
-  "Cherry Picking": ["Texas Sharpshooter", "Overgeneralization"],
-  "Texas Sharpshooter": ["Cherry Picking", "Gambler's Fallacy"],
-  "Gambler's Fallacy": ["Appeal to Probability", "Texas Sharpshooter"],
-  "Appeal to Probability": ["Gambler's Fallacy", "Magical Thinking"],
-  "Denying the Antecedent": ["Affirming the Consequent", "Non Sequitur"],
-  "Affirming the Consequent": ["Denying the Antecedent", "Non Sequitur"],
-  "No True Scotsman": ["Definist Fallacy", "Moving the Goalposts"],
-  "Definist Fallacy": ["No True Scotsman", "Begging the Question"],
-  "Sunk-Cost Fallacy": ["Appeal to Tradition", "Nirvana Fallacy"],
-  "Nirvana Fallacy": ["Black & White", "Sunk-Cost Fallacy"],
-};
+  "Ad Hominem": ["Tu Quoque", "Argument from Motive"],  "Tu Quoque": ["Ad Hominem", "Red Herring"],  "Straw Man": ["Red Herring", "Ad Hominem"],  "Red Herring": ["Straw Man", "Tu Quoque"],  "Black & White": ["Nirvana Fallacy", "Appeal to Probability"],  "Appeal to Authority": ["Appeal to Popularity", "Argument from Motive"],  "Appeal to Popularity": ["Appeal to Authority", "Appeal to Tradition"],  "Appeal to Tradition": ["Appeal to Nature", "Appeal to Popularity"],  "Appeal to Nature": ["Appeal to Tradition", "Affective Fallacy"],  "Cherry Picking": ["Texas Sharpshooter", "Overgeneralization"],  "Texas Sharpshooter": ["Cherry Picking", "Gambler's Fallacy"],  "Gambler's Fallacy": ["Appeal to Probability", "Texas Sharpshooter"],  "Appeal to Probability": ["Gambler's Fallacy", "Magical Thinking"],  "Denying the Antecedent": ["Affirming the Consequent", "Non Sequitur"],  "Affirming the Consequent": ["Denying the Antecedent", "Non Sequitur"],  "No True Scotsman": ["Definist Fallacy", "Moving the Goalposts"],  "Definist Fallacy": ["No True Scotsman", "Begging the Question"],  "Sunk-Cost Fallacy": ["Appeal to Tradition", "Nirvana Fallacy"],  "Nirvana Fallacy": ["Black & White", "Sunk-Cost Fallacy"],};
 
 // Context detection based on question content
 function detectContexts(question: string): ContextTag[] {
@@ -758,9 +609,7 @@ function generateValidVersion(fallacy: Fallacy, question: string): string {
     "Scapegoat": "A valid explanation traces the problem to its actual cause. For example: 'The outage came from the failed upgrade, not from the new team.'",
     "No True Scotsman": "A valid position states its criteria up front and accepts counterexamples. For example: 'By vegetarian I mean no meat at all; one bacon breakfast disproves my rule.'",
     "Argument from Motive": "A valid argument weighs the claim on its evidence. For example: 'Set aside who benefits and look at whether the data supports the claim.'",
-    "Appeal to Money": "A valid quality claim cites evidence rather than price. For example: 'Judge the tool by its measured accuracy and track record, not its cost.'",
     "Appeal to Probability": "A valid argument estimates how likely something is, rather than treating possibility as certainty. For example: 'It could happen; the base rate says roughly once a decade.'",
-    "Appeal to Closure": "A valid decision waits for the evidence that matters. For example: 'We can decide after Friday's test results; deciding now adds risk, not certainty.'",
     "Appeal to Tradition": "A valid case shows the practice still works. For example: 'We keep the checklist because errors drop when we use it, not because it is old.'",
     "Appeal to Popularity": "A valid argument presents evidence rather than headcount. For example: 'Billions once believed the sun circled the earth; the evidence never did.'",
     "Appeal to Novelty": "A valid case names what the new option actually improves. For example: 'The new pipeline cuts our build time in half; here are both timings.'",
@@ -771,8 +620,6 @@ function generateValidVersion(fallacy: Fallacy, question: string): string {
     "Moving the Goalposts": "A valid disagreement fixes the standard in advance. For example: 'We agreed 70 percent was the bar, and the result met it.'",
     "Overgeneralization": "A valid generalization matches the size and spread of its sample. For example: 'Ask voters across several regions before claiming a national trend.'",
     "Affective Fallacy": "A valid argument separates feeling from evidence. For example: 'I dislike this plan, and here are two drawbacks it has regardless of my taste.'",
-    "Conflicting Conditions": "A valid position resolves the conflict between its rules. For example: 'Refunds apply on weekends; the return window overrides that on weekdays.'",
-    "Excluded Middle": "A valid argument leaves room for intermediate options. For example: 'We can fund some projects now and revisit the rest next quarter.'",
     "Proof of Non-existence": "A claim of absence needs a search that would have found it. For example: 'We checked the full registry; no such patent exists in it.'",
     "Nirvana Fallacy": "A valid comparison weighs real options against each other. For example: 'The policy cuts errors in half; perfection is unavailable, so we take the improvement.'",
     "Denying the Antecedent": "The valid form denies the consequent: 'If P then Q; not Q; therefore not P.' Dry streets really do mean it did not rain.",
@@ -781,9 +628,7 @@ function generateValidVersion(fallacy: Fallacy, question: string): string {
     "Equivocation": "A valid argument keeps each term in one sense throughout. For example: 'By free I mean without cost here, not without restrictions.'",
     "Continuum Fallacy": "A valid argument accepts practical boundaries. For example: 'No exact line marks baldness, yet a head with zero hairs is bald.'",
     "Fallacy of Composition": "A valid argument tests the whole on its own terms. For example: 'Every runner is fast, but the relay still needs practice to win.'",
-    "Homunculus Fallacy": "A valid explanation stops the regress. For example: 'Specific brain regions process the image; no inner spectator is required.'",
     "Definist Fallacy": "A valid definition is fair to both sides before the debate starts. For example: 'We define income the standard way, then argue the policy on those numbers.'",
-    "Suppressed Correlative": "A valid comparison keeps both categories distinct. For example: 'Some choices are informed and some are not; here is where this one falls.'",
   };
 
   return validVersionTemplates[fallacy.name] ||
@@ -816,7 +661,7 @@ function generateOptionExplanations(
 // Real-world frequency assessment
 function assessFrequency(fallacyName: string): "common" | "moderate" | "rare" {
   const common = ["Ad Hominem", "Straw Man", "Appeal to Authority", "Red Herring", "Appeal to Popularity", "Black & White", "Tu Quoque"];
-  const rare = ["Homunculus Fallacy", "Suppressed Correlative", "Continuum Fallacy", "Affirming the Consequent", "Denying the Antecedent"];
+  const rare = ["Continuum Fallacy", "Affirming the Consequent", "Denying the Antecedent"];
 
   if (common.includes(fallacyName)) return "common";
   if (rare.includes(fallacyName)) return "rare";
