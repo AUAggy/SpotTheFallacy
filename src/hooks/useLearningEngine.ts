@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { 
   EnhancedQuestion, 
   SessionState, 
@@ -34,12 +34,19 @@ export function useLearningEngine() {
   const [session, setSession] = useState<SessionState | null>(null);
   const [currentAttempts, setCurrentAttempts] = useState(0);
 
+  // Live reads with a stable identity: selection callbacks must never change,
+  // otherwise startSession's identity changes and the session-init effect in
+  // TrainingSession resets the session mid-question whenever progress updates.
+  const latest = useRef({ progress, getWeakFallacies, getUnseenFallacies });
+  latest.current = { progress, getWeakFallacies, getUnseenFallacies };
+
   const selectSmartQuestions = useCallback((
     mode: LearningMode,
     count: number,
     categoryFilter?: FallacyCategory,
     contextFilter?: ContextTag
   ): EnhancedQuestion[] => {
+    const { progress, getWeakFallacies, getUnseenFallacies } = latest.current;
     let pool: EnhancedQuestion[] = [];
     
     switch (mode) {
@@ -132,7 +139,7 @@ export function useLearningEngine() {
     }
     
     return shuffleArray(filteredPool).slice(0, count);
-  }, [progress, getWeakFallacies, getUnseenFallacies]);
+  }, []);
 
   const startSession = useCallback((
     mode: LearningMode,

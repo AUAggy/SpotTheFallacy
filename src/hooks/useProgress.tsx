@@ -1,12 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
-import { 
-  UserProgress, 
-  FallacyStats, 
-  SessionRecord, 
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode
+} from "react";
+import {
+  UserProgress,
+  FallacyStats,
+  SessionRecord,
   Difficulty,
-  LearningMode,
   UserPreferences,
-  MasteryLevel,
+  MasteryInfo,
   getMasteryInfo
 } from "@/data/types";
 import { enhancedFallacies } from "@/data/enhancedData";
@@ -40,10 +47,9 @@ const defaultProgress: UserProgress = {
   lastUpdated: Date.now(),
   totalQuestionsAnswered: 0,
   sessionsCompleted: 0,
-  consecutiveCorrect: 0,
+  correctStreak: 0,
   recentResults: [],
   seenQuestionIds: [],
-  feynmanStreak: 0,
   isFirstTime: true,
 };
 
@@ -52,15 +58,20 @@ function loadProgress(): UserProgress {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      // Update streak based on last active date
       const today = new Date().toDateString();
       const yesterday = new Date(Date.now() - 86400000).toDateString();
-      
+
       if (parsed.streak.lastActiveDate !== today && parsed.streak.lastActiveDate !== yesterday) {
-        // Streak broken
         parsed.streak.current = 0;
       }
-      
+
+      // v2: consecutiveCorrect and feynmanStreak merged into correctStreak
+      if (parsed.correctStreak === undefined) {
+        parsed.correctStreak = Math.max(parsed.consecutiveCorrect ?? 0, parsed.feynmanStreak ?? 0);
+      }
+      delete parsed.consecutiveCorrect;
+      delete parsed.feynmanStreak;
+
       return { ...defaultProgress, ...parsed };
     }
   } catch (e) {
@@ -77,7 +88,29 @@ function saveProgress(progress: UserProgress): void {
   }
 }
 
-export function useProgress() {
+interface ProgressApi {
+  progress: UserProgress;
+  updateStreak: () => void;
+  recordAnswer: (fallacyName: string, questionId: string, isCorrect: boolean, attempts: number) => void;
+  recordSession: (session: Omit<SessionRecord, "date">) => void;
+  markQuestionSeen: (questionId: string) => void;
+  resetCorrectStreak: () => void;
+  completeOnboarding: () => void;
+  setTheme: (theme: "light" | "dark" | "system") => void;
+  resetProgress: () => void;
+  exportProgress: () => string;
+  importProgress: (data: string) => boolean;
+  getWeakFallacies: () => { fallacy: (typeof enhancedFallacies)[number]; stats: FallacyStats | undefined; mastery: MasteryInfo }[];
+  getUnseenFallacies: () => (typeof enhancedFallacies)[number][];
+  getMasteredFallacies: () => (typeof enhancedFallacies)[number][];
+  getOverallMastery: () => number;
+  getCategoryMastery: (category: string) => number;
+  shouldShowFeynmanChallenge: () => boolean;
+}
+
+const ProgressContext = createContext<ProgressApi | null>(null);
+
+export function ProgressProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<UserProgress>(loadProgress);
 
   useEffect(() => {
@@ -86,17 +119,17 @@ export function useProgress() {
 
   const updateStreak = useCallback(() => {
     const today = new Date().toDateString();
-    
+
     setProgress(prev => {
       if (prev.streak.lastActiveDate === today) {
-        return prev; // Already updated today
+        return prev;
       }
-      
+
       const yesterday = new Date(Date.now() - 86400000).toDateString();
-      const newCurrent = prev.streak.lastActiveDate === yesterday 
-        ? prev.streak.current + 1 
+      const newCurrent = prev.streak.lastActiveDate === yesterday
+        ? prev.streak.current + 1
         : 1;
-      
+
       return {
         ...prev,
         streak: {
@@ -124,18 +157,16 @@ export function useProgress() {
         correctAfterRetry: currentStats.correctAfterRetry + (isCorrect && attempts > 1 ? 1 : 0),
         incorrect: currentStats.incorrect + (!isCorrect ? 1 : 0),
         lastSeen: Date.now(),
-        attempts: [...currentStats.attempts, attempts].slice(-20), // Keep last 20
+        attempts: [...currentStats.attempts, attempts].slice(-20),
       };
 
-      const newRecentResults = [...prev.recentResults, isCorrect && attempts === 1].slice(-10);
-      const newConsecutiveCorrect = isCorrect && attempts === 1 
-        ? prev.consecutiveCorrect + 1 
-        : 0;
-      
-      // Adaptive difficulty
+      const firstTry = isCorrect && attempts === 1;
+      const newCorrectStreak = firstTry ? prev.correctStreak + 1 : 0;
+
+      // Phase 6 retires this ladder; kept for behavior preservation until then.
+      const newRecentResults = [...prev.recentResults, firstTry].slice(-10);
       let newDifficulty = prev.currentDifficulty;
       const recentCorrect = newRecentResults.filter(Boolean).length;
-      
       if (recentCorrect >= 8 && prev.currentDifficulty < 3) {
         newDifficulty = (prev.currentDifficulty + 1) as Difficulty;
       } else if (recentCorrect <= 3 && prev.currentDifficulty > 1) {
@@ -149,11 +180,10 @@ export function useProgress() {
           [fallacyName]: newStats,
         },
         totalQuestionsAnswered: prev.totalQuestionsAnswered + 1,
-        consecutiveCorrect: newConsecutiveCorrect,
+        correctStreak: newCorrectStreak,
         recentResults: newRecentResults,
-        seenQuestionIds: [...new Set([...prev.seenQuestionIds, questionId])],
-        feynmanStreak: newConsecutiveCorrect,
         currentDifficulty: newDifficulty,
+        seenQuestionIds: [...new Set([...prev.seenQuestionIds, questionId])],
         lastUpdated: Date.now(),
         isFirstTime: false,
       };
@@ -166,7 +196,7 @@ export function useProgress() {
       sessionHistory: [
         ...prev.sessionHistory,
         { ...session, date: Date.now() },
-      ].slice(-50), // Keep last 50 sessions
+      ].slice(-50),
       sessionsCompleted: prev.sessionsCompleted + 1,
       lastUpdated: Date.now(),
     }));
@@ -179,10 +209,10 @@ export function useProgress() {
     }));
   }, []);
 
-  const resetFeynmanStreak = useCallback(() => {
+  const resetCorrectStreak = useCallback(() => {
     setProgress(prev => ({
       ...prev,
-      feynmanStreak: 0,
+      correctStreak: 0,
     }));
   }, []);
 
@@ -225,7 +255,6 @@ export function useProgress() {
     }
   }, []);
 
-  // Computed values
   const getWeakFallacies = useCallback(() => {
     return enhancedFallacies
       .map(f => ({
@@ -252,8 +281,7 @@ export function useProgress() {
 
   const getOverallMastery = useCallback(() => {
     const totalFallacies = enhancedFallacies.length;
-    const masteredCount = getMasteredFallacies().length;
-    return (masteredCount / totalFallacies) * 100;
+    return (getMasteredFallacies().length / totalFallacies) * 100;
   }, [getMasteredFallacies]);
 
   const getCategoryMastery = useCallback((category: string) => {
@@ -269,16 +297,16 @@ export function useProgress() {
   }, [progress.fallacyStats]);
 
   const shouldShowFeynmanChallenge = useCallback(() => {
-    return progress.feynmanStreak >= 3 && progress.feynmanStreak % 3 === 0;
-  }, [progress.feynmanStreak]);
+    return progress.correctStreak >= 3 && progress.correctStreak % 3 === 0;
+  }, [progress.correctStreak]);
 
-  return {
+  const value = useMemo<ProgressApi>(() => ({
     progress,
     updateStreak,
     recordAnswer,
     recordSession,
     markQuestionSeen,
-    resetFeynmanStreak,
+    resetCorrectStreak,
     completeOnboarding,
     setTheme,
     resetProgress,
@@ -290,5 +318,21 @@ export function useProgress() {
     getOverallMastery,
     getCategoryMastery,
     shouldShowFeynmanChallenge,
-  };
+  }), [
+    progress, updateStreak, recordAnswer, recordSession, markQuestionSeen,
+    resetCorrectStreak, completeOnboarding, setTheme, resetProgress,
+    exportProgress, importProgress, getWeakFallacies, getUnseenFallacies,
+    getMasteredFallacies, getOverallMastery, getCategoryMastery,
+    shouldShowFeynmanChallenge,
+  ]);
+
+  return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
+}
+
+export function useProgress(): ProgressApi {
+  const ctx = useContext(ProgressContext);
+  if (!ctx) {
+    throw new Error("useProgress must be used inside <ProgressProvider>");
+  }
+  return ctx;
 }

@@ -21,6 +21,20 @@ interface TrainingSessionProps {
   onExit: () => void;
 }
 
+/**
+ * Session phases: question -> (feedback | feynman) -> question -> ... -> summary.
+ * The phase is the single source of truth for what is on screen; no boolean
+ * combinations, so impossible states cannot be represented.
+ */
+type Phase = "question" | "feedback" | "feynman" | "summary";
+
+interface AnswerInfo {
+  isCorrect: boolean;
+  attempts: number;
+  selectedAnswer: string | null;
+  timedOut: boolean;
+}
+
 export function TrainingSession({
   mode,
   categoryFilter,
@@ -47,17 +61,11 @@ export function TrainingSession({
     recordAnswer,
     recordSession,
     shouldShowFeynmanChallenge,
-    resetFeynmanStreak,
+    resetCorrectStreak,
   } = useProgress();
 
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [showFeynman, setShowFeynman] = useState(false);
-  const [lastAnswer, setLastAnswer] = useState<{
-    isCorrect: boolean;
-    attempts: number;
-    selectedAnswer: string | null;
-    timedOut: boolean;
-  } | null>(null);
+  const [phase, setPhase] = useState<Phase>("question");
+  const [lastAnswer, setLastAnswer] = useState<AnswerInfo | null>(null);
   const [questionForFeynman, setQuestionForFeynman] = useState(currentQuestion);
 
   // Initialize session
@@ -65,28 +73,6 @@ export function TrainingSession({
     startSession(mode, categoryFilter, contextFilter);
     updateStreak();
   }, [mode, categoryFilter, contextFilter, startSession, updateStreak]);
-
-  // Timer for challenge mode
-  useEffect(() => {
-    if (mode === "challenge" && session?.timer !== undefined && session.timer > 0 && !showFeedback) {
-      const interval = setInterval(() => {
-        updateTimer(session.timer! - 1);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-
-    // Time's up in challenge mode (only while a question is still pending)
-    if (
-      mode === "challenge" &&
-      session?.timer === 0 &&
-      !showFeedback &&
-      !isSessionComplete &&
-      currentQuestion
-    ) {
-      handleAnswer("", true);
-    }
-  }, [mode, session?.timer, showFeedback, isSessionComplete, currentQuestion, updateTimer]);
 
   const handleAnswer = useCallback((selectedAnswer: string, timedOut = false) => {
     const result = submitAnswer(selectedAnswer);
@@ -107,24 +93,39 @@ export function TrainingSession({
         );
       }
 
-      // Check for Feynman challenge
-      if (result.isCorrect && shouldShowFeynmanChallenge() && mode !== "challenge") {
+      // Feynman interstitial on hot streaks (never in challenge mode)
+      if (result.isCorrect && mode !== "challenge" && shouldShowFeynmanChallenge()) {
         setQuestionForFeynman(currentQuestion);
-        setShowFeynman(true);
+        setPhase("feynman");
       } else {
-        setShowFeedback(true);
+        setPhase("feedback");
       }
     }
-
+    // In non-challenge modes a wrong answer stays on the question for retry.
     return result;
   }, [submitAnswer, currentQuestion, mode, recordAnswer, shouldShowFeynmanChallenge]);
 
-  const handleContinue = useCallback(() => {
-    setShowFeedback(false);
-    setLastAnswer(null);
+  // Challenge timer: runs only while a question is on screen. Expiry fires
+  // exactly once because the timeout transition leaves the question phase.
+  useEffect(() => {
+    if (mode !== "challenge" || phase !== "question") return;
+    if (!session || session.timer === undefined || !currentQuestion) return;
 
+    if (session.timer <= 0) {
+      handleAnswer("", true);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      updateTimer(session.timer! - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [mode, phase, session, currentQuestion, handleAnswer, updateTimer]);
+
+  const handleContinue = useCallback(() => {
+    setLastAnswer(null);
     if (isSessionComplete) {
-      // Record session completion
+      setPhase("summary");
       if (sessionStats) {
         recordSession({
           mode,
@@ -136,20 +137,17 @@ export function TrainingSession({
       }
     } else {
       nextQuestion();
+      setPhase("question");
     }
   }, [isSessionComplete, sessionStats, mode, progress.currentDifficulty, recordSession, nextQuestion]);
 
   const handleFeynmanComplete = useCallback((passed: boolean) => {
-    if (!passed) {
-      resetFeynmanStreak();
-    }
-    setShowFeynman(false);
-    setShowFeedback(true);
-  }, [resetFeynmanStreak]);
+    if (!passed) resetCorrectStreak();
+    setPhase("feedback");
+  }, [resetCorrectStreak]);
 
   const handleFeynmanSkip = useCallback(() => {
-    setShowFeynman(false);
-    setShowFeedback(true);
+    setPhase("feedback");
   }, []);
 
   const handleExit = useCallback(() => {
@@ -160,12 +158,13 @@ export function TrainingSession({
   const handleRestart = useCallback(() => {
     endSession();
     startSession(mode, categoryFilter, contextFilter);
+    setPhase("question");
+    setLastAnswer(null);
   }, [endSession, startSession, mode, categoryFilter, contextFilter]);
 
   const progressInfo = getProgressInSession();
 
-  // Show session summary once the last question's feedback has been dismissed
-  if (isSessionComplete && sessionStats && !showFeedback && !showFeynman) {
+  if (phase === "summary" && sessionStats) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <SessionSummary
@@ -218,13 +217,13 @@ export function TrainingSession({
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center p-4 md:p-8">
-        {showFeynman && questionForFeynman ? (
+        {phase === "feynman" && questionForFeynman ? (
           <FeynmanChallenge
             question={questionForFeynman}
             onComplete={handleFeynmanComplete}
             onSkip={handleFeynmanSkip}
           />
-        ) : showFeedback ? (
+        ) : phase === "feedback" ? (
           <FeedbackPanel
             question={currentQuestion}
             attempts={lastAnswer?.attempts || 0}

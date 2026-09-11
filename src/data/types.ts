@@ -68,10 +68,9 @@ export interface UserProgress {
   lastUpdated: number;
   totalQuestionsAnswered: number;
   sessionsCompleted: number;
-  consecutiveCorrect: number;
+  correctStreak: number;
   recentResults: boolean[];
   seenQuestionIds: string[];
-  feynmanStreak: number;
   isFirstTime: boolean;
 }
 

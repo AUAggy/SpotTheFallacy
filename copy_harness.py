@@ -30,7 +30,7 @@ FRESH = {
     "preferences": {"theme": "light", "showOnboarding": False},
     "lastUpdated": int(time.time() * 1000), "totalQuestionsAnswered": 0,
     "sessionsCompleted": 0, "consecutiveCorrect": 0, "recentResults": [],
-    "seenQuestionIds": [], "feynmanStreak": 0, "isFirstTime": False,
+    "seenQuestionIds": [], "correctStreak": 0, "isFirstTime": False,
 }
 
 OVERFLOW_JS = """() => {
@@ -175,7 +175,7 @@ def challenge_flow(browser, vp, w, h, truth):
 
 def training_feynman_flow(browser, vp, w, h, truth):
     ctx = browser.new_context(viewport={"width": w, "height": h})
-    page = capture(ctx, seed_overrides={"feynmanStreak": 3})
+    page = capture(ctx, seed_overrides={"correctStreak": 3})
     page.goto(BASE, wait_until="networkidle")
     opt_btn(page, "Start Training").click()
     page.wait_for_selector("header span", timeout=5000)
