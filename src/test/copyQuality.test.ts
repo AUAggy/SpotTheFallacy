@@ -112,20 +112,15 @@ describe("copy: coverage and correctness", () => {
     }
   });
 
-  // TEMPORARY allowlist until Phase 4 of plans/fallacy-trainer-v2.md adds these
-  // as real fallacies. They are filler distractors left by the old generator.
-  // After Phase 4: DELETE this allowlist - the gate must then be strict.
-  const KNOWN_PHANTOMS = new Set(["Slippery Slope", "Fallacy of Division"]);
-
-  it("every answer option resolves to a real fallacy (no phantoms beyond the Phase-4 allowlist)", () => {
+  it("every answer option resolves to a real fallacy (no phantoms)", () => {
     const names = new Set(enhancedFallacies.map(f => f.name));
     const unknown = new Set<string>();
     for (const q of enhancedQuestions) {
       for (const opt of q.options) {
-        if (!names.has(opt) && !KNOWN_PHANTOMS.has(opt)) unknown.add(opt);
+        if (!names.has(opt)) unknown.add(opt);
       }
     }
-    expect([...unknown], "new phantom options found").toEqual([]);
+    expect([...unknown], "phantom options found").toEqual([]);
   });
 
   it("every question has exactly one correct answer, present in its options", () => {
@@ -148,12 +143,10 @@ describe("copy: coverage and correctness", () => {
       for (const [opt, exp] of Object.entries(q.optionExplanations)) {
         expect(exp).not.toContain("undefined");
         expect(exp, `${q.id} explanation for "${opt}" still has "..."`).not.toContain("...");
-        if (!KNOWN_PHANTOMS.has(opt)) {
-          expect(
-            exp.toLowerCase().includes(opt.toLowerCase()),
-            `${q.id} explanation for "${opt}" does not name it: ${exp}`
-          ).toBe(true);
-        }
+        expect(
+          exp.toLowerCase().includes(opt.toLowerCase()),
+          `${q.id} explanation for "${opt}" does not name it: ${exp}`
+        ).toBe(true);
       }
     }
   });

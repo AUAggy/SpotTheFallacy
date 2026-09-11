@@ -11,45 +11,51 @@ import fallaciesData from "./fallacies.json";
 import questionsData from "./quiz-questions.json";
 
 // Category mappings based on fallacy characteristics
+// Category mappings based on fallacy characteristics
 const categoryMappings: Record<string, FallacyCategory> = {
   "Ad Hominem": "Personal Attack",
+  "Straw Man": "Misrepresentation",
+  "Scapegoat": "Personal Attack",
+  "No True Scotsman": "Misrepresentation",
   "Tu Quoque": "Personal Attack",
   "Argument from Motive": "Personal Attack",
-  "Scapegoat": "Personal Attack",
-
-  "Straw Man": "Misrepresentation",
   "Red Herring": "Misrepresentation",
-  "Cherry Picking": "Misrepresentation",
-  "Equivocation": "Misrepresentation",
-  "Moving the Goalposts": "Misrepresentation",
-
   "Appeal to Nature": "Emotional Manipulation",
+  "Appeal to Authority": "False Authority",
+  "Appeal to Probability": "Faulty Logic",
   "Appeal to Tradition": "Emotional Manipulation",
   "Appeal to Popularity": "Emotional Manipulation",
   "Appeal to Novelty": "Emotional Manipulation",
-  "Appeal to Emotion": "Emotional Manipulation",
-
-  "Appeal to Authority": "False Authority",
-
-  "Appeal to Probability": "Faulty Logic",
+  "Cherry Picking": "Misrepresentation",
   "Gambler's Fallacy": "Faulty Logic",
+  "Texas Sharpshooter": "Causal Errors",
   "Non Sequitur": "Faulty Logic",
+  "Magical Thinking": "Causal Errors",
+  "Moving the Goalposts": "Misrepresentation",
+  "Overgeneralization": "Causal Errors",
+  "Appeal to Emotion": "Emotional Manipulation",
   "False Dilemma": "Faulty Logic",
+  "Appeal to Ignorance": "Faulty Logic",
+  "Sunk-Cost Fallacy": "Causal Errors",
+  "Nirvana Fallacy": "Faulty Logic",
   "Begging the Question": "Faulty Logic",
   "Denying the Antecedent": "Faulty Logic",
+  "Definist Fallacy": "Faulty Logic",
   "Affirming the Consequent": "Faulty Logic",
   "Fallacy Fallacy": "Faulty Logic",
-  "Definist Fallacy": "Faulty Logic",
+  "Equivocation": "Misrepresentation",
   "Continuum Fallacy": "Faulty Logic",
   "Fallacy of Composition": "Faulty Logic",
-  "Appeal to Ignorance": "Faulty Logic",
-  "Nirvana Fallacy": "Faulty Logic",
-
-  "Texas Sharpshooter": "Causal Errors",
-  "Magical Thinking": "Causal Errors",
-  "Overgeneralization": "Causal Errors",
-  "Sunk-Cost Fallacy": "Causal Errors",
-  "No True Scotsman": "Misrepresentation",
+  "Slippery Slope": "Causal Errors",
+  "Appeal to Fear": "Emotional Manipulation",
+  "Argument to Moderation": "Faulty Logic",
+  "Post Hoc": "Causal Errors",
+  "Loaded Question": "Faulty Logic",
+  "Guilt by Association": "Personal Attack",
+  "Motte-and-Bailey": "Misrepresentation",
+  "Appeal to AI Authority": "False Authority",
+  "Manufactured Consensus": "Emotional Manipulation",
+  "Fallacy of Division": "Faulty Logic",
 };
 
 // Structure diagrams for each fallacy
@@ -67,7 +73,6 @@ const structureDiagrams: Record<string, string> = {
 ┌─────────────────────┐
 │ "Therefore X false" │
 └─────────────────────┘`,
-
   "Straw Man": `┌─────────────────────┐
 │  Person A claims X  │
 └──────────┬──────────┘
@@ -81,49 +86,32 @@ const structureDiagrams: Record<string, string> = {
 ┌─────────────────────┐
 │   Attack Y instead  │
 └─────────────────────┘`,
-
-  "Appeal to Authority": `┌─────────────────────┐
-│ Authority says X    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ No relevant proof   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│  "Therefore X true" │
+  "Scapegoat": `┌──────────────────────┐
+│ A problem appears   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Blame group B for it│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Real cause ignored  │
 └─────────────────────┘`,
-
-  "Red Herring": `┌─────────────────────┐
-│   Topic A raised    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Introduce Topic B   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Topic A forgotten   │
+  "No True Scotsman": `┌──────────────────────┐
+│ Always done this way│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Counterexample shown│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Not a TRUE member   │
 └─────────────────────┘`,
-
-  "Appeal to Nature": `┌─────────────────────┐
-│    X is natural     │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Natural = Good      │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│  "Therefore X good" │
-└─────────────────────┘`,
-
   "Tu Quoque": `┌─────────────────────┐
 │  A criticizes B     │
 └──────────┬──────────┘
@@ -137,7 +125,123 @@ const structureDiagrams: Record<string, string> = {
 ┌─────────────────────┐
 │ Criticism dismissed │
 └─────────────────────┘`,
-
+  "Argument from Motive": `┌──────────────────────┐
+│ A argues for claim X│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ A's motive questioned│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is false       │
+└─────────────────────┘`,
+  "Red Herring": `┌─────────────────────┐
+│   Topic A raised    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Introduce Topic B   │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Topic A forgotten   │
+└─────────────────────┘`,
+  "Appeal to Nature": `┌─────────────────────┐
+│    X is natural     │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Natural = Good      │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  "Therefore X good" │
+└─────────────────────┘`,
+  "Appeal to Authority": `┌─────────────────────┐
+│ Authority says X    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ No relevant proof   │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  "Therefore X true" │
+└─────────────────────┘`,
+  "Appeal to Probability": `┌──────────────────────┐
+│ X could happen      │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Might treated as will│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X will happen    │
+└─────────────────────┘`,
+  "Appeal to Tradition": `┌──────────────────────┐
+│ Always done this way│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Age is the only proof│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So keep doing it    │
+└─────────────────────┘`,
+  "Appeal to Popularity": `┌──────────────────────┐
+│ Many believe X      │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Popularity as proof │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is true        │
+└─────────────────────┘`,
+  "Appeal to Novelty": `┌──────────────────────┐
+│ X is the newest thing│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Newness as merit    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is better      │
+└─────────────────────┘`,
+  "Cherry Picking": `┌──────────────────────┐
+│ Evidence: A, B, C   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Show only what fits │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Skewed conclusion   │
+└─────────────────────┘`,
   "Gambler's Fallacy": `┌─────────────────────┐
 │ Event happened N    │
 │    times in a row   │
@@ -153,7 +257,84 @@ const structureDiagrams: Record<string, string> = {
 │ Independent events  │
 │  wrongly connected  │
 └─────────────────────┘`,
-
+  "Texas Sharpshooter": `┌──────────────────────┐
+│ Data scattered widely│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Circle drawn later  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Called a pattern    │
+└─────────────────────┘`,
+  "Non Sequitur": `┌──────────────────────┐
+│ Premise about A     │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Conclusion about B  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No logical bridge   │
+└─────────────────────┘`,
+  "Magical Thinking": `┌──────────────────────┐
+│ A happens, then B   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No physical link    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ A must have caused B│
+└─────────────────────┘`,
+  "Moving the Goalposts": `┌──────────────────────┐
+│ A meets the demand  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ New, stricter demand│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Never satisfied     │
+└─────────────────────┘`,
+  "Overgeneralization": `┌──────────────────────┐
+│ A few cases seen    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Assumed true for all│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Sweeping rule issued│
+└─────────────────────┘`,
+  "Appeal to Emotion": `┌──────────────────────┐
+│ X feels wrong       │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Feeling as evidence │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is wrong       │
+└─────────────────────┘`,
   "False Dilemma": `┌─────────────────────┐
 │  Only A or B exist  │
 └──────────┬──────────┘
@@ -167,21 +348,19 @@ const structureDiagrams: Record<string, string> = {
 ┌─────────────────────┐
 │  Forced false choice│
 └─────────────────────┘`,
-
-  "Begging the Question": `┌─────────────────────┐
-│    Assume X true    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Use X to prove X    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│   Circular logic    │
+  "Appeal to Ignorance": `┌──────────────────────┐
+│ Prove X is NOT real │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No disproof found   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is real        │
 └─────────────────────┘`,
-
   "Sunk-Cost Fallacy": `┌─────────────────────┐
 │  Already invested X │
 └──────────┬──────────┘
@@ -196,218 +375,6 @@ const structureDiagrams: Record<string, string> = {
 │ Past cost dictates  │
 │  future decisions   │
 └─────────────────────┘`,
-
-
-  "Scapegoat": `┌──────────────────────┐
-│ A problem appears   │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Blame group B for it│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Real cause ignored  │
-└─────────────────────┘`,
-
-  "No True Scotsman": `┌──────────────────────┐
-│ Always done this way│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Counterexample shown│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Not a TRUE member   │
-└─────────────────────┘`,
-
-  "Argument from Motive": `┌──────────────────────┐
-│ A argues for claim X│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ A's motive questioned│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is false       │
-└─────────────────────┘`,
-
-  "Appeal to Probability": `┌──────────────────────┐
-│ X could happen      │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Might treated as will│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X will happen    │
-└─────────────────────┘`,
-
-  "Appeal to Tradition": `┌──────────────────────┐
-│ Always done this way│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Age is the only proof│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So keep doing it    │
-└─────────────────────┘`,
-
-  "Appeal to Popularity": `┌──────────────────────┐
-│ Many believe X      │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Popularity as proof │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is true        │
-└─────────────────────┘`,
-
-  "Appeal to Novelty": `┌──────────────────────┐
-│ X is the newest thing│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Newness as merit    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is better      │
-└─────────────────────┘`,
-
-  "Cherry Picking": `┌──────────────────────┐
-│ Evidence: A, B, C   │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Show only what fits │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Skewed conclusion   │
-└─────────────────────┘`,
-
-  "Texas Sharpshooter": `┌──────────────────────┐
-│ Data scattered widely│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Circle drawn later  │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Called a pattern    │
-└─────────────────────┘`,
-
-  "Non Sequitur": `┌──────────────────────┐
-│ Premise about A     │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Conclusion about B  │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ No logical bridge   │
-└─────────────────────┘`,
-
-  "Magical Thinking": `┌──────────────────────┐
-│ A happens, then B   │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ No physical link    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ A must have caused B│
-└─────────────────────┘`,
-
-  "Moving the Goalposts": `┌──────────────────────┐
-│ A meets the demand  │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ New, stricter demand│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Never satisfied     │
-└─────────────────────┘`,
-
-  "Overgeneralization": `┌──────────────────────┐
-│ A few cases seen    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Assumed true for all│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Sweeping rule issued│
-└─────────────────────┘`,
-
-  "Appeal to Emotion": `┌──────────────────────┐
-│ X feels wrong       │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Feeling as evidence │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is wrong       │
-└─────────────────────┘`,
-
-  "Appeal to Ignorance": `┌──────────────────────┐
-│ Prove X is NOT real │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ No disproof found   │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is real        │
-└─────────────────────┘`,
-
   "Nirvana Fallacy": `┌──────────────────────┐
 │ Fix has some flaws  │
 └────┬────────────────┘
@@ -421,7 +388,19 @@ const structureDiagrams: Record<string, string> = {
 ┌──────────────────────┐
 │ So reject the fix   │
 └─────────────────────┘`,
-
+  "Begging the Question": `┌─────────────────────┐
+│    Assume X true    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Use X to prove X    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│   Circular logic    │
+└─────────────────────┘`,
   "Denying the Antecedent": `┌──────────────────────┐
 │ If P, then Q        │
 └────┬────────────────┘
@@ -435,77 +414,6 @@ const structureDiagrams: Record<string, string> = {
 ┌──────────────────────┐
 │ So Q is false       │
 └─────────────────────┘`,
-
-  "Affirming the Consequent": `┌──────────────────────┐
-│ If P, then Q        │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Q is true           │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So P is true        │
-└─────────────────────┘`,
-
-  "Fallacy Fallacy": `┌──────────────────────┐
-│ Argument for X is bad│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Flaw pointed out    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So X is false       │
-└─────────────────────┘`,
-
-  "Equivocation": `┌──────────────────────┐
-│ Term used in sense 1│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Premise accepted    │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Sense 2 in conclusion│
-└─────────────────────┘`,
-
-  "Continuum Fallacy": `┌──────────────────────┐
-│ A and B differ slowly│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ No exact line drawn │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ So A equals B       │
-└─────────────────────┘`,
-
-  "Fallacy of Composition": `┌──────────────────────┐
-│ Each part has trait T│
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Parts form a whole  │
-└────┬────────────────┘
-     │
-     ▼
-┌──────────────────────┐
-│ Whole has trait T   │
-└─────────────────────┘`,
-
   "Definist Fallacy": `┌──────────────────────┐
 │ Term defined to win │
 └────┬────────────────┘
@@ -519,7 +427,203 @@ const structureDiagrams: Record<string, string> = {
 ┌──────────────────────┐
 │ Opponent can't engage│
 └─────────────────────┘`,
+  "Affirming the Consequent": `┌──────────────────────┐
+│ If P, then Q        │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Q is true           │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So P is true        │
+└─────────────────────┘`,
+  "Fallacy Fallacy": `┌──────────────────────┐
+│ Argument for X is bad│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Flaw pointed out    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is false       │
+└─────────────────────┘`,
+  "Equivocation": `┌──────────────────────┐
+│ Term used in sense 1│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Premise accepted    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Sense 2 in conclusion│
+└─────────────────────┘`,
+  "Continuum Fallacy": `┌──────────────────────┐
+│ A and B differ slowly│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No exact line drawn │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So A equals B       │
+└─────────────────────┘`,
+  "Fallacy of Composition": `┌──────────────────────┐
+│ Each part has trait T│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Parts form a whole  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Whole has trait T   │
+└─────────────────────┘`,
+  "Slippery Slope": `┌────────────────────────┐
+│ One small step taken  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Unproven event chain  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Disaster declared     │
+└───────────────────────┘`,
+  "Appeal to Fear": `┌────────────────────────┐
+│ Scary outcome painted │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Fear replaces evidence│
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Claim accepted        │
+└───────────────────────┘`,
+  "Argument to Moderation": `┌────────────────────────┐
+│ Two sides argued      │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Split the difference  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Midpoint called true  │
+└───────────────────────┘`,
+  "Post Hoc": `┌────────────────────────┐
+│ A happens, then B     │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Other causes ignored  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ A blamed for B        │
+└───────────────────────┘`,
+  "Loaded Question": `┌────────────────────────┐
+│ Question hides a claim│
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Any answer looks guilty│
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Assumption 'proven'   │
+└───────────────────────┘`,
+  "Guilt by Association": `┌────────────────────────┐
+│ Group B backs X       │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ B is disliked         │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ So X is rejected      │
+└───────────────────────┘`,
+  "Motte-and-Bailey": `┌────────────────────────┐
+│ Bold claim made       │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Pressed for evidence  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Retreat to safe claim │
+└───────────────────────┘`,
+  "Appeal to AI Authority": `┌────────────────────────┐
+│ The AI says X         │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Reliability unproven  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ X treated as fact     │
+└───────────────────────┘`,
+  "Manufactured Consensus": `┌────────────────────────┐
+│ Fake crowd created    │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Agreement looks huge  │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Doubters give in      │
+└───────────────────────┘`,
+  "Fallacy of Division": `┌────────────────────────┐
+│ Whole has trait T     │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Parts examined        │
+└────┬──────────────────┘
+     │
+     ▼
+┌────────────────────────┐
+│ Each part called T    │
+└───────────────────────┘`,
 };
+
 // Default structure diagram for fallacies without specific ones
 const defaultDiagram = `┌─────────────────────┐
 │   Flawed premise    │
@@ -537,11 +641,427 @@ const defaultDiagram = `┌─────────────────�
 
 // Key terms for Feynman technique evaluation
 const keyTermsMap: Record<string, string[]> = {
-  "Ad Hominem": ["person", "character", "attack", "irrelevant", "argument", "not the point"],  "Straw Man": ["misrepresent", "distort", "exaggerate", "not what", "twist", "easier to attack"],  "Appeal to Authority": ["expert", "relevant", "qualified", "evidence", "credentials", "field"],  "Red Herring": ["distract", "divert", "irrelevant", "change subject", "avoid", "sidestep"],  "Tu Quoque": ["hypocrisy", "you too", "you also", "doesn't change", "still valid"],  "Appeal to Nature": ["natural", "unnatural", "doesn't mean", "good or bad", "naturalistic"],  "Gambler's Fallacy": ["independent", "probability", "due", "random", "past doesn't affect"],  "False Dilemma": ["false dilemma", "only two", "other options", "more choices", "spectrum"],  "Begging the Question": ["circular", "assume", "conclusion in premise", "presuppose"],  "Sunk-Cost Fallacy": ["already spent", "past investment", "future value", "cut losses"],  "Scapegoat": ["blame", "deflect", "not responsible", "target", "unfair"],  "No True Scotsman": ["redefine", "move definition", "exclude", "ad hoc", "protect claim"],  "Appeal to Tradition": ["always done", "old", "tradition", "doesn't prove", "past"],  "Appeal to Popularity": ["everyone", "popular", "bandwagon", "many people", "doesn't prove"],  "Cherry Picking": ["select", "ignore", "convenient", "incomplete", "biased sample"],  "Non Sequitur": ["doesn't follow", "unrelated", "no connection", "leap", "random"],  "Appeal to Novelty": ["new", "modern", "latest", "doesn't mean better", "recency"],  "Moving the Goalposts": ["change criteria", "new demand", "never satisfied", "shift"],  "Overgeneralization": ["one case", "all", "hasty", "sample too small", "stereotype"],  "Appeal to Emotion": ["feel", "emotion", "gut", "intuition", "not evidence"],  "Nirvana Fallacy": ["perfect", "ideal", "imperfect solution", "better than nothing"],  "Appeal to Probability": ["could happen", "might", "possible", "not inevitable"],  "Texas Sharpshooter": ["pattern", "coincidence", "after the fact", "data mining"],  "Magical Thinking": ["superstition", "luck", "causation", "correlation"],  "Argument from Motive": ["motive", "reason", "doesn't affect truth", "bias"],  "Appeal to Ignorance": ["can't prove negative", "absence of evidence", "burden of proof"],  "Denying the Antecedent": ["if then", "inverse", "not valid", "formal fallacy"],  "Affirming the Consequent": ["if then", "converse", "not valid", "formal fallacy"],  "Definist Fallacy": ["define", "rigged definition", "loaded", "circular definition"],  "Fallacy Fallacy": ["bad argument", "still true", "conclusion could be right"],  "Equivocation": ["multiple meanings", "shift meaning", "ambiguous", "word play"],  "Continuum Fallacy": ["no clear line", "gradual", "heap", "sorites"],  "Fallacy of Composition": ["part", "whole", "doesn't transfer", "individual vs group"],};
+  "Ad Hominem": [
+    "person",
+    "character",
+    "attack",
+    "irrelevant",
+    "argument",
+    "not the point"
+],
+  "Straw Man": [
+    "misrepresent",
+    "distort",
+    "exaggerate",
+    "not what",
+    "twist",
+    "easier to attack"
+],
+  "Scapegoat": [
+    "blame",
+    "deflect",
+    "not responsible",
+    "target",
+    "unfair"
+],
+  "No True Scotsman": [
+    "redefine",
+    "move definition",
+    "exclude",
+    "ad hoc",
+    "protect claim"
+],
+  "Tu Quoque": [
+    "hypocrisy",
+    "you too",
+    "you also",
+    "doesn't change",
+    "still valid"
+],
+  "Argument from Motive": [
+    "motive",
+    "reason",
+    "doesn't affect truth",
+    "bias"
+],
+  "Red Herring": [
+    "distract",
+    "divert",
+    "irrelevant",
+    "change subject",
+    "avoid",
+    "sidestep"
+],
+  "Appeal to Nature": [
+    "natural",
+    "unnatural",
+    "doesn't mean",
+    "good or bad",
+    "naturalistic"
+],
+  "Appeal to Authority": [
+    "expert",
+    "relevant",
+    "qualified",
+    "evidence",
+    "credentials",
+    "field"
+],
+  "Appeal to Probability": [
+    "could happen",
+    "might",
+    "possible",
+    "not inevitable"
+],
+  "Appeal to Tradition": [
+    "always done",
+    "old",
+    "tradition",
+    "doesn't prove",
+    "past"
+],
+  "Appeal to Popularity": [
+    "everyone",
+    "popular",
+    "bandwagon",
+    "many people",
+    "doesn't prove"
+],
+  "Appeal to Novelty": [
+    "new",
+    "modern",
+    "latest",
+    "doesn't mean better",
+    "recency"
+],
+  "Cherry Picking": [
+    "select",
+    "ignore",
+    "convenient",
+    "incomplete",
+    "biased sample"
+],
+  "Gambler's Fallacy": [
+    "independent",
+    "probability",
+    "due",
+    "random",
+    "past doesn't affect"
+],
+  "Texas Sharpshooter": [
+    "pattern",
+    "coincidence",
+    "after the fact",
+    "data mining"
+],
+  "Non Sequitur": [
+    "doesn't follow",
+    "unrelated",
+    "no connection",
+    "leap",
+    "random"
+],
+  "Magical Thinking": [
+    "superstition",
+    "luck",
+    "causation",
+    "correlation"
+],
+  "Moving the Goalposts": [
+    "change criteria",
+    "new demand",
+    "never satisfied",
+    "shift"
+],
+  "Overgeneralization": [
+    "one case",
+    "all",
+    "hasty",
+    "sample too small",
+    "stereotype"
+],
+  "Appeal to Emotion": [
+    "feel",
+    "emotion",
+    "gut",
+    "intuition",
+    "not evidence"
+],
+  "False Dilemma": [
+    "false dilemma",
+    "only two",
+    "other options",
+    "more choices",
+    "spectrum"
+],
+  "Appeal to Ignorance": [
+    "can't prove negative",
+    "absence of evidence",
+    "burden of proof"
+],
+  "Sunk-Cost Fallacy": [
+    "already spent",
+    "past investment",
+    "future value",
+    "cut losses"
+],
+  "Nirvana Fallacy": [
+    "perfect",
+    "ideal",
+    "imperfect solution",
+    "better than nothing"
+],
+  "Begging the Question": [
+    "circular",
+    "assume",
+    "conclusion in premise",
+    "presuppose"
+],
+  "Denying the Antecedent": [
+    "if then",
+    "inverse",
+    "not valid",
+    "formal fallacy"
+],
+  "Definist Fallacy": [
+    "define",
+    "rigged definition",
+    "loaded",
+    "circular definition"
+],
+  "Affirming the Consequent": [
+    "if then",
+    "converse",
+    "not valid",
+    "formal fallacy"
+],
+  "Fallacy Fallacy": [
+    "bad argument",
+    "still true",
+    "conclusion could be right"
+],
+  "Equivocation": [
+    "multiple meanings",
+    "shift meaning",
+    "ambiguous",
+    "word play"
+],
+  "Continuum Fallacy": [
+    "no clear line",
+    "gradual",
+    "heap",
+    "sorites"
+],
+  "Fallacy of Composition": [
+    "part",
+    "whole",
+    "doesn't transfer",
+    "individual vs group"
+],
+  "Slippery Slope": [
+    "chain reaction",
+    "small step",
+    "cascade",
+    "extreme outcome",
+    "unproven chain"
+],
+  "Appeal to Fear": [
+    "fear",
+    "threat",
+    "scare tactic",
+    "danger",
+    "intimidation"
+],
+  "Argument to Moderation": [
+    "middle ground",
+    "compromise",
+    "moderation",
+    "halfway",
+    "split the difference"
+],
+  "Post Hoc": [
+    "after this",
+    "cause",
+    "sequence",
+    "coincidence",
+    "because of"
+],
+  "Loaded Question": [
+    "presuppose",
+    "assumption",
+    "trap",
+    "loaded",
+    "entrapment"
+],
+  "Guilt by Association": [
+    "association",
+    "guilt",
+    "group",
+    "company keeps",
+    "linked to"
+],
+  "Motte-and-Bailey": [
+    "retreat",
+    "bold claim",
+    "safe claim",
+    "walk back",
+    "reposition"
+],
+  "Appeal to AI Authority": [
+    "AI",
+    "algorithm",
+    "chatbot",
+    "automation",
+    "model"
+],
+  "Manufactured Consensus": [
+    "bots",
+    "fake reviews",
+    "astroturf",
+    "paid actors",
+    "artificial support"
+],
+  "Fallacy of Division": [
+    "whole to part",
+    "each member",
+    "division",
+    "distribute",
+    "parts share"
+],
+};
 
 // Confusion pairs - fallacies often mistaken for each other
 const confusionPairs: Record<string, string[]> = {
-  "Ad Hominem": ["Tu Quoque", "Argument from Motive"],  "Tu Quoque": ["Ad Hominem", "Red Herring"],  "Straw Man": ["Red Herring", "Ad Hominem"],  "Red Herring": ["Straw Man", "Tu Quoque"],  "False Dilemma": ["Nirvana Fallacy", "Appeal to Probability"],  "Appeal to Authority": ["Appeal to Popularity", "Argument from Motive"],  "Appeal to Popularity": ["Appeal to Authority", "Appeal to Tradition"],  "Appeal to Tradition": ["Appeal to Nature", "Appeal to Popularity"],  "Appeal to Nature": ["Appeal to Tradition", "Appeal to Emotion"],  "Cherry Picking": ["Texas Sharpshooter", "Overgeneralization"],  "Texas Sharpshooter": ["Cherry Picking", "Gambler's Fallacy"],  "Gambler's Fallacy": ["Appeal to Probability", "Texas Sharpshooter"],  "Appeal to Probability": ["Gambler's Fallacy", "Magical Thinking"],  "Denying the Antecedent": ["Affirming the Consequent", "Non Sequitur"],  "Affirming the Consequent": ["Denying the Antecedent", "Non Sequitur"],  "No True Scotsman": ["Definist Fallacy", "Moving the Goalposts"],  "Definist Fallacy": ["No True Scotsman", "Begging the Question"],  "Sunk-Cost Fallacy": ["Appeal to Tradition", "Nirvana Fallacy"],  "Nirvana Fallacy": ["False Dilemma", "Sunk-Cost Fallacy"],};
+  "Ad Hominem": [
+    "Tu Quoque",
+    "Argument from Motive",
+    "Guilt by Association"
+],
+  "Straw Man": [
+    "Red Herring",
+    "Ad Hominem"
+],
+  "No True Scotsman": [
+    "Definist Fallacy",
+    "Moving the Goalposts"
+],
+  "Tu Quoque": [
+    "Ad Hominem",
+    "Red Herring"
+],
+  "Red Herring": [
+    "Straw Man",
+    "Tu Quoque"
+],
+  "Appeal to Nature": [
+    "Appeal to Tradition",
+    "Appeal to Emotion"
+],
+  "Appeal to Authority": [
+    "Appeal to Popularity",
+    "Argument from Motive",
+    "Appeal to AI Authority"
+],
+  "Appeal to Probability": [
+    "Gambler's Fallacy",
+    "Magical Thinking",
+    "Slippery Slope"
+],
+  "Appeal to Tradition": [
+    "Appeal to Nature",
+    "Appeal to Popularity"
+],
+  "Appeal to Popularity": [
+    "Appeal to Authority",
+    "Appeal to Tradition",
+    "Manufactured Consensus"
+],
+  "Cherry Picking": [
+    "Texas Sharpshooter",
+    "Overgeneralization"
+],
+  "Gambler's Fallacy": [
+    "Appeal to Probability",
+    "Texas Sharpshooter"
+],
+  "Texas Sharpshooter": [
+    "Cherry Picking",
+    "Gambler's Fallacy"
+],
+  "Appeal to Emotion": [
+    "Appeal to Fear",
+    "Appeal to Nature"
+],
+  "False Dilemma": [
+    "Nirvana Fallacy",
+    "Appeal to Probability"
+],
+  "Sunk-Cost Fallacy": [
+    "Appeal to Tradition",
+    "Nirvana Fallacy"
+],
+  "Nirvana Fallacy": [
+    "False Dilemma",
+    "Sunk-Cost Fallacy"
+],
+  "Denying the Antecedent": [
+    "Affirming the Consequent",
+    "Non Sequitur"
+],
+  "Definist Fallacy": [
+    "No True Scotsman",
+    "Begging the Question"
+],
+  "Affirming the Consequent": [
+    "Denying the Antecedent",
+    "Non Sequitur"
+],
+  "Slippery Slope": [
+    "Appeal to Probability",
+    "Post Hoc",
+    "Appeal to Fear"
+],
+  "Appeal to Fear": [
+    "Appeal to Emotion",
+    "Manufactured Consensus"
+],
+  "Argument to Moderation": [
+    "False Dilemma",
+    "Nirvana Fallacy"
+],
+  "Post Hoc": [
+    "Magical Thinking",
+    "Texas Sharpshooter",
+    "Slippery Slope"
+],
+  "Loaded Question": [
+    "Begging the Question",
+    "Straw Man"
+],
+  "Guilt by Association": [
+    "Ad Hominem",
+    "Argument from Motive",
+    "Scapegoat"
+],
+  "Motte-and-Bailey": [
+    "Equivocation",
+    "Moving the Goalposts"
+],
+  "Appeal to AI Authority": [
+    "Appeal to Authority",
+    "Appeal to Novelty"
+],
+  "Manufactured Consensus": [
+    "Appeal to Popularity",
+    "Appeal to Fear"
+],
+  "Fallacy of Division": [
+    "Fallacy of Composition",
+    "Overgeneralization"
+],
+};
+
+// Colloquial and historical alternate names so recognition transfers both ways
 
 // Context detection based on question content
 function detectContexts(question: string): ContextTag[] {
@@ -660,7 +1180,7 @@ function generateOptionExplanations(
 
 // Real-world frequency assessment
 function assessFrequency(fallacyName: string): "common" | "moderate" | "rare" {
-  const common = ["Ad Hominem", "Straw Man", "Appeal to Authority", "Red Herring", "Appeal to Popularity", "False Dilemma", "Tu Quoque"];
+  const common = ["Ad Hominem", "Straw Man", "Appeal to Authority", "Red Herring", "Appeal to Popularity", "False Dilemma", "Tu Quoque", "Slippery Slope", "Appeal to Fear"];
   const rare = ["Continuum Fallacy", "Affirming the Consequent", "Denying the Antecedent"];
 
   if (common.includes(fallacyName)) return "common";
@@ -676,6 +1196,7 @@ const aliasMap: Record<string, string[]> = {
   "Appeal to Popularity": ["Bandwagon Fallacy", "Appeal to the People"],
   "Appeal to Ignorance": ["Proof of Non-existence", "Argument from Ignorance"],
   "Begging the Question": ["Circular Reasoning"],
+
 };
 
 // Main enhancement functions

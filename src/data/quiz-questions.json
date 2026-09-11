@@ -1087,5 +1087,335 @@
       "Non Sequitur"
     ],
     "correct_answer": "Fallacy of Composition"
+  },
+  {
+    "fallacy_name": "Slippery Slope",
+    "question": "The student council proposes adding one more vending machine. A teacher responds, 'First it's vending machines, then it's a soda empire in every hallway, and within two years this school will exist only to sell snacks.' This is an example of...",
+    "options": [
+      "Slippery Slope",
+      "Appeal to Fear",
+      "Overgeneralization",
+      "Red Herring"
+    ],
+    "correct_answer": "Slippery Slope"
+  },
+  {
+    "fallacy_name": "Slippery Slope",
+    "question": "A city council approves painting one new bike lane. A local columnist warns, 'This is how it starts. Soon cars will be banned entirely and nobody will be able to drive to work.' This is an example of...",
+    "options": [
+      "Slippery Slope",
+      "False Dilemma",
+      "Appeal to Authority",
+      "Straw Man"
+    ],
+    "correct_answer": "Slippery Slope"
+  },
+  {
+    "fallacy_name": "Slippery Slope",
+    "question": "A gamer's parents consider limiting gaming to one hour on school nights. He argues, 'If you cut me to one hour today, next month it'll be zero, and then you'll be selling my console.' This is an example of...",
+    "options": [
+      "Slippery Slope",
+      "Appeal to Fear",
+      "False Dilemma",
+      "Sunk-Cost Fallacy"
+    ],
+    "correct_answer": "Slippery Slope"
+  },
+  {
+    "fallacy_name": "Appeal to Fear",
+    "question": "A home security ad shows a masked figure lurking outside a window while a narrator says, 'This could be your house tonight. Call now.' Instead of explaining the product, the ad persuades with...",
+    "options": [
+      "Appeal to Fear",
+      "Appeal to Authority",
+      "Appeal to Popularity",
+      "Non Sequitur"
+    ],
+    "correct_answer": "Appeal to Fear"
+  },
+  {
+    "fallacy_name": "Appeal to Fear",
+    "question": "A class president candidate ends every speech with, 'Vote for me, or watch this school spiral into chaos.' The candidate is relying on...",
+    "options": [
+      "Appeal to Fear",
+      "Appeal to Popularity",
+      "Straw Man",
+      "Ad Hominem"
+    ],
+    "correct_answer": "Appeal to Fear"
+  },
+  {
+    "fallacy_name": "Appeal to Fear",
+    "question": "An email warns, 'Your files WILL be encrypted by hackers unless you download our protector immediately,' and never explains what the product actually does. The email's persuasion is...",
+    "options": [
+      "Appeal to Fear",
+      "Appeal to Novelty",
+      "False Dilemma",
+      "Cherry Picking"
+    ],
+    "correct_answer": "Appeal to Fear"
+  },
+  {
+    "fallacy_name": "Argument to Moderation",
+    "question": "One historian says a battle took place in 1815, another says 1850. A student concludes, 'The truth is in the middle, so it happened around 1832.' This is an example of...",
+    "options": [
+      "Argument to Moderation",
+      "Equivocation",
+      "Appeal to Authority",
+      "Non Sequitur"
+    ],
+    "correct_answer": "Argument to Moderation"
+  },
+  {
+    "fallacy_name": "Argument to Moderation",
+    "question": "One friend says a movie ends happily, another says it ends tragically. A third, who hasn't watched it, says, 'It must end both ways at once.' This is an example of...",
+    "options": [
+      "Argument to Moderation",
+      "False Dilemma",
+      "Equivocation",
+      "Begging the Question"
+    ],
+    "correct_answer": "Argument to Moderation"
+  },
+  {
+    "fallacy_name": "Argument to Moderation",
+    "question": "A chef says the soup needs no salt. A customer says it needs a whole cup. A judge, without tasting it, declares, 'The answer is half a cup.' The judge committed...",
+    "options": [
+      "Argument to Moderation",
+      "Appeal to Authority",
+      "Non Sequitur",
+      "Overgeneralization"
+    ],
+    "correct_answer": "Argument to Moderation"
+  },
+  {
+    "fallacy_name": "Post Hoc",
+    "question": "A soccer player scores right after switching to orange laces, then refuses to play without them, insisting the laces score the goals. This is an example of...",
+    "options": [
+      "Post Hoc",
+      "Overgeneralization",
+      "Gambler's Fallacy",
+      "Slippery Slope"
+    ],
+    "correct_answer": "Post Hoc"
+  },
+  {
+    "fallacy_name": "Post Hoc",
+    "question": "Every time Maya washes her car, it rains the next day. She concludes, 'My car washes cause rain.' This is an example of...",
+    "options": [
+      "Post Hoc",
+      "Texas Sharpshooter",
+      "Magical Thinking",
+      "Appeal to Probability"
+    ],
+    "correct_answer": "Post Hoc"
+  },
+  {
+    "fallacy_name": "Post Hoc",
+    "question": "The school installed new clocks on Monday and test scores rose on Friday. The principal announces, 'The clocks clearly raised our scores,' ignoring the new tutoring program. This is an example of...",
+    "options": [
+      "Post Hoc",
+      "Cherry Picking",
+      "Texas Sharpshooter",
+      "Red Herring"
+    ],
+    "correct_answer": "Post Hoc"
+  },
+  {
+    "fallacy_name": "Loaded Question",
+    "question": "A reporter asks a mayor, 'Why do you keep ignoring the city's housing crisis?' The mayor has actually pushed three housing bills. The question is an example of...",
+    "options": [
+      "Loaded Question",
+      "Begging the Question",
+      "Ad Hominem",
+      "Red Herring"
+    ],
+    "correct_answer": "Loaded Question"
+  },
+  {
+    "fallacy_name": "Loaded Question",
+    "question": "'Have you stopped leaving your trash in my locker?' a student demands of a classmate, who cannot answer yes or no without sounding guilty. This is an example of...",
+    "options": [
+      "Loaded Question",
+      "False Dilemma",
+      "Tu Quoque",
+      "Straw Man"
+    ],
+    "correct_answer": "Loaded Question"
+  },
+  {
+    "fallacy_name": "Loaded Question",
+    "question": "During a debate, one candidate asks the other, 'So when did you decide you were completely out of touch with voters?' This is an example of...",
+    "options": [
+      "Loaded Question",
+      "Ad Hominem",
+      "Moving the Goalposts",
+      "Non Sequitur"
+    ],
+    "correct_answer": "Loaded Question"
+  },
+  {
+    "fallacy_name": "Guilt by Association",
+    "question": "'You like pineapple on pizza? The math team captain likes it too, and everyone knows the math team cheats.' The speaker's reasoning is an example of...",
+    "options": [
+      "Guilt by Association",
+      "Ad Hominem",
+      "Scapegoat",
+      "Red Herring"
+    ],
+    "correct_answer": "Guilt by Association"
+  },
+  {
+    "fallacy_name": "Guilt by Association",
+    "question": "A company rejects a job applicant because one of her references once attended school with a famous fraudster. The company is committing...",
+    "options": [
+      "Guilt by Association",
+      "Ad Hominem",
+      "Non Sequitur",
+      "Appeal to Authority"
+    ],
+    "correct_answer": "Guilt by Association"
+  },
+  {
+    "fallacy_name": "Guilt by Association",
+    "question": "'That charity can't be trustworthy, since a rock star everyone distrusts donated to it.' This dismissal is an example of...",
+    "options": [
+      "Guilt by Association",
+      "Argument from Motive",
+      "Appeal to Novelty",
+      "Straw Man"
+    ],
+    "correct_answer": "Guilt by Association"
+  },
+  {
+    "fallacy_name": "Motte-and-Bailey",
+    "question": "A student announces, 'Homework should be banned forever.' When challenged, she says, 'All I meant was teachers could assign slightly less sometimes.' The retreat is an example of...",
+    "options": [
+      "Motte-and-Bailey",
+      "Moving the Goalposts",
+      "Equivocation",
+      "Red Herring"
+    ],
+    "correct_answer": "Motte-and-Bailey"
+  },
+  {
+    "fallacy_name": "Motte-and-Bailey",
+    "question": "A streamer claims, 'My method guarantees you'll go pro.' When viewers demand proof, he says, 'I just meant practicing helps a little.' This is an example of...",
+    "options": [
+      "Motte-and-Bailey",
+      "Begging the Question",
+      "Appeal to Novelty",
+      "False Dilemma"
+    ],
+    "correct_answer": "Motte-and-Bailey"
+  },
+  {
+    "fallacy_name": "Motte-and-Bailey",
+    "question": "An ad declares, 'This drink cures tiredness.' When regulators complain, the company says, 'We only meant it contains caffeine, which reduces drowsiness.' The switch is an example of...",
+    "options": [
+      "Motte-and-Bailey",
+      "Equivocation",
+      "Cherry Picking",
+      "Appeal to Authority"
+    ],
+    "correct_answer": "Motte-and-Bailey"
+  },
+  {
+    "fallacy_name": "Appeal to AI Authority",
+    "question": "'The chatbot says this crypto coin will 10x, so I'm investing my savings.' Being convinced purely because an AI said so is an example of...",
+    "options": [
+      "Appeal to AI Authority",
+      "Appeal to Authority",
+      "Appeal to Novelty",
+      "Gambler's Fallacy"
+    ],
+    "correct_answer": "Appeal to AI Authority"
+  },
+  {
+    "fallacy_name": "Appeal to AI Authority",
+    "question": "A student submits an essay and tells the teacher, 'It must be accurate, because an AI wrote it.' This reasoning is an example of...",
+    "options": [
+      "Appeal to AI Authority",
+      "Begging the Question",
+      "Appeal to Authority",
+      "Non Sequitur"
+    ],
+    "correct_answer": "Appeal to AI Authority"
+  },
+  {
+    "fallacy_name": "Appeal to AI Authority",
+    "question": "'The recommendation algorithm promoted this news story, so it must be the most important story today.' This is an example of...",
+    "options": [
+      "Appeal to AI Authority",
+      "Appeal to Popularity",
+      "Cherry Picking",
+      "Appeal to Tradition"
+    ],
+    "correct_answer": "Appeal to AI Authority"
+  },
+  {
+    "fallacy_name": "Manufactured Consensus",
+    "question": "A product collects 5,000 five-star reviews in two days, all written in the same style by accounts created the same week. Believing 'everyone loves it' is falling for...",
+    "options": [
+      "Manufactured Consensus",
+      "Appeal to Popularity",
+      "Appeal to Novelty",
+      "Texas Sharpshooter"
+    ],
+    "correct_answer": "Manufactured Consensus"
+  },
+  {
+    "fallacy_name": "Manufactured Consensus",
+    "question": "A political group pays hundreds of accounts to post identical praise online, creating the look of massive support. Counting those posts as real support is an example of...",
+    "options": [
+      "Manufactured Consensus",
+      "Appeal to Popularity",
+      "Cherry Picking",
+      "Red Herring"
+    ],
+    "correct_answer": "Manufactured Consensus"
+  },
+  {
+    "fallacy_name": "Manufactured Consensus",
+    "question": "A restaurant's 'number one in the city!' banner comes from reviews its own staff wrote. Believing the banner is an example of...",
+    "options": [
+      "Manufactured Consensus",
+      "Appeal to Authority",
+      "Appeal to Novelty",
+      "Begging the Question"
+    ],
+    "correct_answer": "Manufactured Consensus"
+  },
+  {
+    "fallacy_name": "Fallacy of Division",
+    "question": "'This airplane weighs 400 tons, so every single bolt in it must weigh 400 tons too.' This is an example of...",
+    "options": [
+      "Fallacy of Division",
+      "Fallacy of Composition",
+      "Overgeneralization",
+      "Non Sequitur"
+    ],
+    "correct_answer": "Fallacy of Division"
+  },
+  {
+    "fallacy_name": "Fallacy of Division",
+    "question": "'The orchestra is world-famous, so every musician in it must be world-famous.' This is an example of...",
+    "options": [
+      "Fallacy of Division",
+      "Fallacy of Composition",
+      "Overgeneralization",
+      "Equivocation"
+    ],
+    "correct_answer": "Fallacy of Division"
+  },
+  {
+    "fallacy_name": "Fallacy of Division",
+    "question": "'Our team is the best in the league, so our newest substitute must be the best player too.' This is an example of...",
+    "options": [
+      "Fallacy of Division",
+      "Fallacy of Composition",
+      "Overgeneralization",
+      "Begging the Question"
+    ],
+    "correct_answer": "Fallacy of Division"
   }
 ]

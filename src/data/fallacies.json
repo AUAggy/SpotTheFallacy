@@ -262,5 +262,85 @@
       "A baby bit me. Therefore, all young kids are violent.",
       "Each player on this team is a star, so the team must be the best in the league."
     ]
+  },
+  {
+    "name": "Slippery Slope",
+    "description": "Claiming that one small step must trigger a chain of events ending in disaster, without proving that any of the links in the chain actually hold.",
+    "examples": [
+      "If we give students one red-pen day, soon they'll demand no grades at all, and the whole school will collapse into chaos.",
+      "Banning one harmful app will lead to banning every app, and then the entire internet will be shut down."
+    ]
+  },
+  {
+    "name": "Appeal to Fear",
+    "description": "Scaring someone into agreement by describing what will happen if they don't agree, instead of giving a reason the claim is true.",
+    "examples": [
+      "Vote for me or your family will not be safe.",
+      "Buy this security system now, or tonight could be the worst night of your life."
+    ]
+  },
+  {
+    "name": "Argument to Moderation",
+    "description": "Assuming the truth must sit exactly halfway between two positions, just because the positions exist.",
+    "examples": [
+      "One expert says the bridge holds 10 tons and another says 2 tons, so it surely holds 6 tons.",
+      "You say the test is Tuesday and I say Thursday, so it must be Wednesday."
+    ]
+  },
+  {
+    "name": "Post Hoc",
+    "description": "Because one thing happened after another, the first thing must have caused the second.",
+    "examples": [
+      "I wore these socks and we won the game, so the socks made us win.",
+      "The rooster crowed and then the sun came up, so the rooster raises the sun."
+    ]
+  },
+  {
+    "name": "Loaded Question",
+    "description": "A question built on an unproven assumption, so that answering it directly makes you look guilty.",
+    "examples": [
+      "Have you stopped copying your homework?",
+      "Why is your whole family so bad at driving?"
+    ]
+  },
+  {
+    "name": "Guilt by Association",
+    "description": "Rejecting a person or idea because of who else is connected to it, rather than on its own merits.",
+    "examples": [
+      "That policy must be bad, since the chess club supports it.",
+      "You can't trust her research; her neighbor was once arrested."
+    ]
+  },
+  {
+    "name": "Motte-and-Bailey",
+    "description": "Defending a bold, exciting claim by quietly retreating to a small, safe one whenever anyone pushes back.",
+    "examples": [
+      "'Homework should be banned' becomes 'teachers could assign a little less' the moment someone objects.",
+      "'This supplement cures illness' becomes 'I only said it supports wellness' when questioned."
+    ]
+  },
+  {
+    "name": "Appeal to AI Authority",
+    "description": "Treating an answer as true just because an AI tool produced it, without checking whether the tool is reliable for that question.",
+    "examples": [
+      "The chatbot said this stock will triple, so it must be a good investment.",
+      "My essay must be correct because an AI wrote it."
+    ]
+  },
+  {
+    "name": "Manufactured Consensus",
+    "description": "Faking the appearance of wide agreement with bots, fake reviews, or paid supporters, then treating that fake popularity as proof.",
+    "examples": [
+      "Five thousand identical five-star reviews appear overnight, so the product must be great.",
+      "One campaign hires a thousand accounts to repeat its slogan, so the slogan must be popular."
+    ]
+  },
+  {
+    "name": "Fallacy of Division",
+    "description": "Assuming that whatever is true of a whole must also be true of each of its parts.",
+    "examples": [
+      "The airplane weighs 400 tons, so every bolt must weigh 400 tons.",
+      "The team is unbeatable, so the newest substitute must be unbeatable too."
+    ]
   }
 ]
