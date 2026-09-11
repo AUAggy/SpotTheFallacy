@@ -12,8 +12,9 @@ describe("fallacy stats migration (schema v2)", () => {
       "Black & White": stats(3),
       "Excluded Middle": stats(2),
     });
-    expect(Object.keys(out)).toEqual(["Black & White"]);
-    expect(out["Black & White"].totalSeen).toBe(5);
+    // both keys chain to the Phase 3 rename target
+    expect(Object.keys(out)).toEqual(["False Dilemma"]);
+    expect(out["False Dilemma"].totalSeen).toBe(5);
   });
 
   it("drops retired fallacies", () => {
