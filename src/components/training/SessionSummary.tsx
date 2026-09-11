@@ -104,7 +104,7 @@ export function SessionSummary({
           </div>
           <div className="p-3 bg-amber-500/10 rounded-lg">
             <Trophy className="h-5 w-5 mx-auto mb-1 text-amber-500" />
-            <div className="font-medium">{streak} days</div>
+            <div className="font-medium">{streak} {streak === 1 ? "day" : "days"}</div>
             <div className="text-xs text-muted-foreground">Current Streak</div>
           </div>
         </div>
