@@ -89,6 +89,11 @@ export function FeedbackPanel({
               {isWrong ? "The correct answer is " : "This is "}
               <strong>{fallacy.name}</strong>
             </p>
+            {fallacy.aliases && fallacy.aliases.length > 0 && (
+              <p className="text-xs text-muted-foreground">
+                Also known as: {fallacy.aliases.join(", ")}
+              </p>
+            )}
           </div>
         </div>
       </CardHeader>

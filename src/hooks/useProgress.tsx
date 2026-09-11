@@ -26,9 +26,12 @@ const SCHEMA_VERSION = 2;
  * player progress survives content updates. Phase 3 appends rename keys.
  */
 const FALLACY_KEY_MIGRATION: Record<string, string> = {
-  "Excluded Middle": "Black & White",
+  "Excluded Middle": "False Dilemma",
   "Appeal to Money": "Appeal to Authority",
   "Suppressed Correlative": "Definist Fallacy",
+  "Black & White": "False Dilemma",
+  "Affective Fallacy": "Appeal to Emotion",
+  "Proof of Non-existence": "Appeal to Ignorance",
 };
 
 const RETIRED_FALLACIES = new Set([

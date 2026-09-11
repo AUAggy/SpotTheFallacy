@@ -16,7 +16,7 @@
     "options": [
       "Ad Hominem",
       "Slippery Slope",
-      "Black & White",
+      "False Dilemma",
       "Appeal to Authority"
     ],
     "correct_answer": "Ad Hominem"
@@ -49,8 +49,8 @@
     "options": [
       "Red Herring",
       "Straw Man",
-      "Proof of Non-existence",
-      "Affective Fallacy"
+      "Appeal to Ignorance",
+      "Appeal to Emotion"
     ],
     "correct_answer": "Straw Man"
   },
@@ -124,7 +124,7 @@
     "fallacy_name": "No True Scotsman",
     "question": "A fan says, 'Any real fan of this band would own all their albums on vinyl.' When a friend says they love the band but only stream their music, the fan scoffs, 'Then you're not a *real* fan.' This is an example of...",
     "options": [
-      "Black & White",
+      "False Dilemma",
       "Ad Hominem",
       "No True Scotsman",
       "Appeal to Popularity"
@@ -158,7 +158,7 @@
     "question": "A manager tells an employee they need to improve their punctuality. The employee replies, 'Well, I saw you come in late twice last week, so you can't talk.' This is a...",
     "options": [
       "Ad Hominem",
-      "Affective Fallacy",
+      "Appeal to Emotion",
       "Tu Quoque",
       "Non Sequitur"
     ],
@@ -179,7 +179,7 @@
     "fallacy_name": "Argument from Motive",
     "question": "A celebrity advocates for a vegetarian diet. Someone comments, 'She's only saying that because she's invested in a company that sells plant-based foods.' This is an example of...",
     "options": [
-      "Affective Fallacy",
+      "Appeal to Emotion",
       "Argument from Motive",
       "Ad Hominem",
       "Straw Man"
@@ -215,7 +215,7 @@
       "Appeal to Tradition",
       "Red Herring",
       "Ad Hominem",
-      "Proof of Non-existence"
+      "Appeal to Ignorance"
     ],
     "correct_answer": "Red Herring"
   },
@@ -248,7 +248,7 @@
       "Appeal to Tradition",
       "Appeal to Nature",
       "Slippery Slope",
-      "Black & White"
+      "False Dilemma"
     ],
     "correct_answer": "Appeal to Nature"
   },
@@ -313,7 +313,7 @@
     "options": [
       "Slippery Slope",
       "Appeal to Probability",
-      "Black & White",
+      "False Dilemma",
       "Appeal to Nature"
     ],
     "correct_answer": "Appeal to Probability"
@@ -346,7 +346,7 @@
     "options": [
       "Red Herring",
       "Appeal to Tradition",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Appeal to Tradition"
@@ -412,7 +412,7 @@
     "options": [
       "Red Herring",
       "Appeal to Novelty",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Appeal to Novelty"
@@ -478,7 +478,7 @@
     "options": [
       "Slippery Slope",
       "Gambler's Fallacy",
-      "Black & White",
+      "False Dilemma",
       "Appeal to Nature"
     ],
     "correct_answer": "Gambler's Fallacy"
@@ -544,7 +544,7 @@
     "options": [
       "Slippery Slope",
       "Non Sequitur",
-      "Black & White",
+      "False Dilemma",
       "Appeal to Nature"
     ],
     "correct_answer": "Non Sequitur"
@@ -577,7 +577,7 @@
     "options": [
       "Slippery Slope",
       "Magical Thinking",
-      "Black & White",
+      "False Dilemma",
       "Appeal to Nature"
     ],
     "correct_answer": "Magical Thinking"
@@ -599,7 +599,7 @@
     "options": [
       "Moving the Goalposts",
       "Slippery Slope",
-      "Black & White",
+      "False Dilemma",
       "Red Herring"
     ],
     "correct_answer": "Moving the Goalposts"
@@ -611,7 +611,7 @@
       "Straw Man",
       "Moving the Goalposts",
       "Ad Hominem",
-      "Affective Fallacy"
+      "Appeal to Emotion"
     ],
     "correct_answer": "Moving the Goalposts"
   },
@@ -660,103 +660,103 @@
     "correct_answer": "Overgeneralization"
   },
   {
-    "fallacy_name": "Affective Fallacy",
+    "fallacy_name": "Appeal to Emotion",
     "question": "Someone argues, 'I don't care what the experts say, I just feel in my gut that this is the right decision.' This is an example of...",
     "options": [
-      "Affective Fallacy",
+      "Appeal to Emotion",
       "Appeal to Authority",
       "Appeal to Popularity",
       "Appeal to Tradition"
     ],
-    "correct_answer": "Affective Fallacy"
+    "correct_answer": "Appeal to Emotion"
   },
   {
-    "fallacy_name": "Affective Fallacy",
+    "fallacy_name": "Appeal to Emotion",
     "question": "A person dismisses a scientific study because the conclusion makes them feel uncomfortable. This is...",
     "options": [
       "Red Herring",
-      "Affective Fallacy",
-      "Black & White",
+      "Appeal to Emotion",
+      "False Dilemma",
       "Slippery Slope"
     ],
-    "correct_answer": "Affective Fallacy"
+    "correct_answer": "Appeal to Emotion"
   },
   {
-    "fallacy_name": "Affective Fallacy",
+    "fallacy_name": "Appeal to Emotion",
     "question": "A jury member decides a defendant is guilty based on a 'bad feeling' they get from them, rather than the evidence presented. This is an example of...",
     "options": [
       "Affirming the Consequent",
       "Argument from Motive",
-      "Affective Fallacy",
+      "Appeal to Emotion",
       "Ad Hominem"
     ],
-    "correct_answer": "Affective Fallacy"
+    "correct_answer": "Appeal to Emotion"
   },
   {
-    "fallacy_name": "Black & White",
+    "fallacy_name": "False Dilemma",
     "question": "A politician tells voters, 'You can either support my plan to fix the economy, or you can watch the country fall into ruin.' This is an example of...",
     "options": [
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope",
       "Red Herring",
       "Straw Man"
     ],
-    "correct_answer": "Black & White"
+    "correct_answer": "False Dilemma"
   },
   {
-    "fallacy_name": "Black & White",
+    "fallacy_name": "False Dilemma",
     "question": "A friend says to another, 'You're either my best friend, or you're my enemy.' This is...",
     "options": [
       "Ad Hominem",
-      "Black & White",
+      "False Dilemma",
       "Tu Quoque",
       "Scapegoat"
     ],
-    "correct_answer": "Black & White"
+    "correct_answer": "False Dilemma"
   },
   {
-    "fallacy_name": "Black & White",
+    "fallacy_name": "False Dilemma",
     "question": "A company tells its employees, 'You can either work overtime this weekend, or you're not a dedicated member of the team.' This is an example of...",
     "options": [
       "Ad Hominem",
       "Argument from Motive",
-      "Black & White",
+      "False Dilemma",
       "Non Sequitur"
     ],
-    "correct_answer": "Black & White"
+    "correct_answer": "False Dilemma"
   },
   {
-    "fallacy_name": "Proof of Non-existence",
+    "fallacy_name": "Appeal to Ignorance",
     "question": "Someone argues, 'No one has ever been able to prove that ghosts don't exist, therefore they must be real.' This is an example of...",
     "options": [
-      "Proof of Non-existence",
+      "Appeal to Ignorance",
       "Red Herring",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
-    "correct_answer": "Proof of Non-existence"
+    "correct_answer": "Appeal to Ignorance"
   },
   {
-    "fallacy_name": "Proof of Non-existence",
+    "fallacy_name": "Appeal to Ignorance",
     "question": "A person claims that a certain herbal remedy cures cancer. When asked for proof, they say, 'No one has ever proven that it *doesn't* work.' This is...",
     "options": [
       "Ad Hominem",
-      "Proof of Non-existence",
+      "Appeal to Ignorance",
       "Tu Quoque",
       "Scapegoat"
     ],
-    "correct_answer": "Proof of Non-existence"
+    "correct_answer": "Appeal to Ignorance"
   },
   {
-    "fallacy_name": "Proof of Non-existence",
+    "fallacy_name": "Appeal to Ignorance",
     "question": "A conspiracy theorist argues that a secret society controls the world. When asked for evidence, they say, 'The fact that there's no evidence is proof of how well they cover their tracks.' This is an example of...",
     "options": [
       "Ad Hominem",
       "Argument from Motive",
-      "Proof of Non-existence",
+      "Appeal to Ignorance",
       "Non Sequitur"
     ],
-    "correct_answer": "Proof of Non-existence"
+    "correct_answer": "Appeal to Ignorance"
   },
   {
     "fallacy_name": "Sunk-Cost Fallacy",
@@ -775,7 +775,7 @@
     "options": [
       "Red Herring",
       "Sunk-Cost Fallacy",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Sunk-Cost Fallacy"
@@ -808,7 +808,7 @@
     "options": [
       "Red Herring",
       "Nirvana Fallacy",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Nirvana Fallacy"
@@ -830,7 +830,7 @@
     "options": [
       "Begging the Question",
       "Red Herring",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Begging the Question"
@@ -864,7 +864,7 @@
       "Denying the Antecedent",
       "Affirming the Consequent",
       "Red Herring",
-      "Black & White"
+      "False Dilemma"
     ],
     "correct_answer": "Denying the Antecedent"
   },
@@ -896,7 +896,7 @@
     "options": [
       "Definist Fallacy",
       "Red Herring",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Definist Fallacy"
@@ -930,7 +930,7 @@
       "Affirming the Consequent",
       "Denying the Antecedent",
       "Red Herring",
-      "Black & White"
+      "False Dilemma"
     ],
     "correct_answer": "Affirming the Consequent"
   },
@@ -962,7 +962,7 @@
     "options": [
       "Fallacy Fallacy",
       "Red Herring",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Fallacy Fallacy"
@@ -995,7 +995,7 @@
     "options": [
       "Equivocation",
       "Red Herring",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Equivocation"
@@ -1028,7 +1028,7 @@
     "options": [
       "Continuum Fallacy",
       "Red Herring",
-      "Black & White",
+      "False Dilemma",
       "Slippery Slope"
     ],
     "correct_answer": "Continuum Fallacy"
@@ -1062,7 +1062,7 @@
       "Fallacy of Composition",
       "Fallacy of Division",
       "Red Herring",
-      "Black & White"
+      "False Dilemma"
     ],
     "correct_answer": "Fallacy of Composition"
   },

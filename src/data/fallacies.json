@@ -160,7 +160,7 @@
     ]
   },
   {
-    "name": "Affective Fallacy",
+    "name": "Appeal to Emotion",
     "description": "The fallacy of assuming that one's emotions or feelings are a valid guide to truth. It's the belief that if something feels right, it must be true.",
     "examples": [
       "This is just how I feel, so it must be true.",
@@ -168,7 +168,7 @@
     ]
   },
   {
-    "name": "Black & White",
+    "name": "False Dilemma",
     "description": "A fallacy that presents only two choices or outcomes when in fact there are more. It's an 'either/or' argument that ignores nuance and complexity.",
     "examples": [
       "You want a pet? Will it be a cat or a dog? (Ignoring the possibility of a hamster, bird, etc.)",
@@ -176,7 +176,7 @@
     ]
   },
   {
-    "name": "Proof of Non-existence",
+    "name": "Appeal to Ignorance",
     "description": "The fallacy of assuming that if you cannot prove something exists, then it must not exist. This is an appeal to ignorance.",
     "examples": [
       "No one has ever proven that aliens exist, so they must not be real.",

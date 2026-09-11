@@ -89,6 +89,22 @@ describe("copy: coverage and correctness", () => {
     }
   });
 
+  it("legacy fallacy names are fully replaced by recognition-friendly names", () => {
+    const LEGACY = ["Black & White", "Affective Fallacy", "Proof of Non-existence"];
+    const names = new Set(enhancedFallacies.map(f => f.name));
+    for (const name of LEGACY) {
+      expect(names.has(name), `${name} should be renamed`).toBe(false);
+    }
+    const allRefs = enhancedQuestions
+      .map(q => [q.fallacy_name, ...q.options, q.correct_answer].join("|"))
+      .join("|");
+    for (const name of LEGACY) {
+      expect(allRefs.includes(name), `legacy name "${name}" still referenced in questions`).toBe(false);
+    }
+    const fd = enhancedFallacies.find(f => f.name === "False Dilemma");
+    expect(fd?.aliases).toContain("Black & White");
+  });
+
   it("every fallacy has at least 3 questions", () => {
     for (const f of enhancedFallacies) {
       const n = enhancedQuestions.filter(q => q.fallacy_name === f.name).length;

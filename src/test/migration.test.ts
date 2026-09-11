@@ -27,10 +27,10 @@ describe("fallacy stats migration (schema v2)", () => {
   });
 
   it("follows rename chains to their final target", () => {
-    // Phase 3 will map "Black & White" -> "False Dilemma"; the loop must resolve
-    // "Excluded Middle" all the way through. Today it must land on "Black & White".
+    // "Excluded Middle" merged into "Black & White", which Phase 3 renamed to
+    // "False Dilemma"; the chain must resolve all the way through.
     const out = migrateFallacyKeys({ "Excluded Middle": stats(2) });
-    expect(Object.keys(out)).toEqual(["Black & White"]);
+    expect(Object.keys(out)).toEqual(["False Dilemma"]);
   });
 
   it("handles empty and undefined input", () => {

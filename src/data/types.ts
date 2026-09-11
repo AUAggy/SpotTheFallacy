@@ -28,6 +28,7 @@ export interface Fallacy {
 
 export interface EnhancedFallacy extends Fallacy {
   category: FallacyCategory;
+  aliases?: string[];
   structureDiagram: string;
   realWorldFrequency: "common" | "moderate" | "rare";
   keyTerms: string[];
