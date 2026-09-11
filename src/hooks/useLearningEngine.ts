@@ -56,9 +56,18 @@ export function useLearningEngine() {
           pool = getQuestionsByContext(contextFilter);
         }
         break;
-      case "challenge":
-        pool = getQuestionsByDifficulty(3);
+      case "challenge": {
+        const hardest = getQuestionsByDifficulty(3);
+        if (hardest.length > 0) {
+          pool = hardest;
+        } else {
+          // No level-3 questions exist in the data; fall back to the hardest
+          // questions available instead of silently serving every difficulty.
+          const maxDifficulty = Math.max(...enhancedQuestions.map(q => q.difficulty));
+          pool = enhancedQuestions.filter(q => q.difficulty === maxDifficulty);
+        }
         break;
+      }
     }
 
     if (pool.length === 0) {
@@ -162,6 +171,13 @@ export function useLearningEngine() {
   } => {
     if (!session || !currentQuestion) {
       return { isCorrect: false, attempts: 0, canRetry: false };
+    }
+
+    // Guard against double-submission of the same question (e.g. a click
+    // racing the timer-expiry auto-answer).
+    const alreadyAnswered = session.answers.some(a => a.questionId === currentQuestion.id);
+    if (alreadyAnswered) {
+      return { isCorrect: false, attempts: currentAttempts, canRetry: false };
     }
 
     const newAttempts = currentAttempts + 1;
