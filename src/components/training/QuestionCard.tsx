@@ -57,7 +57,11 @@ export function QuestionCard({
         : "border-border hover:border-primary/50 hover:bg-accent";
     }
 
-    if (option === question.correct_answer) {
+    // Only reveal the correct answer once no retry is possible,
+    // otherwise the giveaway defeats the purpose of retrying.
+    const revealAnswer = feedback.isCorrect || !feedback.canRetry;
+
+    if (revealAnswer && option === question.correct_answer) {
       return "border-green-500 bg-green-500/20 text-green-700 dark:text-green-300";
     }
 
