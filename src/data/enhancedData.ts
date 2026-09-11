@@ -202,8 +202,414 @@ const structureDiagrams: Record<string, string> = {
 │ Past cost dictates  │
 │  future decisions   │
 └─────────────────────┘`,
-};
 
+
+  "Scapegoat": `┌──────────────────────┐
+│ A problem appears   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Blame group B for it│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Real cause ignored  │
+└─────────────────────┘`,
+
+  "No True Scotsman": `┌──────────────────────┐
+│ Always done this way│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Counterexample shown│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Not a TRUE member   │
+└─────────────────────┘`,
+
+  "Argument from Motive": `┌──────────────────────┐
+│ A argues for claim X│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ A's motive questioned│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is false       │
+└─────────────────────┘`,
+
+  "Appeal to Money": `┌──────────────────────┐
+│ X is expensive      │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Price read as quality│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is good        │
+└─────────────────────┘`,
+
+  "Appeal to Probability": `┌──────────────────────┐
+│ X could happen      │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Might treated as will│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X will happen    │
+└─────────────────────┘`,
+
+  "Appeal to Closure": `┌──────────────────────┐
+│ Decision still open │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ We must decide NOW  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Rushed, underinformed│
+└─────────────────────┘`,
+
+  "Appeal to Tradition": `┌──────────────────────┐
+│ Always done this way│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Age is the only proof│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So keep doing it    │
+└─────────────────────┘`,
+
+  "Appeal to Popularity": `┌──────────────────────┐
+│ Many believe X      │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Popularity as proof │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is true        │
+└─────────────────────┘`,
+
+  "Appeal to Novelty": `┌──────────────────────┐
+│ X is the newest thing│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Newness as merit    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is better      │
+└─────────────────────┘`,
+
+  "Cherry Picking": `┌──────────────────────┐
+│ Evidence: A, B, C   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Show only what fits │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Skewed conclusion   │
+└─────────────────────┘`,
+
+  "Texas Sharpshooter": `┌──────────────────────┐
+│ Data scattered widely│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Circle drawn later  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Called a pattern    │
+└─────────────────────┘`,
+
+  "Non Sequitur": `┌──────────────────────┐
+│ Premise about A     │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Conclusion about B  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No logical bridge   │
+└─────────────────────┘`,
+
+  "Magical Thinking": `┌──────────────────────┐
+│ A happens, then B   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No physical link    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ A must have caused B│
+└─────────────────────┘`,
+
+  "Moving the Goalposts": `┌──────────────────────┐
+│ A meets the demand  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ New, stricter demand│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Never satisfied     │
+└─────────────────────┘`,
+
+  "Overgeneralization": `┌──────────────────────┐
+│ A few cases seen    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Assumed true for all│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Sweeping rule issued│
+└─────────────────────┘`,
+
+  "Affective Fallacy": `┌──────────────────────┐
+│ X feels wrong       │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Feeling as evidence │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is wrong       │
+└─────────────────────┘`,
+
+  "Conflicting Conditions": `┌──────────────────────┐
+│ Rule 1 demands X    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Rule 2 forbids X    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Both claimed at once│
+└─────────────────────┘`,
+
+  "Excluded Middle": `┌──────────────────────┐
+│ Two extremes offered│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Middle ground ignored│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ A or B, pick one    │
+└─────────────────────┘`,
+
+  "Proof of Non-existence": `┌──────────────────────┐
+│ Prove X is NOT real │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No disproof found   │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is real        │
+└─────────────────────┘`,
+
+  "Nirvana Fallacy": `┌──────────────────────┐
+│ Fix has some flaws  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Perfect fix imagined│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So reject the fix   │
+└─────────────────────┘`,
+
+  "Denying the Antecedent": `┌──────────────────────┐
+│ If P, then Q        │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ P is false          │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So Q is false       │
+└─────────────────────┘`,
+
+  "Affirming the Consequent": `┌──────────────────────┐
+│ If P, then Q        │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Q is true           │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So P is true        │
+└─────────────────────┘`,
+
+  "Fallacy Fallacy": `┌──────────────────────┐
+│ Argument for X is bad│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Flaw pointed out    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So X is false       │
+└─────────────────────┘`,
+
+  "Equivocation": `┌──────────────────────┐
+│ Term used in sense 1│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Premise accepted    │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Sense 2 in conclusion│
+└─────────────────────┘`,
+
+  "Continuum Fallacy": `┌──────────────────────┐
+│ A and B differ slowly│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No exact line drawn │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ So A equals B       │
+└─────────────────────┘`,
+
+  "Fallacy of Composition": `┌──────────────────────┐
+│ Each part has trait T│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Parts form a whole  │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Whole has trait T   │
+└─────────────────────┘`,
+
+  "Homunculus Fallacy": `┌──────────────────────┐
+│ Mind has inner viewer│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Viewer needs its own│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Regress, no answer  │
+└─────────────────────┘`,
+
+  "Definist Fallacy": `┌──────────────────────┐
+│ Term defined to win │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Debate rigged by it │
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Opponent can't engage│
+└─────────────────────┘`,
+
+  "Suppressed Correlative": `┌──────────────────────┐
+│ A vs B: real contrast│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ Redefine B until blur│
+└────┬────────────────┘
+     │
+     ▼
+┌──────────────────────┐
+│ No difference       │
+└─────────────────────┘`,
+};
 // Default structure diagram for fallacies without specific ones
 const defaultDiagram = `┌─────────────────────┐
 │   Flawed premise    │
@@ -339,16 +745,45 @@ function assessDifficulty(question: QuizQuestion): Difficulty {
 // Generate valid argument version
 function generateValidVersion(fallacy: Fallacy, question: string): string {
   const validVersionTemplates: Record<string, string> = {
-    "Ad Hominem": "A valid argument would address the actual claims made rather than the person's character. For example: 'Let's examine the specific points in this proposal...'",
-    "Straw Man": "A valid approach would accurately represent the original argument. For example: 'If I understand correctly, you're saying X. Here's why I disagree with X specifically...'",
-    "Appeal to Authority": "A valid appeal would cite experts with relevant expertise AND provide supporting evidence. For example: 'Climate scientists have found X, and here's the data that supports this...'",
-    "Red Herring": "A valid response would directly address the original topic. For example: 'To answer your question about the environmental record specifically...'",
-    "Tu Quoque": "A valid response would address the criticism on its merits. For example: 'You make a fair point about my behavior. Let me explain or change it...'",
-    "Appeal to Nature": "A valid argument would provide evidence about actual benefits or harms, not just naturalness. For example: 'This treatment has been shown in studies to...'",
+    "Ad Hominem": "A valid argument would address the actual claims made rather than the person's character. For example: 'Let's examine the specific points in this proposal one at a time.'",
+    "Straw Man": "A valid approach would accurately represent the original argument. For example: 'If I understand correctly, you're saying X. Here's why I disagree with X specifically.'",
+    "Appeal to Authority": "A valid appeal would cite experts with relevant expertise AND provide supporting evidence. For example: 'Climate scientists have found X, and here's the data that supports this claim.'",
+    "Red Herring": "A valid response would directly address the original topic. For example: 'To answer your question about the environmental record specifically, emissions fell for three straight years.'",
+    "Tu Quoque": "A valid response would address the criticism on its merits. For example: 'You make a fair point about my behavior. Let me explain or change it.'",
+    "Appeal to Nature": "A valid argument would provide evidence about actual benefits or harms, rather than naturalness alone. For example: 'This treatment has been shown in studies to reduce swelling.'",
     "Gambler's Fallacy": "A valid understanding recognizes that each independent event has the same probability. For example: 'Each coin flip has a 50% chance regardless of previous results.'",
-    "Black & White": "A valid argument acknowledges the range of options. For example: 'There are several approaches we could take: A, B, C, or even combinations...'",
+    "Black & White": "A valid argument acknowledges the range of options. For example: 'There are several approaches we could take, including A, B, and combinations of them.'",
     "Begging the Question": "A valid argument provides independent support for the conclusion. For example: 'X is true because of evidence Y and Z, which are separate from X.'",
     "Sunk-Cost Fallacy": "A valid decision focuses on future value, not past investment. For example: 'Regardless of what we've spent, what's the best use of our resources going forward?'",
+    "Scapegoat": "A valid explanation traces the problem to its actual cause. For example: 'The outage came from the failed upgrade, not from the new team.'",
+    "No True Scotsman": "A valid position states its criteria up front and accepts counterexamples. For example: 'By vegetarian I mean no meat at all; one bacon breakfast disproves my rule.'",
+    "Argument from Motive": "A valid argument weighs the claim on its evidence. For example: 'Set aside who benefits and look at whether the data supports the claim.'",
+    "Appeal to Money": "A valid quality claim cites evidence rather than price. For example: 'Judge the tool by its measured accuracy and track record, not its cost.'",
+    "Appeal to Probability": "A valid argument estimates how likely something is, rather than treating possibility as certainty. For example: 'It could happen; the base rate says roughly once a decade.'",
+    "Appeal to Closure": "A valid decision waits for the evidence that matters. For example: 'We can decide after Friday's test results; deciding now adds risk, not certainty.'",
+    "Appeal to Tradition": "A valid case shows the practice still works. For example: 'We keep the checklist because errors drop when we use it, not because it is old.'",
+    "Appeal to Popularity": "A valid argument presents evidence rather than headcount. For example: 'Billions once believed the sun circled the earth; the evidence never did.'",
+    "Appeal to Novelty": "A valid case names what the new option actually improves. For example: 'The new pipeline cuts our build time in half; here are both timings.'",
+    "Cherry Picking": "A valid conclusion accounts for all the evidence. For example: 'Nine studies find no effect and two do; here is how to read that honestly.'",
+    "Texas Sharpshooter": "A valid pattern is predicted before the data arrives, or confirmed on fresh data. For example: 'The cluster held when we tested it on next year's records.'",
+    "Non Sequitur": "A valid conclusion follows from its premises. For example: 'The bridge failed inspection, so it stays closed to heavy loads until repaired.'",
+    "Magical Thinking": "A valid causal claim names a mechanism. For example: 'The plant perked up because we changed the soil; here is the nutrient analysis.'",
+    "Moving the Goalposts": "A valid disagreement fixes the standard in advance. For example: 'We agreed 70 percent was the bar, and the result met it.'",
+    "Overgeneralization": "A valid generalization matches the size and spread of its sample. For example: 'Ask voters across several regions before claiming a national trend.'",
+    "Affective Fallacy": "A valid argument separates feeling from evidence. For example: 'I dislike this plan, and here are two drawbacks it has regardless of my taste.'",
+    "Conflicting Conditions": "A valid position resolves the conflict between its rules. For example: 'Refunds apply on weekends; the return window overrides that on weekdays.'",
+    "Excluded Middle": "A valid argument leaves room for intermediate options. For example: 'We can fund some projects now and revisit the rest next quarter.'",
+    "Proof of Non-existence": "A claim of absence needs a search that would have found it. For example: 'We checked the full registry; no such patent exists in it.'",
+    "Nirvana Fallacy": "A valid comparison weighs real options against each other. For example: 'The policy cuts errors in half; perfection is unavailable, so we take the improvement.'",
+    "Denying the Antecedent": "The valid form denies the consequent: 'If P then Q; not Q; therefore not P.' Dry streets really do mean it did not rain.",
+    "Affirming the Consequent": "The valid form affirms the antecedent: 'If P then Q; P; therefore Q.' For example: 'It rained, so the street is wet.'",
+    "Fallacy Fallacy": "A valid response separates the argument from its conclusion. For example: 'Your proof is weak, yet the claim may still hold; here is independent evidence.'",
+    "Equivocation": "A valid argument keeps each term in one sense throughout. For example: 'By free I mean without cost here, not without restrictions.'",
+    "Continuum Fallacy": "A valid argument accepts practical boundaries. For example: 'No exact line marks baldness, yet a head with zero hairs is bald.'",
+    "Fallacy of Composition": "A valid argument tests the whole on its own terms. For example: 'Every runner is fast, but the relay still needs practice to win.'",
+    "Homunculus Fallacy": "A valid explanation stops the regress. For example: 'Specific brain regions process the image; no inner spectator is required.'",
+    "Definist Fallacy": "A valid definition is fair to both sides before the debate starts. For example: 'We define income the standard way, then argue the policy on those numbers.'",
+    "Suppressed Correlative": "A valid comparison keeps both categories distinct. For example: 'Some choices are informed and some are not; here is where this one falls.'",
   };
 
   return validVersionTemplates[fallacy.name] ||
@@ -365,12 +800,13 @@ function generateOptionExplanations(
 
   question.options.forEach(option => {
     const fallacy = fallacyMap.get(option);
+    const description = (fallacy?.description ?? "").trim();
     if (option === question.correct_answer) {
-      explanations[option] = `Correct! This is ${option} because the argument ${fallacy?.description.toLowerCase()}...`;
+      explanations[option] = `Correct. This argument is ${option}: ${description}`;
     } else if (fallacy) {
-      explanations[option] = `Not quite. ${option} would be if the argument ${fallacy.description.toLowerCase()}... But that's not what's happening here.`;
+      explanations[option] = `${option} works differently: ${description} That pattern does not match this argument.`;
     } else {
-      explanations[option] = `This isn't the right answer. Look more carefully at the structure of the argument.`;
+      explanations[option] = "Not this one. Check how the argument supports its claim.";
     }
   });
 
