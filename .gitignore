@@ -28,3 +28,6 @@ deploy.sh
 
 # Critic agent artifacts
 .critic
+
+# Local planning docs
+plans/
