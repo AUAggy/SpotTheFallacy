@@ -58,7 +58,7 @@ Press 1-4 to answer, Enter to continue. The whole game is playable without a mou
 - **120+ practice questions**, 3 per fallacy, written for school, work, media, and internet life
 - **Wrong options that teach**: distractors are the fallacies each one is most often confused with
 - **Mastery-weighted question selection** in Training Mode
-- **Works offline** after the first load; nothing leaves your browser
+- **Private by design**: all progress stays in your browser; nothing is sent to a server
 - **Free, no ads, no accounts**
 
 ## Tech Stack
