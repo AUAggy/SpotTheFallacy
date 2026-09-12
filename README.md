@@ -231,7 +231,12 @@ patterns, SPA navigation fallback) alongside the chunk-splitting rules.
 
 ## Contributing
 
-Found a bug or a mislabeled question? Open an issue or a PR. Content changes run through the copy-quality tests.
+The code is at **[github.com/AUAggy/SpotTheFallacy](https://github.com/AUAggy/SpotTheFallacy)**.
+
+Found a bug or a mislabeled question? [Open an issue](https://github.com/AUAggy/SpotTheFallacy/issues/new/choose) or a PR. There are templates for bug reports and for content corrections, and you do not need a GitHub account to contribute: email hello+spotthefallacy@miaggy.com instead.
+
+Content changes run through the copy-quality tests, so a scenario fix needs
+the explanation and the diagram to hold up too, not just the wording.
 
 ## License
 
@@ -244,3 +249,5 @@ Built on Richard Feynman's teaching principle: if you can't explain it simply, y
 ---
 
 **Start training at [SpotTheFallacy.com](https://spotthefallacy.com)**
+
+Source, bugs and content corrections: [github.com/AUAggy/SpotTheFallacy](https://github.com/AUAggy/SpotTheFallacy)
