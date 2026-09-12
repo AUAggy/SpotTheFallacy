@@ -1,0 +1,59 @@
+name: Question or content correction
+description: A scenario is wrong, an explanation is wrong, or the wording is off.
+title: "[Content] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The 129 scenarios and their explanations are the part of this app most
+        likely to be wrong, and the hardest to catch by testing. Corrections are
+        very welcome. You do not need to know the fix, naming the problem is
+        enough.
+
+  - type: input
+    id: fallacy
+    attributes:
+      label: Which fallacy is it about?
+      description: The name shown in the feedback, if you saw it.
+      placeholder: Ad Hominem / False Dilemma / ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: scenario
+    attributes:
+      label: The scenario text
+      description: Paste the question, or enough of it that it can be found.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What is wrong with it?
+      options:
+        - The named fallacy is wrong, a different one fits
+        - The explanation of an answer is wrong or misleading
+        - The scenario is ambiguous, two answers seem defensible
+        - Typo, grammar, or awkward wording
+        - The scenario is confusing or hard to follow
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: What should it say instead?
+      description: If you have a suggested rewrite or a better example, put it here.
+    validations:
+      required: false
+
+  - type: input
+    id: source
+    attributes:
+      label: Source (optional)
+      description: If this is a factual correction, a link helps.
+      placeholder: https://...
+    validations:
+      required: false
