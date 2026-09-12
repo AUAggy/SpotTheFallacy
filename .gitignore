@@ -31,3 +31,6 @@ deploy.sh
 
 # Local planning docs
 plans/
+
+# Local agent instructions (not merged)
+AGENTS.md

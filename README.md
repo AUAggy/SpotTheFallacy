@@ -1,167 +1,128 @@
 # Spot The Fallacy
 
-**Train your brain to recognize flawed reasoning in real-time.**
+**Train your eye for bad arguments.**
 
-SpotTheFallacy.com is an intelligent training simulator that teaches you to identify logical fallacies, not through rote memorization, but through practice and adaptive learning. Think of it like Duolingo for critical thinking.
-
-## Why This Exists
-
-Every day, you encounter arguments in politics, advertising, social media, and personal conversations. Many of these arguments are built on faulty reasoning; logical fallacies. Most people know *about* fallacies but can't spot them when they appear in the wild.
-
-This app solves that problem. It treats fallacy recognition as a **skill to develop**, not just knowledge to memorize. Like learning to identify bird species, you start with obvious examples, learn the distinguishing features, practice with similar cases, and track which ones you still confuse.
+SpotTheFallacy.com is a practice tool for learning to spot logical fallacies: the flawed reasoning patterns that show up in politics, advertising, social media, and everyday conversations. You read a short scenario, name the fallacy, and get an instant explanation of why the answer is right or wrong.
 
 ## How It Works
 
-### Four Training Modes
+### Six ways to practice
 
-1. **Training Mode** (Recommended)
-   - Starts easy, gets harder as you improve
+1. **Training Mode** (recommended)
    - 10 questions per session, no time pressure
-   - Focuses 50% on your weak spots, 30% on new fallacies, 20% on review
-   - Detailed explanations for every answer
+   - Wrong answers can be retried; explanations for every answer
+   - Questions you have missed weigh 4x, unseen fallacies 2x
 
-2. **Category Focus**
-   - Practice one type of fallacy at a time
-   - Six categories: Personal Attack, Faulty Logic, Emotional Manipulation, Misrepresentation, False Authority, Causal Errors
+2. **Challenge Mode**
+   - Questions only from fallacies you have not yet mastered
+   - 30 seconds per question, one attempt, no retries
+   - Every score is saved; the summary shows your personal best
 
-3. **Context Training**
-   - Filter by where you want to spot fallacies: Politics, Social Media, Advertising, Science, Relationships, Business
-   - "Train me for election season" or "Help me spot advertising tricks"
+3. **Today's 5** (daily challenge)
+   - 5 questions, same set for everyone on that date
+   - One attempt; replays are locked until tomorrow
 
-4. **Challenge Mode**
-   - Only the hardest questions
-   - 30-second timer per question
-   - No retries; for users who've mastered the basics
+4. **Quick Round**
+   - 3 questions, about a minute
 
-### Adaptive Learning System
+5. **Category Focus**
+   - Practice one category: Personal Attack, Faulty Logic, Emotional Manipulation, Misrepresentation, False Authority, Causal Errors
 
-The app watches how you perform:
-- Get 8 out of 10 questions right first try? Level increases.
-- Struggling? Level adjusts down (framed positively - "optimizing for your learning").
-- It remembers which fallacies trip you up and serves more practice on those.
+6. **Context Focus**
+   - Practice where fallacies actually appear: Politics, Social Media, Advertising, Science, Relationships, Business, Entertainment, Gaming, School, Everyday life
 
-### Rich Feedback
+### Feedback that teaches
 
-When you get an answer **wrong**: You see why it's wrong and can try again. This is practice, not a test.
+Every answer gets an explanation. Wrong answers show what you picked, why it does not fit, and which fallacy the argument actually is. Right answers add the full picture: the pattern as an ASCII flow diagram, a fallacy-free version of the argument, other examples, and the everyday names the fallacy also goes by.
 
-When you get it **right**: You get a deep dive; the fallacy's structure, why it's flawed, where you'll see it in real life, and both correct and incorrect examples.
+A dry one-liner comes with each fallacy. Two favorites: "The coin has no memory. It's not mad at you." and "Scary music is not evidence."
 
-### The Feynman Challenge
+### The Feynman prompt
 
-After three correct answers in a row, the app asks: "In your own words, explain WHY this is [fallacy name]."
+After three correct answers in a row, the app asks you to explain the fallacy in your own words. There is no scoring; writing the explanation is the exercise.
 
-If you can't explain it, you don't really understand it. This technique, inspired by physicist Richard Feynman, forces you to think deeply rather than pattern-match superficially.
+### Progress that stays on your device
 
-### Progress Tracking
+- Mastery per fallacy: mastered at 90%+, still learning below 70%
+- A stamp and a small confetti burst when a fallacy crosses the mastery line
+- Day streak, session history, and per-category breakdowns
+- Export and import for backups; upgrades migrate saved progress automatically
 
-Your browser remembers everything:
-- Which fallacies you've mastered (90%+ accuracy)
-- Which ones you're still learning (<70% accuracy)
-- Your daily streak
-- Session history
-- Complete stats for all 40 fallacies
+### Keyboard play
 
-All data stays on your device. Export/import available for backup.
+Press 1-4 to answer, Enter to continue. The whole game is playable without a mouse.
 
 ## What You Get
 
-- **40 logical fallacies** covering all major types
-- **120+ practice questions** from real-world contexts
-- **Adaptive difficulty** that adjusts to your skill level
-- **Smart question selection** that focuses on your weak spots
-- **Visual diagrams** showing each fallacy's structure
-- **Valid argument versions** showing how the reasoning should work
-- **Mobile-friendly** design that works on any device
-- **Dark/light theme** for comfortable reading
-- **Completely free** with no ads or tracking
-
-## The Philosophy
-
-This app is built on principles from educational psychology:
-
-1. **Spaced repetition**: You see fallacies you struggle with more often
-2. **Active recall**: You must retrieve information, not just recognize it
-3. **Immediate feedback**: You learn why you're right or wrong instantly
-4. **Adaptive difficulty**: Always challenging but never overwhelming
-5. **Mastery-based progression**: You advance when ready, not on a schedule
-
-Think of it as a patient, tireless tutor that remembers everything about your learning journey and uses that to optimize your training.
+- **43 logical fallacies**, each with a specific pattern diagram, a valid version of the argument, and key terms
+- **129 practice questions**, 3 per fallacy, written for school, work, media, and internet life
+- **Wrong options that teach**: distractors are the fallacies each one is most often confused with
+- **Mastery-weighted question selection** in Training Mode
+- **Works offline** after the first load; nothing leaves your browser
+- **Free, no ads, no accounts**
 
 ## Tech Stack
 
-Built with modern web technologies for speed and reliability:
+- React + TypeScript + Vite
+- Tailwind CSS + shadcn-ui
+- localStorage for all progress (with schema migrations)
+- Vitest for unit tests; Playwright harnesses for end-to-end checks
 
-- **React + TypeScript** - Type-safe, maintainable code
-- **Vite** - Lightning-fast development and builds
-- **Tailwind CSS** - Responsive, accessible design
-- **shadcn-ui** - Beautiful, accessible components
-- **localStorage** - All your progress stays on your device
-
-## Getting Started (For Developers)
+## For Developers
 
 ```bash
-# Install dependencies
-npm install
-
-# Run development server (http://localhost:8080)
-npm run dev
-
-# Build for production
-npm run build
-
-# Run tests
-npm run test
-
-# Run linter
-npm run lint
+npm install        # install dependencies
+npm run dev        # dev server on http://localhost:8080
+npm run test       # unit + copy-quality tests
+npm run lint       # eslint
+npm run build      # production build
 ```
+
+Additional verification tools (need `python3` with Playwright and a running dev server):
+
+- `python3 critic_harness.py <round>` plays Challenge and Training modes end to end and checks feedback, timer expiry, session recording, and tallies
+- `python3 copy_harness.py <round>` screenshots 35+ screen and viewport combinations (mobile portrait, tablet, desktop) and fails on any text overflow
 
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── training/    # Core training UI
+│   ├── training/    # Session UI: question, feedback, Feynman, summary, modes
 │   ├── stats/       # Progress dashboard
-│   └── ui/          # Reusable components
+│   ├── settings/    # Export / import / reset
+│   └── ui/          # shadcn-ui components
 ├── hooks/
-│   ├── useLearningEngine.ts  # Question selection & sessions
-│   └── useProgress.ts         # Progress tracking & localStorage
+│   ├── useProgress.tsx        # single progress store (context) + localStorage
+│   └── useLearningEngine.ts   # sessions, selection, timer, answers
 ├── data/
-│   ├── enhancedData.ts        # 40 fallacies + 120 questions
+│   ├── fallacies.json         # fallacy catalog (names, descriptions, examples)
+│   ├── quiz-questions.json    # question scenarios and options
+│   ├── enhancedData.ts        # derives categories, diagrams, explanations
 │   └── types.ts               # TypeScript definitions
-└── pages/
-    └── Index.tsx              # Main app page
+├── test/                      # vitest suites (incl. copy quality gates)
+└── pages/Index.tsx            # app shell and navigation
 ```
 
-## How the Learning Algorithm Works
+## Adding a Fallacy
 
-Simple explanation: The app picks questions that help you learn fastest.
-
-**For each training session:**
-1. Look at your past performance
-2. Find fallacies where you score below 70% (weak spots)
-3. Find fallacies you've never seen (unseen)
-4. Weight the mix: 50% weak spots, 30% unseen, 20% random review
-5. Never repeat questions within the same session
-6. Prioritize fallacies you haven't seen in a while
-
-This isn't random; it's intelligent sequencing designed to maximize learning efficiency.
+1. Add the entry to `src/data/fallacies.json` (name, description, 2 examples)
+2. Add 3 questions to `src/data/quiz-questions.json` (every option must be a real fallacy name)
+3. Wire it through `src/data/enhancedData.ts`: category, pattern diagram, valid version, key terms, confusion pairs
+4. `npm run test` enforces the rest: diagram uniqueness and width, explanation integrity, brevity limits, and banned-phrase linting
 
 ## Contributing
 
-Found a bug? Have an idea? Open an issue or submit a PR.
+Found a bug or a mislabeled question? Open an issue or a PR. Content changes run through the copy-quality tests.
 
 ## License
 
-MIT - Use it however you want.
+MIT
 
 ## Credits
 
-Built with principles from cognitive science, educational psychology, and Richard Feynman's teaching philosophy: "If you can't explain it simply, you don't understand it well enough."
+Built on Richard Feynman's teaching principle: if you can't explain it simply, you don't understand it well enough.
 
 ---
 
 **Start training at [SpotTheFallacy.com](https://spotthefallacy.com)**
-
-Learn to see through faulty reasoning. Become a clearer thinker.
