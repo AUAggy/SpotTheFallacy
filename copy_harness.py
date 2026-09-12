@@ -25,12 +25,14 @@ results = []   # per-screen: {viewport, screen, shot, overflow, detail}
 shots_all = []
 
 FRESH = {
-    "currentDifficulty": 1, "fallacyStats": {}, "sessionHistory": [],
+    "schemaVersion": 4,
+    "fallacyStats": {}, "sessionHistory": [],
     "streak": {"current": 0, "longest": 0, "lastActiveDate": None},
-    "preferences": {"theme": "light", "showOnboarding": False},
+    "preferences": {"showOnboarding": False},
     "lastUpdated": int(time.time() * 1000), "totalQuestionsAnswered": 0,
-    "sessionsCompleted": 0, "consecutiveCorrect": 0, "recentResults": [],
-    "seenQuestionIds": [], "correctStreak": 0, "isFirstTime": False,
+    "sessionsCompleted": 0, "correctStreak": 0, "lastMasteryUp": None,
+    "daily": {"lastPlayedDate": None, "history": []},
+    "isFirstTime": False,
 }
 
 OVERFLOW_JS = """() => {
@@ -175,21 +177,19 @@ def challenge_flow(browser, vp, w, h, truth):
 
 def training_feynman_flow(browser, vp, w, h, truth):
     ctx = browser.new_context(viewport={"width": w, "height": h})
-    page = capture(ctx, seed_overrides={"correctStreak": 3})
+    # Seed the streak one short of the trigger. isFeynmanDue counts the answer
+    # just given, so the 3rd consecutive FIRST-TRY correct answer fires the
+    # prompt; a retry-correct does not count (it resets the streak).
+    page = capture(ctx, seed_overrides={"correctStreak": 2})
     page.goto(BASE, wait_until="networkidle")
     opt_btn(page, "Start Training").click()
     page.wait_for_selector("header span", timeout=5000)
     page.wait_for_timeout(500)
     tmap = {t["question"]: t for t in truth}
+
+    # Q1: correct on the first try -> streak reaches 3 -> Feynman challenge
     qtext = page.locator("main h3").first.inner_text()
     q = tmap[qtext]
-    wrong = [o for o in q["options"] if o != q["correct"]][0]
-
-    # wrong attempt -> retry box
-    opt_btn(page, wrong).click()
-    page.wait_for_timeout(400)
-    snap(page, vp, "training-retry")
-    # correct answer -> Feynman challenge (seeded streak)
     opt_btn(page, q["correct"]).click()
     page.wait_for_selector("text=Feynman Challenge", timeout=5000)
     snap(page, vp, "feynman-prompt")
@@ -203,6 +203,19 @@ def training_feynman_flow(browser, vp, w, h, truth):
     snap(page, vp, "feynman-result")
     page.get_by_role("button", name="Continue").click()
     page.wait_for_timeout(300)
+    snap(page, vp, "feedback-correct")
+    page.get_by_role("button", name="Continue").click()
+    page.wait_for_timeout(300)
+
+    # Q2: wrong then right -> retry box, and no second Feynman (streak reset)
+    qtext = page.locator("main h3").first.inner_text()
+    q = tmap[qtext]
+    wrong = [o for o in q["options"] if o != q["correct"]][0]
+    opt_btn(page, wrong).click()
+    page.wait_for_timeout(400)
+    snap(page, vp, "training-retry")
+    opt_btn(page, q["correct"]).click()
+    page.wait_for_selector("text=Continue", timeout=5000)
     snap(page, vp, "feedback-correct-after-retry")
     ctx.close()
 

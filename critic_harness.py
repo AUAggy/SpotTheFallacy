@@ -29,12 +29,14 @@ def shot(page, name, caption):
     print(f"SHOT {p} — {caption}")
 
 FRESH_PROGRESS = {
-    "currentDifficulty": 1, "fallacyStats": {}, "sessionHistory": [],
+    "schemaVersion": 4,
+    "fallacyStats": {}, "sessionHistory": [],
     "streak": {"current": 0, "longest": 0, "lastActiveDate": None},
-    "preferences": {"theme": "light", "showOnboarding": False},
+    "preferences": {"showOnboarding": False},
     "lastUpdated": int(time.time() * 1000), "totalQuestionsAnswered": 0,
-    "sessionsCompleted": 0, "consecutiveCorrect": 0, "recentResults": [],
-    "seenQuestionIds": [], "feynmanStreak": 0, "isFirstTime": False,
+    "sessionsCompleted": 0, "correctStreak": 0, "lastMasteryUp": None,
+    "daily": {"lastPlayedDate": None, "history": []},
+    "isFirstTime": False,
 }
 
 def option_button(page, text):
