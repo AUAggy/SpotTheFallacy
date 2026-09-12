@@ -1,78 +1,26 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { EnhancedQuestion } from "@/data/types";
 import { getFallacyByName } from "@/data/enhancedData";
-import { Brain, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Brain, ArrowRight } from "lucide-react";
 
 interface FeynmanChallengeProps {
   question: EnhancedQuestion;
-  onComplete: (passed: boolean) => void;
+  /** fired when the player has written their explanation and continues */
+  onComplete: () => void;
   onSkip: () => void;
 }
 
+/**
+ * Reflective interstitial: explain the fallacy in your own words.
+ * There is deliberately no scoring. Writing the explanation is the exercise.
+ */
 export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChallengeProps) {
   const [explanation, setExplanation] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState<{
-    passed: boolean;
-    matchedTerms: string[];
-    feedback: string;
-  } | null>(null);
-
   const fallacy = getFallacyByName(question.fallacy_name);
-
-  const evaluateExplanation = useMemo(() => {
-    if (!fallacy) return () => null;
-
-    return (text: string) => {
-      const lowerText = text.toLowerCase();
-      const keyTerms = fallacy.keyTerms || [];
-      
-      const matchedTerms = keyTerms.filter(term => 
-        lowerText.includes(term.toLowerCase())
-      );
-      
-      const score = matchedTerms.length / Math.max(keyTerms.length, 1);
-      const passed = score >= 0.3 && text.length >= 50;
-      
-      let feedback = "";
-      if (passed) {
-        if (score >= 0.6) {
-          feedback = "Sharp explanation. You covered the key ideas.";
-        } else {
-          feedback = "Good explanation. You have the core idea. Worth also mentioning: " + 
-            keyTerms.filter(t => !matchedTerms.includes(t)).slice(0, 2).join(", ");
-        }
-      } else {
-        if (text.length < 50) {
-          feedback = "Add a little more detail. Why does this reasoning fail?";
-        } else {
-          feedback = "You are circling the idea but not landing it. Key concepts to hit: " + 
-            keyTerms.slice(0, 3).join(", ");
-        }
-      }
-
-      return { passed, matchedTerms, feedback };
-    };
-  }, [fallacy]);
-
-  const handleSubmit = () => {
-    const evaluation = evaluateExplanation(explanation);
-    if (evaluation) {
-      setResult(evaluation);
-      setSubmitted(true);
-    }
-  };
-
-  const handleContinue = () => {
-    if (result) {
-      onComplete(result.passed);
-    }
-  };
 
   if (!fallacy) return null;
 
@@ -85,7 +33,7 @@ export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChalle
           </div>
           <div>
             <CardTitle className="text-purple-700 dark:text-purple-300">
-              Feynman Challenge! 🧠
+              Feynman Challenge
             </CardTitle>
             <CardDescription>
               Explaining it simply is the test of understanding
@@ -118,59 +66,22 @@ export function FeynmanChallenge({ question, onComplete, onSkip }: FeynmanChalle
 
         {!submitted ? (
           <div className="flex gap-2">
-            <Button onClick={handleSubmit} disabled={explanation.length < 20} className="flex-1">
+            <Button onClick={() => setSubmitted(true)} disabled={explanation.length < 20} className="flex-1">
               Submit Explanation
             </Button>
             <Button variant="ghost" onClick={onSkip}>
               Skip
             </Button>
           </div>
-        ) : result && (
+        ) : (
           <div className="space-y-4">
-            <div className={cn(
-              "p-4 rounded-lg border-2",
-              result.passed 
-                ? "bg-green-500/10 border-green-500/30" 
-                : "bg-amber-500/10 border-amber-500/30"
-            )}>
-              <div className="flex items-start gap-3">
-                {result.passed ? (
-                  <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
-                ) : (
-                  <AlertCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-                )}
-                <div className="space-y-2">
-                  <p className={cn(
-                    "font-medium",
-                    result.passed ? "text-green-700 dark:text-green-300" : "text-amber-700 dark:text-amber-300"
-                  )}>
-                    {result.passed ? "Well explained!" : "Keep learning!"}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {result.feedback}
-                  </p>
-                  {result.passed && (
-                    <p className="text-xs text-muted-foreground">
-                      This check matches key terms, not understanding. You are
-                      the judge of whether your explanation truly lands.
-                    </p>
-                  )}
-                </div>
-              </div>
+            <div className="p-4 rounded-lg border-2 bg-purple-500/10 border-purple-500/30">
+              <p className="text-sm text-foreground">
+                Logged. Saying it in your own words is what makes it stick;
+                come back to this one if it felt shaky.
+              </p>
             </div>
-
-            {result.matchedTerms.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm text-muted-foreground">Key concepts you mentioned:</span>
-                {result.matchedTerms.map(term => (
-                  <Badge key={term} variant="secondary" className="bg-green-500/20 text-green-700 dark:text-green-300">
-                    ✓ {term}
-                  </Badge>
-                ))}
-              </div>
-            )}
-
-            <Button onClick={handleContinue} className="w-full">
+            <Button onClick={onComplete} className="w-full">
               Continue
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

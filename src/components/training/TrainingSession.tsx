@@ -8,6 +8,7 @@ import {
 } from "@/data/types";
 import { useLearningEngine } from "@/hooks/useLearningEngine";
 import { useProgress } from "@/hooks/useProgress";
+import { enhancedFallacies } from "@/data/enhancedData";
 import { QuestionCard } from "@/components/training/QuestionCard";
 import { FeedbackPanel } from "@/components/training/FeedbackPanel";
 import { FeynmanChallenge } from "@/components/training/FeynmanChallenge";
@@ -61,8 +62,9 @@ export function TrainingSession({
     recordAnswer,
     recordSession,
     shouldShowFeynmanChallenge,
-    resetCorrectStreak,
+    getMasteredFallacies,
   } = useProgress();
+  const totalFallacies = enhancedFallacies.length;
 
   const [phase, setPhase] = useState<Phase>("question");
   const [lastAnswer, setLastAnswer] = useState<AnswerInfo | null>(null);
@@ -131,7 +133,7 @@ export function TrainingSession({
           mode,
           questionsAnswered: sessionStats.totalAnswered,
           correctFirstTry: sessionStats.correctFirstTry,
-          difficultyLevel: progress.currentDifficulty,
+          mastered: getMasteredFallacies().length,
           duration: sessionStats.duration,
         });
       }
@@ -139,12 +141,11 @@ export function TrainingSession({
       nextQuestion();
       setPhase("question");
     }
-  }, [isSessionComplete, sessionStats, mode, progress.currentDifficulty, recordSession, nextQuestion]);
+  }, [isSessionComplete, sessionStats, mode, getMasteredFallacies, recordSession, nextQuestion]);
 
-  const handleFeynmanComplete = useCallback((passed: boolean) => {
-    if (!passed) resetCorrectStreak();
+  const handleFeynmanComplete = useCallback(() => {
     setPhase("feedback");
-  }, [resetCorrectStreak]);
+  }, []);
 
   const handleFeynmanSkip = useCallback(() => {
     setPhase("feedback");
@@ -173,7 +174,8 @@ export function TrainingSession({
           onRestart={handleRestart}
           onHome={handleExit}
           streak={progress.streak.current}
-          difficultyLevel={progress.currentDifficulty}
+          masteredCount={getMasteredFallacies().length}
+          totalFallacies={totalFallacies}
         />
       </div>
     );

@@ -63,11 +63,12 @@ export interface FallacyStats {
   incorrect: number;
   lastSeen: number | null;
   attempts: number[];
+  /** result of the most recent answer, for weak-spot weighting */
+  lastAttemptCorrect?: boolean;
 }
 
 export interface UserProgress {
   schemaVersion: number;
-  currentDifficulty: Difficulty;
   fallacyStats: Record<string, FallacyStats>;
   sessionHistory: SessionRecord[];
   streak: StreakData;
@@ -76,7 +77,6 @@ export interface UserProgress {
   totalQuestionsAnswered: number;
   sessionsCompleted: number;
   correctStreak: number;
-  recentResults: boolean[];
   seenQuestionIds: string[];
   isFirstTime: boolean;
 }
@@ -86,7 +86,7 @@ export interface SessionRecord {
   mode: LearningMode;
   questionsAnswered: number;
   correctFirstTry: number;
-  difficultyLevel: Difficulty;
+  mastered?: number;
   duration: number;
 }
 

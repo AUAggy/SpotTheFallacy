@@ -24,7 +24,7 @@ import { useTheme } from "next-themes";
 type View = "welcome" | "menu" | "training" | "stats" | "settings";
 
 const Index = () => {
-  const { progress, completeOnboarding, getCategoryMastery } = useProgress();
+  const { progress, completeOnboarding, getCategoryMastery, getMasteredFallacies } = useProgress();
   const { theme, setTheme } = useTheme();
   
   const [currentView, setCurrentView] = useState<View>(
@@ -137,7 +137,8 @@ const Index = () => {
         {currentView === "menu" && (
           <ModeSelection
             onSelectMode={handleStartTraining}
-            currentDifficulty={progress.currentDifficulty}
+            answeredCount={progress.totalQuestionsAnswered}
+            masteredCount={getMasteredFallacies().length}
             streak={progress.streak.current}
           />
         )}

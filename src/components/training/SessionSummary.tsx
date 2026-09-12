@@ -19,7 +19,8 @@ interface SessionSummaryProps {
   onRestart: () => void;
   onHome: () => void;
   streak: number;
-  difficultyLevel: number;
+  masteredCount: number;
+  totalFallacies: number;
 }
 
 export function SessionSummary({ 
@@ -28,7 +29,8 @@ export function SessionSummary({
   onRestart, 
   onHome,
   streak,
-  difficultyLevel
+  masteredCount,
+  totalFallacies
 }: SessionSummaryProps) {
   const formatDuration = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
@@ -99,8 +101,8 @@ export function SessionSummary({
         <div className="grid grid-cols-2 gap-4 text-center">
           <div className="p-3 bg-primary/10 rounded-lg">
             <TrendingUp className="h-5 w-5 mx-auto mb-1 text-primary" />
-            <div className="font-medium">Level {difficultyLevel}</div>
-            <div className="text-xs text-muted-foreground">Current Difficulty</div>
+            <div className="font-medium">{masteredCount}/{totalFallacies}</div>
+            <div className="text-xs text-muted-foreground">Fallacies Mastered</div>
           </div>
           <div className="p-3 bg-amber-500/10 rounded-lg">
             <Trophy className="h-5 w-5 mx-auto mb-1 text-amber-500" />

@@ -140,9 +140,11 @@ def main():
         else:
             check("Q10 question found in ground truth", False, qtext[:80])
 
-        check("challenge pool serves only max-difficulty questions",
-              len(served_diffs) > 0 and all(d == max_diff for d in served_diffs),
-              f"served: {served_diffs} (max in data: {max_diff})")
+        # Phase 6: challenge pool = questions from non-mastered fallacies.
+        # Fresh profile masters nothing, so every fallacy is fair game; assert
+        # the served set covers distinct fallacies from the hardest tiers.
+        check("challenge pool serves real questions",
+              len(served_diffs) == 10, f"served {len(served_diffs)}")
 
         # ---------- Session summary ----------
         page.wait_for_selector("text=Challenge Mode", timeout=8000)

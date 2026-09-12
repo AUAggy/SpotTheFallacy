@@ -41,14 +41,12 @@ export function QuestionCard({
     }
   };
 
-  const getDifficultyColor = (difficulty: number) => {
-    switch (difficulty) {
-      case 1: return "bg-green-500/20 text-green-700 dark:text-green-300";
-      case 2: return "bg-yellow-500/20 text-yellow-700 dark:text-yellow-300";
-      case 3: return "bg-red-500/20 text-red-700 dark:text-red-300";
-      default: return "bg-muted text-muted-foreground";
-    }
+  const getTierBadge = (difficulty: number) => {
+    return difficulty <= 1
+      ? "bg-green-500/20 text-green-700 dark:text-green-300"
+      : "bg-red-500/20 text-red-700 dark:text-red-300";
   };
+  const tierLabel = question.difficulty <= 1 ? "Warm-up" : "Hard";
 
   const getOptionStyle = (option: string) => {
     if (!feedback) {
@@ -80,8 +78,8 @@ export function QuestionCard({
       <CardHeader className="space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className={getDifficultyColor(question.difficulty)}>
-              Level {question.difficulty}
+            <Badge variant="outline" className={getTierBadge(question.difficulty)}>
+              {tierLabel}
             </Badge>
             {question.contexts.map(ctx => (
               <Badge key={ctx} variant="secondary" className="text-xs">

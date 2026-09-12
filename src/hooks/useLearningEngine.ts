@@ -30,15 +30,15 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function useLearningEngine() {
-  const { progress, getWeakFallacies, getUnseenFallacies } = useProgress();
+  const { progress, getWeakFallacies, getUnseenFallacies, getMasteredFallacies } = useProgress();
   const [session, setSession] = useState<SessionState | null>(null);
   const [currentAttempts, setCurrentAttempts] = useState(0);
 
   // Live reads with a stable identity: selection callbacks must never change,
   // otherwise startSession's identity changes and the session-init effect in
   // TrainingSession resets the session mid-question whenever progress updates.
-  const latest = useRef({ progress, getWeakFallacies, getUnseenFallacies });
-  latest.current = { progress, getWeakFallacies, getUnseenFallacies };
+  const latest = useRef({ progress, getWeakFallacies, getUnseenFallacies, getMasteredFallacies });
+  latest.current = { progress, getWeakFallacies, getUnseenFallacies, getMasteredFallacies };
 
   const selectSmartQuestions = useCallback((
     mode: LearningMode,
@@ -46,33 +46,27 @@ export function useLearningEngine() {
     categoryFilter?: FallacyCategory,
     contextFilter?: ContextTag
   ): EnhancedQuestion[] => {
-    const { progress, getWeakFallacies, getUnseenFallacies } = latest.current;
+    const { progress, getMasteredFallacies } = latest.current;
+    const mastered = new Set(getMasteredFallacies().map(f => f.name));
+
     let pool: EnhancedQuestion[] = [];
-    
     switch (mode) {
       case "training":
-        pool = [...enhancedQuestions];
-        break;
       case "category":
-        if (categoryFilter) {
-          pool = getQuestionsByCategory(categoryFilter);
-        }
-        break;
-      case "context":
-        if (contextFilter) {
+      case "context": {
+        if (mode === "category" && categoryFilter) {
+          const names = enhancedFallacies.filter(f => f.category === categoryFilter).map(f => f.name);
+          pool = enhancedQuestions.filter(q => names.includes(q.fallacy_name));
+        } else if (mode === "context" && contextFilter) {
           pool = getQuestionsByContext(contextFilter);
+        } else {
+          pool = [...enhancedQuestions];
         }
         break;
+      }
       case "challenge": {
-        const hardest = getQuestionsByDifficulty(3);
-        if (hardest.length > 0) {
-          pool = hardest;
-        } else {
-          // No level-3 questions exist in the data; fall back to the hardest
-          // questions available instead of silently serving every difficulty.
-          const maxDifficulty = Math.max(...enhancedQuestions.map(q => q.difficulty));
-          pool = enhancedQuestions.filter(q => q.difficulty === maxDifficulty);
-        }
+        // questions from fallacies the player has not yet mastered
+        pool = enhancedQuestions.filter(q => !mastered.has(q.fallacy_name));
         break;
       }
     }
@@ -81,74 +75,39 @@ export function useLearningEngine() {
       pool = [...enhancedQuestions];
     }
 
-    // Filter out recently seen questions (in this session)
-    const unseenInSession = pool.filter(
-      q => !progress.seenQuestionIds.slice(-50).includes(q.id)
-    );
-    
-    if (unseenInSession.length >= count) {
-      pool = unseenInSession;
-    }
-
-    // Smart selection for training mode
-    if (mode === "training") {
-      const weakFallacies = getWeakFallacies();
-      const unseenFallacies = getUnseenFallacies();
-      
-      const selected: EnhancedQuestion[] = [];
-      
-      // 50% weak spots (fallacies with <70% accuracy)
-      const weakSpotCount = Math.floor(count * 0.5);
-      const weakQuestions = pool.filter(q => 
-        weakFallacies.some(w => w.fallacy.name === q.fallacy_name)
-      );
-      selected.push(...shuffleArray(weakQuestions).slice(0, weakSpotCount));
-      
-      // 30% unseen fallacies
-      const unseenCount = Math.floor(count * 0.3);
-      const unseenQuestions = pool.filter(q =>
-        unseenFallacies.some(u => u.name === q.fallacy_name) &&
-        !selected.find(s => s.id === q.id)
-      );
-      selected.push(...shuffleArray(unseenQuestions).slice(0, unseenCount));
-      
-      // 20% random from appropriate difficulty + fill remaining
-      const remaining = count - selected.length;
-      const difficultyPool = pool.filter(q => 
-        q.difficulty <= progress.currentDifficulty &&
-        !selected.find(s => s.id === q.id)
-      );
-      selected.push(...shuffleArray(difficultyPool).slice(0, remaining));
-      
-      // If still not enough, add any remaining
-      if (selected.length < count) {
-        const anyRemaining = pool.filter(q => !selected.find(s => s.id === q.id));
-        selected.push(...shuffleArray(anyRemaining).slice(0, count - selected.length));
+    // Mastery-weighted sampling without replacement:
+    // weak spots weigh 4x, unseen fallacies 2x, everything else 1x.
+    const items = [...pool];
+    const picked: EnhancedQuestion[] = [];
+    const weight = (q: EnhancedQuestion): number => {
+      const s = progress.fallacyStats[q.fallacy_name];
+      if (!s || s.totalSeen === 0) return 2;
+      return s.lastAttemptCorrect === false ? 4 : 1;
+    };
+    while (picked.length < count && items.length > 0) {
+      const weights = items.map(weight);
+      let r = Math.random() * weights.reduce((a, b) => a + b, 0);
+      let idx = 0;
+      for (; idx < weights.length; idx++) {
+        r -= weights[idx];
+        if (r <= 0) break;
       }
-      
-      return shuffleArray(selected);
+      idx = Math.min(idx, items.length - 1);
+      picked.push(items[idx]);
+      items.splice(idx, 1);
     }
-    
-    // For other modes, apply difficulty filter and randomize
-    let filteredPool = pool;
-    if (mode !== "challenge") {
-      filteredPool = pool.filter(q => q.difficulty <= progress.currentDifficulty);
-      if (filteredPool.length < count) {
-        filteredPool = pool;
-      }
-    }
-    
-    return shuffleArray(filteredPool).slice(0, count);
+    return picked;
   }, []);
 
   const startSession = useCallback((
     mode: LearningMode,
     categoryFilter?: FallacyCategory,
-    contextFilter?: ContextTag
+    contextFilter?: ContextTag,
+    options?: { count?: number }
   ) => {
     const questions = selectSmartQuestions(
       mode,
-      QUESTIONS_PER_SESSION,
+      options?.count ?? QUESTIONS_PER_SESSION,
       categoryFilter,
       contextFilter
     );

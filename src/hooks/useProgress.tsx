@@ -11,7 +11,6 @@ import {
   UserProgress,
   FallacyStats,
   SessionRecord,
-  Difficulty,
   UserPreferences,
   MasteryInfo,
   getMasteryInfo
@@ -19,7 +18,7 @@ import {
 import { enhancedFallacies } from "@/data/enhancedData";
 
 const STORAGE_KEY = "fallacy_trainer_progress";
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 /**
  * Fallacy identity changes (retirements, merges) remap stored stats so
@@ -80,7 +79,6 @@ const defaultPreferences: UserPreferences = {
 
 const defaultProgress: UserProgress = {
   schemaVersion: SCHEMA_VERSION,
-  currentDifficulty: 1,
   fallacyStats: {},
   sessionHistory: [],
   streak: {
@@ -93,7 +91,6 @@ const defaultProgress: UserProgress = {
   totalQuestionsAnswered: 0,
   sessionsCompleted: 0,
   correctStreak: 0,
-  recentResults: [],
   seenQuestionIds: [],
   isFirstTime: true,
 };
@@ -116,6 +113,9 @@ function loadProgress(): UserProgress {
       }
       delete parsed.consecutiveCorrect;
       delete parsed.feynmanStreak;
+      // v3: difficulty ladder retired
+      delete parsed.currentDifficulty;
+      delete parsed.recentResults;
 
       // v2: retired and merged fallacies remap onto surviving keys
       parsed.fallacyStats = migrateFallacyKeys(parsed.fallacyStats);
@@ -211,16 +211,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
       const firstTry = isCorrect && attempts === 1;
       const newCorrectStreak = firstTry ? prev.correctStreak + 1 : 0;
-
-      // Phase 6 retires this ladder; kept for behavior preservation until then.
-      const newRecentResults = [...prev.recentResults, firstTry].slice(-10);
-      let newDifficulty = prev.currentDifficulty;
-      const recentCorrect = newRecentResults.filter(Boolean).length;
-      if (recentCorrect >= 8 && prev.currentDifficulty < 3) {
-        newDifficulty = (prev.currentDifficulty + 1) as Difficulty;
-      } else if (recentCorrect <= 3 && prev.currentDifficulty > 1) {
-        newDifficulty = (prev.currentDifficulty - 1) as Difficulty;
-      }
+      newStats.lastAttemptCorrect = isCorrect;
 
       return {
         ...prev,
@@ -230,8 +221,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         },
         totalQuestionsAnswered: prev.totalQuestionsAnswered + 1,
         correctStreak: newCorrectStreak,
-        recentResults: newRecentResults,
-        currentDifficulty: newDifficulty,
         seenQuestionIds: [...new Set([...prev.seenQuestionIds, questionId])],
         lastUpdated: Date.now(),
         isFirstTime: false,

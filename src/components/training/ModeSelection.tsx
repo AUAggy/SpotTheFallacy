@@ -18,11 +18,12 @@ interface ModeSelectionProps {
     categoryFilter?: FallacyCategory, 
     contextFilter?: ContextTag
   ) => void;
-  currentDifficulty: number;
+  answeredCount: number;
+  masteredCount: number;
   streak: number;
 }
 
-export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeSelectionProps) {
+export function ModeSelection({ onSelectMode, answeredCount, masteredCount, streak }: ModeSelectionProps) {
   const categories = getAllCategories();
   const contexts = getAllContexts();
 
@@ -38,7 +39,10 @@ export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeS
         </p>
         <div className="flex items-center justify-center gap-4 mt-4">
           <Badge variant="outline" className="text-sm py-1 px-3">
-            Difficulty {currentDifficulty}
+            {answeredCount} answered
+          </Badge>
+          <Badge variant="outline" className="text-sm py-1 px-3">
+            {masteredCount} mastered
           </Badge>
           {streak > 0 && (
             <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-300 text-sm py-1 px-3">
@@ -105,7 +109,7 @@ export function ModeSelection({ onSelectMode, currentDifficulty, streak }: ModeS
           </CardHeader>
           <CardContent className="flex-1 flex flex-col">
             <p className="text-sm text-muted-foreground mb-4">
-              The hardest questions we have. Timed. One shot. No retries.
+              Questions you haven't mastered. Timed. One shot. No retries.
             </p>
             <ul className="text-xs text-muted-foreground space-y-1 mb-4">
               <li>• 30 seconds per question</li>
