@@ -15,14 +15,21 @@ export function Footer() {
             </a>
           </p>
           <p>
-            Questions or feedback?{" "}
+            Found a bug or a mislabeled question?{" "}
             <a
-              href="https://signal.me/#eu/wtCGOnxHRTUX7LzOlYb1d4ZAipP_l41CFM_qT1wogl93-5XX3S9JD7Aw0KnZpkYh"
+              href="https://github.com/AUAggy/SpotTheFallacy/issues"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-foreground transition-colors"
             >
-              Message me and Faith on Signal
+              Open an issue on GitHub
+            </a>{" "}
+            or email{" "}
+            <a
+              href="mailto:hello+spotthefallacy@miaggy.com"
+              className="underline hover:text-foreground transition-colors"
+            >
+              hello+spotthefallacy@miaggy.com
             </a>
           </p>
         </div>
