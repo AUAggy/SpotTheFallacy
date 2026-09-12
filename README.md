@@ -55,12 +55,29 @@ the exercise.
 
 Press 1-4 to answer, Enter to continue. The whole game is playable without a mouse.
 
+### Install it like an app
+
+The site is a PWA, so it can live on a home screen or in its own window instead
+of a browser tab:
+
+- **Android / Chrome / Edge**: an install button appears in the address bar, or
+  use the browser menu. The app gets its own icon, its own window with no browser
+  chrome, and a launch screen built from the app name and icon.
+- **iPhone / iPad**: Share, then Add to Home Screen. iOS does not offer an
+  install prompt, and it uses the `apple-touch-icon` for the home screen icon.
+- **Desktop**: installs as a standalone window from the address bar icon.
+
+Once installed it opens without a network connection: the app shell is cached by
+a service worker on first load, and a new version is picked up in the background
+and applied on the next launch.
+
 ## What You Get
 
 - **40+ logical fallacies**, each with a specific pattern diagram, a valid version of the argument, and key terms
 - **120+ practice questions**, 3 per fallacy, written for school, work, media, and internet life
 - **Wrong options that teach**: distractors are the fallacies each one is most often confused with
 - **Mastery-weighted question selection** in Training Mode
+- **Installs as an app** on a phone or desktop, and works offline once loaded
 - **Private by design**: all progress stays in your browser; nothing is sent to a server
 - **Free, no ads, no accounts**
 
@@ -69,7 +86,8 @@ Press 1-4 to answer, Enter to continue. The whole game is playable without a mou
 - React + TypeScript + Vite
 - Tailwind CSS + shadcn-ui
 - localStorage for all progress (with schema migrations)
-- Vitest for unit tests; two Playwright harnesses for end-to-end checks
+- `vite-plugin-pwa` for the web app manifest and service worker
+- Vitest for unit tests; three Playwright harnesses for end-to-end checks
 
 ## Design Decisions
 
@@ -80,6 +98,25 @@ earlier designs; the reasoning is recorded so they do not get reinvented.
 (`fallacy_trainer_progress`). No accounts, no network calls, nothing to host
 except static files. Cost: progress is per-device, and export/import is the only
 backup. 
+
+**Installable, and offline after the first load.** `vite-plugin-pwa` generates
+the web app manifest and the service worker at build time, so the manifest is
+never hand-written and the service worker is never committed. The app shell is
+precached, which is what makes an installed copy launch without a network.
+Costs, all deliberate:
+
+- The service worker is disabled in dev. Testing install or offline behaviour
+  needs `npm run build && npm run preview`; running it against the dev server
+  would also mean the copy and critic harnesses sometimes test a cached bundle
+  instead of the working tree.
+- Manifest icons are generated from the logo by
+  `scripts/generate-pwa-assets.py`, because the source logo is a lockup with a
+  wordmark that is unreadable at icon sizes. Icons use the mark alone.
+- iOS launch images are **off by default** (`--ios-splash` turns them on). They
+  are 20 device-specific PNGs and over a megabyte, fetched only when an
+  installed iOS app launches, whereas Chrome and Android build their launch
+  screen from the manifest for free. iOS through Safari also ignores the
+  manifest, so it needs the `apple-*` meta tags to behave like an app.
 
 **Mastery-weighted selection, not a difficulty ladder.** An earlier version
 adapted a numeric difficulty level up and down with performance. It was retired
@@ -138,6 +175,20 @@ Both write screenshots and a `report.json` to `.critic/<round>/` (gitignored),
 and both fail loudly on text overflow, wrong feedback states, or a broken
 timer.
 
+A third harness checks the PWA. It needs a **build**, not the dev server,
+because that is the only place a service worker exists:
+
+```bash
+npm run build && npm run preview &
+python3 pwa_harness.py             # manifest, icons, service worker, offline
+```
+
+If the logo changes, regenerate the icon set and commit the result:
+
+```bash
+python3 scripts/generate-pwa-assets.py   # public/icons/*
+```
+
 ## Project Structure
 
 ```
@@ -157,7 +208,19 @@ src/
 │   └── types.ts               # TypeScript definitions
 ├── test/                      # vitest suites (incl. copy quality gates)
 └── pages/Index.tsx            # app shell and navigation
+
+public/
+├── icons/             # PWA icon set, generated from images/logo.png
+├── images/            # logo source and social preview card
+├── favicon.ico        # 16/32/48 favicon
+└── favicon-32.png     # 32px favicon
+
+scripts/
+└── generate-pwa-assets.py     # rebuilds public/icons/* from the logo
 ```
+
+`vite.config.ts` holds the PWA configuration (manifest fields, precache
+patterns, SPA navigation fallback) alongside the chunk-splitting rules.
 
 ## Adding a Fallacy
 
