@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import {
   LearningMode,
   FallacyCategory,
-  ContextTag
+  ContextTag,
+  isFeynmanDue
 } from "@/data/types";
 import { useLearningEngine } from "@/hooks/useLearningEngine";
 import { useProgress } from "@/hooks/useProgress";
@@ -68,7 +69,6 @@ export function TrainingSession({
     updateStreak,
     recordAnswer,
     recordSession,
-    shouldShowFeynmanChallenge,
     getMasteredFallacies,
     recordDailyResult,
   } = useProgress();
@@ -79,6 +79,16 @@ export function TrainingSession({
   const [questionForFeynman, setQuestionForFeynman] = useState(currentQuestion);
   const [burst, setBurst] = useState(0);
   const celebratedRef = useRef<string | null>(null);
+
+  // One definition of "this session's options", shared by the init effect and
+  // Restart, so a restart cannot silently change the pool, the length, or the
+  // daily seed.
+  const today = new Date().toISOString().slice(0, 10);
+  const sessionOptions = useMemo(() => ({
+    count: questionCount,
+    fallacies: fallacyFilter,
+    seed: mode === "daily" ? today : undefined,
+  }), [questionCount, fallacyFilter, mode, today]);
 
   // celebrate a fresh mastery crossing exactly once
   useEffect(() => {
@@ -99,16 +109,17 @@ export function TrainingSession({
 
   // Initialize session
   useEffect(() => {
-    startSession(mode, categoryFilter, contextFilter, {
-      count: questionCount,
-      fallacies: fallacyFilter,
-      seed: mode === "daily" ? new Date().toISOString().slice(0, 10) : undefined,
-    });
+    startSession(mode, categoryFilter, contextFilter, sessionOptions);
     updateStreak();
-  }, [mode, categoryFilter, contextFilter, questionCount, fallacyFilter, startSession, updateStreak]);
+  }, [mode, categoryFilter, contextFilter, sessionOptions, startSession, updateStreak]);
 
   const handleAnswer = useCallback((selectedAnswer: string, timedOut = false) => {
     const result = submitAnswer(selectedAnswer);
+
+    // Another caller (typically the challenge timer) already recorded this
+    // question. Ignore it instead of overwriting the real feedback.
+    if (result.duplicate) return result;
+
     setLastAnswer({
       isCorrect: result.isCorrect,
       attempts: result.attempts,
@@ -116,19 +127,25 @@ export function TrainingSession({
       timedOut,
     });
 
-    console.log("[HA]", currentQuestion?.id, result);
     if (result.isCorrect || session?.oneShot) {
       if (currentQuestion) {
         recordAnswer(
           currentQuestion.fallacy_name,
-          currentQuestion.id,
           result.isCorrect,
           result.attempts
         );
       }
 
+      // recordAnswer only queues the streak update, so the streak that
+      // includes this answer is the current value plus one for a first-try
+      // correct. Reading the pre-answer value would fire the prompt one
+      // answer late.
+      const streakAfter = result.isCorrect && result.attempts === 1
+        ? progress.correctStreak + 1
+        : 0;
+
       // Feynman interstitial on hot streaks (never in one-shot or quick modes)
-      if (result.isCorrect && !session?.oneShot && !session?.quick && shouldShowFeynmanChallenge()) {
+      if (result.isCorrect && !session?.oneShot && !session?.quick && isFeynmanDue(streakAfter)) {
         setQuestionForFeynman(currentQuestion);
         setPhase("feynman");
       } else {
@@ -137,7 +154,7 @@ export function TrainingSession({
     }
     // In non-challenge modes a wrong answer stays on the question for retry.
     return result;
-  }, [submitAnswer, currentQuestion, mode, recordAnswer, shouldShowFeynmanChallenge]);
+  }, [submitAnswer, currentQuestion, recordAnswer, session?.oneShot, session?.quick, progress.correctStreak]);
 
   // Challenge timer: runs only while a question is on screen. Expiry fires
   // exactly once because the timeout transition leaves the question phase.
@@ -157,7 +174,6 @@ export function TrainingSession({
   }, [mode, phase, session, currentQuestion, handleAnswer, updateTimer]);
 
   const handleContinue = useCallback(() => {
-    console.log("[HC] complete?", isSessionComplete, "answers:", session?.answers.length, "index:", session?.currentQuestionIndex, "total:", session?.questions.length);
     setLastAnswer(null);
     if (isSessionComplete) {
       setPhase("summary");
@@ -170,7 +186,8 @@ export function TrainingSession({
           duration: sessionStats.duration,
         });
         if (mode === "daily") {
-          const today = new Date().toISOString().slice(0, 10);
+          // The store keeps one daily entry per date, so this is safe even
+          // if a stale tab or a replay path gets here twice.
           recordDailyResult(today, sessionStats.totalCorrect, sessionStats.totalQuestions);
         }
       }
@@ -178,7 +195,7 @@ export function TrainingSession({
       nextQuestion();
       setPhase("question");
     }
-  }, [isSessionComplete, sessionStats, mode, getMasteredFallacies, recordSession, nextQuestion]);
+  }, [isSessionComplete, sessionStats, mode, getMasteredFallacies, recordSession, recordDailyResult, nextQuestion, today]);
 
   const handleFeynmanComplete = useCallback(() => {
     setPhase("feedback");
@@ -216,10 +233,10 @@ export function TrainingSession({
 
   const handleRestart = useCallback(() => {
     endSession();
-    startSession(mode, categoryFilter, contextFilter);
+    startSession(mode, categoryFilter, contextFilter, sessionOptions);
     setPhase("question");
     setLastAnswer(null);
-  }, [endSession, startSession, mode, categoryFilter, contextFilter]);
+  }, [endSession, startSession, mode, categoryFilter, contextFilter, sessionOptions]);
 
   const progressInfo = getProgressInSession();
 
@@ -231,6 +248,7 @@ export function TrainingSession({
           mode={mode}
           onRestart={handleRestart}
           onHome={handleExit}
+          allowRestart={mode !== "daily"}
           streak={progress.streak.current}
           masteredCount={getMasteredFallacies().length}
           totalFallacies={totalFallacies}

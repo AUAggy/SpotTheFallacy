@@ -6,14 +6,12 @@ import {
   LearningMode,
   FallacyCategory,
   ContextTag,
-  Difficulty
+  SubmitResult
 } from "@/data/types";
 import { 
   enhancedQuestions, 
   getQuestionsByCategory, 
-  getQuestionsByContext,
-  getQuestionsByDifficulty,
-  enhancedFallacies
+  getQuestionsByContext
 } from "@/data/enhancedData";
 import { useProgress } from "./useProgress";
 
@@ -39,25 +37,23 @@ function shuffleQuestions<T>(array: T[], rng: () => number): T[] {
   return shuffled;
 }
 
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
 export function useLearningEngine() {
-  const { progress, getWeakFallacies, getUnseenFallacies, getMasteredFallacies } = useProgress();
+  const { progress, getMasteredFallacies } = useProgress();
   const [session, setSession] = useState<SessionState | null>(null);
   const [currentAttempts, setCurrentAttempts] = useState(0);
 
   // Live reads with a stable identity: selection callbacks must never change,
   // otherwise startSession's identity changes and the session-init effect in
   // TrainingSession resets the session mid-question whenever progress updates.
-  const latest = useRef({ progress, getWeakFallacies, getUnseenFallacies, getMasteredFallacies });
-  latest.current = { progress, getWeakFallacies, getUnseenFallacies, getMasteredFallacies };
+  const latest = useRef({ progress, getMasteredFallacies });
+  latest.current = { progress, getMasteredFallacies };
+
+  // Questions already answered this session. This is a ref rather than a
+  // read of `session.answers` because two callers can submit in the same
+  // render snapshot (the challenge timer firing as a click lands): a
+  // snapshot-based check would let both through and record the question
+  // twice, which would desync the session and strand the summary screen.
+  const answeredIds = useRef<Set<string>>(new Set());
 
   const selectSmartQuestions = useCallback((
     mode: LearningMode,
@@ -72,16 +68,12 @@ export function useLearningEngine() {
     let pool: EnhancedQuestion[] = [];
     switch (mode) {
       case "training":
-      case "category":
+      case "category": {
+        pool = categoryFilter ? getQuestionsByCategory(categoryFilter) : [...enhancedQuestions];
+        break;
+      }
       case "context": {
-        if (mode === "category" && categoryFilter) {
-          const names = enhancedFallacies.filter(f => f.category === categoryFilter).map(f => f.name);
-          pool = enhancedQuestions.filter(q => names.includes(q.fallacy_name));
-        } else if (mode === "context" && contextFilter) {
-          pool = getQuestionsByContext(contextFilter);
-        } else {
-          pool = [...enhancedQuestions];
-        }
+        pool = contextFilter ? getQuestionsByContext(contextFilter) : [...enhancedQuestions];
         break;
       }
       case "challenge": {
@@ -118,7 +110,12 @@ export function useLearningEngine() {
     const weight = (q: EnhancedQuestion): number => {
       const s = progress.fallacyStats[q.fallacy_name];
       if (!s || s.totalSeen === 0) return 2;
-      return s.lastAttemptCorrect === false ? 4 : 1;
+      // "missed" covers both a one-shot wrong answer (lastAttemptCorrect
+      // false) and a training-mode first attempt that needed a retry (the
+      // recorded attempt count is greater than one). Reading only
+      // lastAttemptCorrect would ignore every training-mode miss.
+      const lastAttempts = s.attempts?.[s.attempts.length - 1] ?? 1;
+      return s.lastAttemptCorrect === false || lastAttempts > 1 ? 4 : 1;
     };
     while (picked.length < count && items.length > 0) {
       const weights = items.map(weight);
@@ -141,6 +138,7 @@ export function useLearningEngine() {
     contextFilter?: ContextTag,
     options?: { count?: number; seed?: string; fallacies?: string[] }
   ) => {
+    answeredIds.current = new Set();
     const questions = selectSmartQuestions(
       mode,
       options?.count ?? (mode === "daily" ? 5 : QUESTIONS_PER_SESSION),
@@ -169,20 +167,15 @@ export function useLearningEngine() {
     return session.questions[session.currentQuestionIndex] || null;
   }, [session]);
 
-  const submitAnswer = useCallback((selectedAnswer: string): { 
-    isCorrect: boolean; 
-    attempts: number;
-    canRetry: boolean;
-  } => {
+  const submitAnswer = useCallback((selectedAnswer: string): SubmitResult => {
     if (!session || !currentQuestion) {
       return { isCorrect: false, attempts: 0, canRetry: false };
     }
 
     // Guard against double-submission of the same question (e.g. a click
     // racing the timer-expiry auto-answer).
-    const alreadyAnswered = session.answers.some(a => a.questionId === currentQuestion.id);
-    if (alreadyAnswered) {
-      return { isCorrect: false, attempts: currentAttempts, canRetry: false };
+    if (answeredIds.current.has(currentQuestion.id)) {
+      return { isCorrect: false, attempts: currentAttempts, canRetry: false, duplicate: true };
     }
 
     const newAttempts = currentAttempts + 1;
@@ -194,6 +187,7 @@ export function useLearningEngine() {
     setCurrentAttempts(newAttempts);
 
     if (isCorrect || session.oneShot) {
+      answeredIds.current.add(currentQuestion.id);
       // Record the answer
       const answer: AnswerRecord = {
         questionId: currentQuestion.id,

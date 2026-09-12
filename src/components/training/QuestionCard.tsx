@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { EnhancedQuestion, LearningMode } from "@/data/types";
+import { EnhancedQuestion, LearningMode, SubmitResult } from "@/data/types";
 import { cn } from "@/lib/utils";
 
 interface QuestionCardProps {
   question: EnhancedQuestion;
-  onAnswer: (answer: string) => { isCorrect: boolean; attempts: number; canRetry: boolean };
+  onAnswer: (answer: string) => SubmitResult;
   attempts: number;
   mode: LearningMode;
   /** one attempt per question (challenge + daily) */
@@ -24,11 +24,7 @@ export function QuestionCard({
   timer 
 }: QuestionCardProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [feedback, setFeedback] = useState<{
-    isCorrect: boolean;
-    attempts: number;
-    canRetry: boolean;
-  } | null>(null);
+  const [feedback, setFeedback] = useState<SubmitResult | null>(null);
   const [isShaking, setIsShaking] = useState(false);
 
   const handleOptionClick = (option: string) => {
@@ -37,6 +33,7 @@ export function QuestionCard({
 
     setSelectedAnswer(option);
     const result = onAnswer(option);
+    if (result.duplicate) return; // another caller won the race
     setFeedback(result);
 
     if (!result.isCorrect && result.canRetry) {
@@ -45,7 +42,8 @@ export function QuestionCard({
     }
   };
 
-  // Keyboard play: 1-4 pick an option
+  // Keyboard play: 1-4 pick an option. Re-registered per render on purpose so
+  // the handler always sees the current question and feedback state.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (feedback && (feedback.isCorrect || oneShot)) return;

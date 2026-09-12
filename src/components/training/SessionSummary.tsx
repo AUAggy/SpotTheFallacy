@@ -19,6 +19,8 @@ interface SessionSummaryProps {
   mode: LearningMode;
   onRestart: () => void;
   onHome: () => void;
+  /** false for modes that are locked after one play (daily challenge) */
+  allowRestart?: boolean;
   streak: number;
   masteredCount: number;
   totalFallacies: number;
@@ -33,6 +35,7 @@ export function SessionSummary({
   mode, 
   onRestart, 
   onHome,
+  allowRestart = true,
   streak,
   masteredCount,
   totalFallacies,
@@ -182,12 +185,20 @@ export function SessionSummary({
 
         <Separator />
 
+        {!allowRestart && (
+          <p className="text-center text-sm text-muted-foreground">
+            That was today's set. A new one arrives tomorrow.
+          </p>
+        )}
+
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button onClick={onRestart} className="flex-1">
-            <RotateCcw className="mr-2 h-4 w-4" />
-            Train Again
-          </Button>
+          {allowRestart && (
+            <Button onClick={onRestart} className="flex-1">
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Train Again
+            </Button>
+          )}
           <Button onClick={onHome} variant="outline" className="flex-1">
             <Home className="mr-2 h-4 w-4" />
             Back to Menu
