@@ -7,9 +7,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { 
   Trophy, 
-  CheckCircle2, 
-  BookOpen, 
-  HelpCircle,
   Target,
   Flame,
   Calendar,
@@ -58,18 +55,24 @@ export function StatsDashboard({ progress, getCategoryMastery, onPracticeFallaci
 
   const confusionPairs = useMemo(() => {
     const pairs: { fallacy1: string; fallacy2: string; count: number }[] = [];
-    
+
+    // "Struggle" counts both ways a player shows weakness: a one-shot miss
+    // (challenge/daily) and a first attempt that needed a retry (training).
+    // Counting only `incorrect` would ignore every training-mode miss.
+    const struggles = (stats: UserProgress["fallacyStats"][string]) =>
+      (stats.incorrect ?? 0) + (stats.attempts ?? []).filter(a => a > 1).length;
+
     // Find fallacies that are often confused with each other
     enhancedFallacies.forEach(fallacy => {
       const stats = progress.fallacyStats[fallacy.name];
-      if (stats && stats.incorrect > stats.correctFirstTry) {
+      if (stats && struggles(stats) > stats.correctFirstTry) {
         fallacy.confusedWith.forEach(confused => {
           const existingPair = pairs.find(
             p => (p.fallacy1 === fallacy.name && p.fallacy2 === confused) ||
                  (p.fallacy1 === confused && p.fallacy2 === fallacy.name)
           );
           if (!existingPair) {
-            pairs.push({ fallacy1: fallacy.name, fallacy2: confused, count: stats.incorrect });
+            pairs.push({ fallacy1: fallacy.name, fallacy2: confused, count: struggles(stats) });
           }
         });
       }
