@@ -240,7 +240,11 @@ the explanation and the diagram to hold up too, not just the wording.
 
 ## License
 
-MIT
+AGPL-3.0. Free to use, share, and modify. The one condition that matters:
+if you run a modified version of this app publicly (including on your own
+site), you must make your modified source available under the same license.
+
+Copyright © 2026 miaggy.com
 
 ## Credits
 
