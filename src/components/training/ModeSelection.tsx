@@ -7,6 +7,8 @@ import {
   Globe2, 
   Zap, 
   BookOpen,
+  CalendarCheck,
+  Timer,
   ArrowRight
 } from "lucide-react";
 import { LearningMode, FallacyCategory, ContextTag } from "@/data/types";
@@ -21,9 +23,14 @@ interface ModeSelectionProps {
   answeredCount: number;
   masteredCount: number;
   streak: number;
+  /** true when today's daily is already played (ISO date match) */
+  dailyDone: boolean;
+  dailyScore?: { score: number; total: number };
+  onQuickRound: () => void;
 }
 
-export function ModeSelection({ onSelectMode, answeredCount, masteredCount, streak }: ModeSelectionProps) {
+export function ModeSelection({ onSelectMode, answeredCount, masteredCount, streak, dailyDone, dailyScore, onQuickRound }: ModeSelectionProps) {
+  const today = new Date().toISOString().slice(0, 10);
   const categories = getAllCategories();
   const contexts = getAllContexts();
 
@@ -120,6 +127,47 @@ export function ModeSelection({ onSelectMode, answeredCount, masteredCount, stre
               Take the Challenge
               <Zap className="ml-2 h-4 w-4" />
             </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Daily + Quick rounds */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        <Card
+          className={dailyDone ? "opacity-70" : "cursor-pointer hover:border-primary/50 transition-all hover:shadow-lg"}
+          onClick={() => { if (!dailyDone) onSelectMode("daily"); }}
+        >
+          <CardContent className="flex items-center gap-3 p-4">
+            <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600">
+              <CalendarCheck className="h-5 w-5" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm">Today's 5</p>
+              {dailyDone && dailyScore ? (
+                <p className="text-xs text-muted-foreground">
+                  Done: {dailyScore.score}/{dailyScore.total}. Come back tomorrow!
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  5 questions, same set for everyone, one attempt
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card
+          className="cursor-pointer hover:border-primary/50 transition-all hover:shadow-lg"
+          onClick={onQuickRound}
+        >
+          <CardContent className="flex items-center gap-3 p-4">
+            <div className="p-2 rounded-lg bg-green-500/10 text-green-600">
+              <Timer className="h-5 w-5" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm">Quick Round</p>
+              <p className="text-xs text-muted-foreground">3 questions, about a minute</p>
+            </div>
           </CardContent>
         </Card>
       </div>

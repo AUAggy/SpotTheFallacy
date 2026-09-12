@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,10 @@ interface TrainingSessionProps {
   mode: LearningMode;
   categoryFilter?: FallacyCategory;
   contextFilter?: ContextTag;
+  /** short session (Quick Round) */
+  questionCount?: number;
+  /** restrict the pool to these fallacies ("practice your weakest") */
+  fallacyFilter?: string[];
   onExit: () => void;
 }
 
@@ -41,6 +45,8 @@ export function TrainingSession({
   mode,
   categoryFilter,
   contextFilter,
+  questionCount,
+  fallacyFilter,
   onExit
 }: TrainingSessionProps) {
   const {
@@ -64,6 +70,7 @@ export function TrainingSession({
     recordSession,
     shouldShowFeynmanChallenge,
     getMasteredFallacies,
+    recordDailyResult,
   } = useProgress();
   const totalFallacies = enhancedFallacies.length;
 
@@ -92,9 +99,13 @@ export function TrainingSession({
 
   // Initialize session
   useEffect(() => {
-    startSession(mode, categoryFilter, contextFilter);
+    startSession(mode, categoryFilter, contextFilter, {
+      count: questionCount,
+      fallacies: fallacyFilter,
+      seed: mode === "daily" ? new Date().toISOString().slice(0, 10) : undefined,
+    });
     updateStreak();
-  }, [mode, categoryFilter, contextFilter, startSession, updateStreak]);
+  }, [mode, categoryFilter, contextFilter, questionCount, fallacyFilter, startSession, updateStreak]);
 
   const handleAnswer = useCallback((selectedAnswer: string, timedOut = false) => {
     const result = submitAnswer(selectedAnswer);
@@ -105,7 +116,8 @@ export function TrainingSession({
       timedOut,
     });
 
-    if (result.isCorrect || mode === "challenge") {
+    console.log("[HA]", currentQuestion?.id, result);
+    if (result.isCorrect || session?.oneShot) {
       if (currentQuestion) {
         recordAnswer(
           currentQuestion.fallacy_name,
@@ -115,8 +127,8 @@ export function TrainingSession({
         );
       }
 
-      // Feynman interstitial on hot streaks (never in challenge mode)
-      if (result.isCorrect && mode !== "challenge" && shouldShowFeynmanChallenge()) {
+      // Feynman interstitial on hot streaks (never in one-shot or quick modes)
+      if (result.isCorrect && !session?.oneShot && !session?.quick && shouldShowFeynmanChallenge()) {
         setQuestionForFeynman(currentQuestion);
         setPhase("feynman");
       } else {
@@ -145,6 +157,7 @@ export function TrainingSession({
   }, [mode, phase, session, currentQuestion, handleAnswer, updateTimer]);
 
   const handleContinue = useCallback(() => {
+    console.log("[HC] complete?", isSessionComplete, "answers:", session?.answers.length, "index:", session?.currentQuestionIndex, "total:", session?.questions.length);
     setLastAnswer(null);
     if (isSessionComplete) {
       setPhase("summary");
@@ -156,6 +169,10 @@ export function TrainingSession({
           mastered: getMasteredFallacies().length,
           duration: sessionStats.duration,
         });
+        if (mode === "daily") {
+          const today = new Date().toISOString().slice(0, 10);
+          recordDailyResult(today, sessionStats.totalCorrect, sessionStats.totalQuestions);
+        }
       }
     } else {
       nextQuestion();
@@ -175,6 +192,27 @@ export function TrainingSession({
     endSession();
     onExit();
   }, [endSession, onExit]);
+
+  // Personal best among previously recorded challenge sessions
+  const personalBest = useMemo(() => {
+    const past = progress.sessionHistory.filter(s => s.mode === "challenge");
+    if (past.length === 0) return undefined;
+    return Math.max(...past.map(s => s.correctFirstTry));
+  }, [progress.sessionHistory]);
+
+  // Focus-next takeaway: the fallacy missed most in this session
+  const takeaway = useMemo(() => {
+    if (!session || phase !== "summary") return null;
+    const wrong = new Map<string, number>();
+    for (const a of session.answers) {
+      if (a.isCorrect) continue;
+      const q = session.questions.find(x => x.id === a.questionId);
+      if (q) wrong.set(q.fallacy_name, (wrong.get(q.fallacy_name) ?? 0) + 1);
+    }
+    if (wrong.size === 0) return null;
+    const [name] = [...wrong.entries()].sort((a, b) => b[1] - a[1])[0];
+    return name;
+  }, [phase, session]);
 
   const handleRestart = useCallback(() => {
     endSession();
@@ -196,6 +234,8 @@ export function TrainingSession({
           streak={progress.streak.current}
           masteredCount={getMasteredFallacies().length}
           totalFallacies={totalFallacies}
+          personalBest={personalBest !== undefined ? Math.max(personalBest, sessionStats?.totalCorrect ?? 0) : undefined}
+          takeaway={takeaway}
         />
       </div>
     );
@@ -263,6 +303,7 @@ export function TrainingSession({
             onAnswer={handleAnswer}
             attempts={currentAttempts}
             mode={mode}
+            oneShot={session.oneShot ?? false}
             timer={session.timer}
           />
         )}

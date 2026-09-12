@@ -22,9 +22,17 @@ import { enhancedFallacies, getAllCategories } from "@/data/enhancedData";
 interface StatsDashboardProps {
   progress: UserProgress;
   getCategoryMastery: (category: string) => number;
+  onPracticeFallacies: (names: string[]) => void;
 }
 
-export function StatsDashboard({ progress, getCategoryMastery }: StatsDashboardProps) {
+export function StatsDashboard({ progress, getCategoryMastery, onPracticeFallacies }: StatsDashboardProps) {
+  const weakest = useMemo(() => {
+    return enhancedFallacies
+      .map(f => ({ name: f.name, mastery: getMasteryInfo(progress.fallacyStats[f.name]) }))
+      .filter(({ mastery }) => mastery.level === "learning")
+      .sort((a, b) => a.mastery.percentage - b.mastery.percentage)
+      .slice(0, 3);
+  }, [progress.fallacyStats]);
   const categories = getAllCategories();
   
   const masteryGroups = useMemo(() => {
@@ -78,6 +86,26 @@ export function StatsDashboard({ progress, getCategoryMastery }: StatsDashboardP
           Your stats at a glance
         </p>
       </div>
+
+      {/* Next Up */}
+      {weakest.length > 0 && (
+        <Card className="border-primary/30 bg-primary/5">
+          <CardContent className="pt-4 pb-4">
+            <p className="text-sm font-medium mb-2">Practice these next:</p>
+            <div className="flex flex-wrap gap-2">
+              {weakest.map(({ name, mastery }) => (
+                <button
+                  key={name}
+                  onClick={() => onPracticeFallacies([name])}
+                  className="inline-flex items-center gap-1 rounded-md border bg-background px-3 py-1.5 text-sm hover:bg-accent transition-colors"
+                >
+                  {mastery.emoji} {name} ({Math.round(mastery.percentage)}%)
+                </button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Quick Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

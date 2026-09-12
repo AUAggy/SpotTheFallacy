@@ -236,6 +236,98 @@ def static_flows(browser, vp, w, h, first_time=False):
     snap(page, vp, "settings")
     ctx.close()
 
+
+def check(name, cond, detail=""):
+    results.append({"viewport": "-", "screen": "CHECK: " + name, "shot": "",
+                    "horizontal_scroll": False, "overflow_offenders": [],
+                    "ok": bool(cond), "note": detail})
+    print(("PASS " if cond else "FAIL ") + name + ((" - " + detail) if detail else ""))
+
+def daily_quick_flow(browser, vp, w, h, truth):
+    ctx = browser.new_context(viewport={"width": w, "height": h})
+    page = capture(ctx)
+    page.goto(BASE, wait_until="networkidle")
+    page.wait_for_timeout(300)
+    tmap = {t["question"]: t for t in truth}
+
+    # Daily challenge: deterministic 5, one shot
+    page.locator("text=Today's 5").first.click()
+    page.wait_for_selector("header span", timeout=5000)
+    header = page.locator("header span").first.inner_text()
+    check(f"[{vp}] daily serves 5 questions", "/ 5" in header, header)
+    for i in range(5):
+        qtext = page.locator("main h3").first.inner_text()
+        q = tmap[qtext]
+        pick_correct = i % 2 == 0
+        target = q["correct"] if pick_correct else [o for o in q["options"] if o != q["correct"]][0]
+        opt_btn(page, target).click()
+        page.wait_for_selector("text=Continue", timeout=5000)
+        fb = page.locator("main .border-2").first.inner_text()
+        if pick_correct:
+            check(f"[{vp}] daily Q{i+1} correct -> success", "Excellent! First try!" in fb)
+        else:
+            check(f"[{vp}] daily Q{i+1} wrong -> red feedback", "Not quite!" in fb)
+        page.get_by_role("button", name="Continue").click()
+        page.wait_for_timeout(250)
+    page.wait_for_selector("text=Daily Challenge Complete", timeout=8000)
+    snap(page, vp, "daily-summary")
+    daily = page.evaluate("() => JSON.parse(localStorage.getItem('fallacy_trainer_progress')).daily")
+    from datetime import date
+    today = date.today().isoformat()
+    check(f"[{vp}] daily recorded for today", daily["lastPlayedDate"] == today, str(daily))
+    page.locator("button", has_text="Back to Menu").click()
+    page.wait_for_timeout(400)
+
+    # Replay blocked: card shows done state
+    done = page.locator("text=Come back tomorrow").count()
+    check(f"[{vp}] daily replay blocked after playing", done > 0)
+
+    # Quick round: 3 questions
+    page.locator("text=Quick Round").first.click()
+    page.wait_for_selector("header span", timeout=5000)
+    header = page.locator("header span").first.inner_text()
+    check(f"[{vp}] quick round serves 3 questions", "/ 3" in header, header)
+    def wait_new_question(prev_header):
+        # wait until either the progress counter changes or the session ends
+        for _ in range(40):
+            page.wait_for_timeout(150)
+            try:
+                h = page.locator("header span").first.inner_text()
+                if h != prev_header:
+                    return h
+            except Exception:
+                pass
+        return page.locator("header span").first.inner_text()
+
+    qtext = page.locator("main h3").first.inner_text()
+    q = tmap[qtext]
+    opt_btn(page, q["correct"]).click()
+    page.wait_for_selector("text=Continue", timeout=5000)
+    prev_header = page.locator("header span").first.inner_text()
+    page.get_by_role("button", name="Continue").click()
+    for i in range(2):
+        new_header = wait_new_question(prev_header)
+        prev_header = new_header
+        qtext = page.locator("main h3").first.inner_text()
+        q = tmap[qtext]
+        opt_btn(page, q["correct"]).click()
+        try:
+            page.wait_for_selector("text=Continue", timeout=5000)
+        except Exception:
+            page.screenshot(path=str(OUT / f"{vp}-quick-stuck.png"), full_page=True)
+            print("stuck body:", page.locator("body").inner_text()[:300].replace(chr(10), " | "))
+            raise
+        prev_header = page.locator("header span").first.inner_text()
+        page.get_by_role("button", name="Continue").click()
+    page.wait_for_selector("text=Training Session Complete", timeout=8000)
+    page.wait_for_timeout(300)
+    snap(page, vp, "quick-summary")
+    # share button copies without crashing
+    page.locator("button", has_text="Copy result").click()
+    page.wait_for_timeout(300)
+    check(f"[{vp}] share button shows Copied!", page.locator("text=Copied!").count() > 0)
+    ctx.close()
+
 def main():
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
@@ -251,6 +343,8 @@ def main():
             static_flows(browser, vp, w, h, first_time=(vp == "mobile"))
             challenge_flow(browser, vp, w, h, truth)
             training_feynman_flow(browser, vp, w, h, truth)
+            if vp == "mobile":
+                daily_quick_flow(browser, vp, w, h, truth)
 
         browser.close()
 

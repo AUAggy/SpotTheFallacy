@@ -2,14 +2,16 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { EnhancedQuestion } from "@/data/types";
+import { EnhancedQuestion, LearningMode } from "@/data/types";
 import { cn } from "@/lib/utils";
 
 interface QuestionCardProps {
   question: EnhancedQuestion;
   onAnswer: (answer: string) => { isCorrect: boolean; attempts: number; canRetry: boolean };
   attempts: number;
-  mode: "training" | "category" | "context" | "challenge";
+  mode: LearningMode;
+  /** one attempt per question (challenge + daily) */
+  oneShot?: boolean;
   timer?: number;
 }
 
@@ -18,6 +20,7 @@ export function QuestionCard({
   onAnswer, 
   attempts, 
   mode,
+  oneShot = false,
   timer 
 }: QuestionCardProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -30,7 +33,7 @@ export function QuestionCard({
 
   const handleOptionClick = (option: string) => {
     if (feedback?.isCorrect) return; // Already answered correctly
-    if (mode === "challenge" && feedback) return; // one shot per question
+    if (oneShot && feedback) return; // one shot per question
 
     setSelectedAnswer(option);
     const result = onAnswer(option);
@@ -45,7 +48,7 @@ export function QuestionCard({
   // Keyboard play: 1-4 pick an option
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (feedback && (feedback.isCorrect || mode === "challenge")) return;
+      if (feedback && (feedback.isCorrect || oneShot)) return;
       const i = ["1", "2", "3", "4"].indexOf(e.key);
       if (i >= 0 && i < question.options.length) {
         handleOptionClick(question.options[i]);
@@ -128,7 +131,7 @@ export function QuestionCard({
               feedback?.isCorrect && option !== question.correct_answer && "pointer-events-none"
             )}
             onClick={() => handleOptionClick(option)}
-            disabled={feedback?.isCorrect || (mode === "challenge" && feedback !== null)}
+            disabled={feedback?.isCorrect || (oneShot && feedback !== null)}
           >
             <span className="mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-sm font-medium">
               {String.fromCharCode(65 + index)}

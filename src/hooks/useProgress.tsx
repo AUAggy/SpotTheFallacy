@@ -92,6 +92,7 @@ const defaultProgress: UserProgress = {
   sessionsCompleted: 0,
   correctStreak: 0,
   lastMasteryUp: null,
+  daily: { lastPlayedDate: null, history: [] },
   seenQuestionIds: [],
   isFirstTime: true,
 };
@@ -143,6 +144,7 @@ interface ProgressApi {
   updateStreak: () => void;
   recordAnswer: (fallacyName: string, questionId: string, isCorrect: boolean, attempts: number) => void;
   recordSession: (session: Omit<SessionRecord, "date">) => void;
+  recordDailyResult: (date: string, score: number, total: number) => void;
   markQuestionSeen: (questionId: string) => void;
   resetCorrectStreak: () => void;
   completeOnboarding: () => void;
@@ -243,6 +245,17 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         { ...session, date: Date.now() },
       ].slice(-50),
       sessionsCompleted: prev.sessionsCompleted + 1,
+      lastUpdated: Date.now(),
+    }));
+  }, []);
+
+  const recordDailyResult = useCallback((date: string, score: number, total: number) => {
+    setProgress(prev => ({
+      ...prev,
+      daily: {
+        lastPlayedDate: date,
+        history: [...prev.daily.history, { date, score, total }].slice(-60),
+      },
       lastUpdated: Date.now(),
     }));
   }, []);
@@ -352,6 +365,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     updateStreak,
     recordAnswer,
     recordSession,
+    recordDailyResult,
     markQuestionSeen,
     resetCorrectStreak,
     completeOnboarding,
@@ -366,7 +380,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     getCategoryMastery,
     shouldShowFeynmanChallenge,
   }), [
-    progress, updateStreak, recordAnswer, recordSession, markQuestionSeen,
+    progress, updateStreak, recordAnswer, recordSession, recordDailyResult, markQuestionSeen,
     resetCorrectStreak, completeOnboarding, setTheme, resetProgress,
     exportProgress, importProgress, getWeakFallacies, getUnseenFallacies,
     getMasteredFallacies, getOverallMastery, getCategoryMastery,

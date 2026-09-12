@@ -22,7 +22,13 @@ export type ContextTag =
 
 export type Difficulty = 1 | 2 | 3;
 
-export type LearningMode = "training" | "category" | "context" | "challenge";
+export type LearningMode = "training" | "category" | "context" | "challenge" | "daily";
+
+export interface DailyRecord {
+  date: string;
+  score: number;
+  total: number;
+}
 
 export interface Fallacy {
   name: string;
@@ -79,6 +85,7 @@ export interface UserProgress {
   correctStreak: number;
   /** transient: fallacy that just crossed the mastery line, for the stamp */
   lastMasteryUp: string | null;
+  daily: { lastPlayedDate: string | null; history: DailyRecord[] };
   seenQuestionIds: string[];
   isFirstTime: boolean;
 }
@@ -112,6 +119,10 @@ export interface SessionState {
   startTime: number;
   categoryFilter?: FallacyCategory;
   contextFilter?: ContextTag;
+  /** one attempt per question (challenge, daily) */
+  oneShot?: boolean;
+  /** short session: skip the Feynman interstitial */
+  quick?: boolean;
   timer?: number;
 }
 

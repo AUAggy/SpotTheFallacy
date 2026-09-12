@@ -33,6 +33,11 @@ const Index = () => {
   const [activeMode, setActiveMode] = useState<LearningMode | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<FallacyCategory | undefined>();
   const [contextFilter, setContextFilter] = useState<ContextTag | undefined>();
+  const [questionCount, setQuestionCount] = useState<number | undefined>();
+  const [fallacyFilter, setFallacyFilter] = useState<string[] | undefined>();
+  const today = new Date().toISOString().slice(0, 10);
+  const dailyDone = progress.daily.lastPlayedDate === today;
+  const dailyToday = progress.daily.history.find(h => h.date === today);
 
   const handleStartTraining = (
     mode: LearningMode,
@@ -49,7 +54,23 @@ const Index = () => {
     setActiveMode(null);
     setCategoryFilter(undefined);
     setContextFilter(undefined);
+    setQuestionCount(undefined);
+    setFallacyFilter(undefined);
     setCurrentView("menu");
+  };
+
+  const handleQuickRound = () => {
+    setQuestionCount(3);
+    setFallacyFilter(undefined);
+    setActiveMode("training");
+    setCurrentView("training");
+  };
+
+  const handlePracticeFallacies = (names: string[]) => {
+    setQuestionCount(Math.min(10, names.length * 3));
+    setFallacyFilter(names);
+    setActiveMode("training");
+    setCurrentView("training");
   };
 
   const handleWelcomeStart = () => {
@@ -73,6 +94,8 @@ const Index = () => {
         mode={activeMode}
         categoryFilter={categoryFilter}
         contextFilter={contextFilter}
+        questionCount={questionCount}
+        fallacyFilter={fallacyFilter}
         onExit={handleExitTraining}
       />
     );
@@ -140,6 +163,9 @@ const Index = () => {
             answeredCount={progress.totalQuestionsAnswered}
             masteredCount={getMasteredFallacies().length}
             streak={progress.streak.current}
+            dailyDone={dailyDone}
+            dailyScore={dailyToday ? { score: dailyToday.score, total: dailyToday.total } : undefined}
+            onQuickRound={handleQuickRound}
           />
         )}
 
@@ -147,6 +173,7 @@ const Index = () => {
           <StatsDashboard
             progress={progress}
             getCategoryMastery={getCategoryMastery}
+            onPracticeFallacies={handlePracticeFallacies}
           />
         )}
 

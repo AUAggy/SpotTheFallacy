@@ -2,7 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { Trophy, Target, Clock, RotateCcw, Home, TrendingUp, Zap } from "lucide-react";
+import { useState } from "react";
+import { Trophy, Target, Clock, RotateCcw, Home, TrendingUp, Zap, Share2, Compass } from "lucide-react";
 import { LearningMode } from "@/data/types";
 
 interface SessionSummaryProps {
@@ -21,6 +22,10 @@ interface SessionSummaryProps {
   streak: number;
   masteredCount: number;
   totalFallacies: number;
+  /** best score across previous challenge sessions */
+  personalBest?: number;
+  /** fallacy missed most often in this session */
+  takeaway?: string | null;
 }
 
 export function SessionSummary({ 
@@ -30,8 +35,37 @@ export function SessionSummary({
   onHome,
   streak,
   masteredCount,
-  totalFallacies
+  totalFallacies,
+  personalBest,
+  takeaway
 }: SessionSummaryProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = () => {
+    const line = `I scored ${stats.totalCorrect}/${stats.totalQuestions} on Spot The Fallacy` +
+      (streak > 0 ? ` \u{1F525} ${streak}-day streak` : "");
+    const done = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    };
+    const fallbackCopy = () => {
+      const ta = document.createElement("textarea");
+      ta.value = line;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        done();
+      } finally {
+        ta.remove();
+      }
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(line).then(done).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  };
   const formatDuration = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
@@ -54,7 +88,11 @@ export function SessionSummary({
         <div className="mx-auto mb-4 text-6xl">{performance.emoji}</div>
         <CardTitle className="text-2xl">{performance.message}</CardTitle>
         <CardDescription>
-          {mode === "challenge" ? "Challenge Mode" : "Training Session"} Complete
+          {mode === "challenge"
+            ? "Challenge Mode"
+            : mode === "daily"
+              ? "Daily Challenge"
+              : "Training Session"} Complete
         </CardDescription>
       </CardHeader>
       
@@ -110,6 +148,30 @@ export function SessionSummary({
             <div className="text-xs text-muted-foreground">Current Streak</div>
           </div>
         </div>
+
+        {/* Personal best (challenge mode) */}
+        {mode === "challenge" && personalBest !== undefined && (
+          <p className="text-center text-sm text-muted-foreground">
+            Personal best: {personalBest}/{stats.totalQuestions}
+          </p>
+        )}
+
+        {/* Focus next */}
+        {takeaway && (
+          <p className="text-center text-sm text-muted-foreground">
+            <Compass className="inline h-4 w-4 mr-1 -mt-0.5" />
+            Focus next: <span className="font-medium text-foreground">{takeaway}</span>
+          </p>
+        )}
+
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={handleShare}
+        >
+          <Share2 className="h-4 w-4 mr-2" />
+          {copied ? "Copied!" : "Copy result to share"}
+        </Button>
 
         {/* Breakdown */}
         {stats.correctAfterRetry > 0 && (

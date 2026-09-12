@@ -20,6 +20,25 @@ import { useProgress } from "./useProgress";
 const QUESTIONS_PER_SESSION = 10;
 const CHALLENGE_TIME_LIMIT = 30;
 
+function mulberry32(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleQuestions<T>(array: T[], rng: () => number): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -44,7 +63,8 @@ export function useLearningEngine() {
     mode: LearningMode,
     count: number,
     categoryFilter?: FallacyCategory,
-    contextFilter?: ContextTag
+    contextFilter?: ContextTag,
+    options?: { count?: number; seed?: string; fallacies?: string[] }
   ): EnhancedQuestion[] => {
     const { progress, getMasteredFallacies } = latest.current;
     const mastered = new Set(getMasteredFallacies().map(f => f.name));
@@ -69,10 +89,26 @@ export function useLearningEngine() {
         pool = enhancedQuestions.filter(q => !mastered.has(q.fallacy_name));
         break;
       }
+      case "daily": {
+        pool = [...enhancedQuestions];
+        break;
+      }
     }
 
     if (pool.length === 0) {
       pool = [...enhancedQuestions];
+    }
+
+    if (options?.fallacies && options.fallacies.length > 0) {
+      pool = pool.filter(q => options.fallacies!.includes(q.fallacy_name));
+    }
+
+    // Daily challenge: deterministic set, same for everyone on that date
+    if (options?.seed) {
+      const seedNum = Array.from(options.seed).reduce((a, c) => a + c.charCodeAt(0) * 31, 7);
+      const rng = mulberry32(seedNum);
+      const shuffled = shuffleQuestions([...pool], rng);
+      return shuffled.slice(0, Math.min(count, shuffled.length));
     }
 
     // Mastery-weighted sampling without replacement:
@@ -103,13 +139,14 @@ export function useLearningEngine() {
     mode: LearningMode,
     categoryFilter?: FallacyCategory,
     contextFilter?: ContextTag,
-    options?: { count?: number }
+    options?: { count?: number; seed?: string; fallacies?: string[] }
   ) => {
     const questions = selectSmartQuestions(
       mode,
-      options?.count ?? QUESTIONS_PER_SESSION,
+      options?.count ?? (mode === "daily" ? 5 : QUESTIONS_PER_SESSION),
       categoryFilter,
-      contextFilter
+      contextFilter,
+      options
     );
     
     setSession({
@@ -120,6 +157,8 @@ export function useLearningEngine() {
       startTime: Date.now(),
       categoryFilter,
       contextFilter,
+      oneShot: mode === "challenge" || mode === "daily",
+      quick: mode === "training" && (options?.count ?? QUESTIONS_PER_SESSION) < 10,
       timer: mode === "challenge" ? CHALLENGE_TIME_LIMIT : undefined,
     });
     setCurrentAttempts(0);
@@ -149,12 +188,12 @@ export function useLearningEngine() {
     const newAttempts = currentAttempts + 1;
     const isCorrect = selectedAnswer === currentQuestion.correct_answer;
     
-    // In challenge mode, no retries
-    const canRetry = session.mode !== "challenge" && !isCorrect;
+    // One-shot modes (challenge, daily): no retries
+    const canRetry = !session.oneShot && !isCorrect;
     
     setCurrentAttempts(newAttempts);
 
-    if (isCorrect || session.mode === "challenge") {
+    if (isCorrect || session.oneShot) {
       // Record the answer
       const answer: AnswerRecord = {
         questionId: currentQuestion.id,
