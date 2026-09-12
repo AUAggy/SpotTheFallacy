@@ -30,7 +30,6 @@ interface ModeSelectionProps {
 }
 
 export function ModeSelection({ onSelectMode, answeredCount, masteredCount, streak, dailyDone, dailyScore, onQuickRound }: ModeSelectionProps) {
-  const today = new Date().toISOString().slice(0, 10);
   const categories = getAllCategories();
   const contexts = getAllContexts();
 
@@ -81,8 +80,8 @@ export function ModeSelection({ onSelectMode, answeredCount, masteredCount, stre
           </CardHeader>
           <CardContent className="flex-1 flex flex-col">
             <p className="text-sm text-muted-foreground mb-4">
-              Questions adapt to your accuracy: answer well and they get
-              harder; struggle and they ease off.
+              The questions adapt to you: ones you have missed come back
+              around, and fallacies you have never seen show up sooner.
             </p>
             <ul className="text-xs text-muted-foreground space-y-1 mb-4">
               <li>• 10 questions per session</li>
@@ -110,7 +109,7 @@ export function ModeSelection({ onSelectMode, answeredCount, masteredCount, stre
                 <CardTitle className="text-lg group-hover:text-primary transition-colors">
                   Challenge Mode
                 </CardTitle>
-                <CardDescription>Hardest questions, timed</CardDescription>
+                <CardDescription>Everything you have not mastered, timed</CardDescription>
               </div>
             </div>
           </CardHeader>
