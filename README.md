@@ -4,6 +4,15 @@
 
 SpotTheFallacy.com is a practice tool for learning to spot logical fallacies: the flawed reasoning patterns that show up in politics, advertising, social media, and everyday conversations. You read a short scenario, name the fallacy, and get an instant explanation of why the answer is right or wrong.
 
+<p align="center">
+  <img src="docs/screenshots/mobile-question.png" width="270" alt="Mid-game question on a phone in portrait mode" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/screenshots/tablet-feedback.png" width="500" alt="Instant feedback after a correct answer on a tablet" />
+</p>
+<p align="center">
+  <sub>Left: mid-session on mobile. Right: the feedback after a correct answer: zinger, the pattern as a diagram, a fallacy-free version, and where you'll see it in real life.</sub>
+</p>
+
 ## How It Works
 
 ### Six ways to practice
