@@ -12,13 +12,12 @@ import {
   FallacyStats,
   SessionRecord,
   UserPreferences,
-  MasteryInfo,
   getMasteryInfo
 } from "@/data/types";
 import { enhancedFallacies } from "@/data/enhancedData";
 
 const STORAGE_KEY = "fallacy_trainer_progress";
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 
 /**
  * Fallacy identity changes (retirements, merges) remap stored stats so
@@ -54,7 +53,7 @@ export function migrateFallacyKeys(stats: Record<string, FallacyStats> | undefin
         correctAfterRetry: existing.correctAfterRetry + value.correctAfterRetry,
         incorrect: existing.incorrect + value.incorrect,
         lastSeen: Math.max(existing.lastSeen ?? 0, value.lastSeen ?? 0),
-        attempts: [...existing.attempts, ...value.attempts].slice(-20),
+        attempts: [...(existing.attempts ?? []), ...(value.attempts ?? [])].slice(-20),
       };
     } else {
       migrated[target] = value;
@@ -73,7 +72,6 @@ const defaultStats: FallacyStats = {
 };
 
 const defaultPreferences: UserPreferences = {
-  theme: "system",
   showOnboarding: true,
 };
 
@@ -93,37 +91,79 @@ const defaultProgress: UserProgress = {
   correctStreak: 0,
   lastMasteryUp: null,
   daily: { lastPlayedDate: null, history: [] },
-  seenQuestionIds: [],
   isFirstTime: true,
 };
+
+/**
+ * Accepts a parsed blob only if it carries the one thing that makes it a
+ * progress record. Anything else (a bare number, an array, an unrelated JSON
+ * document) is rejected so import cannot silently replace progress with an
+ * empty profile while reporting success.
+ */
+function looksLikeProgress(value: unknown): value is Partial<UserProgress> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const stats = (value as Partial<UserProgress>).fallacyStats;
+  return typeof stats === "object" && stats !== null && !Array.isArray(stats);
+}
+
+/**
+ * Bring any historical blob up to the current schema. Used by both load and
+ * import, so a restored backup goes through exactly the same migrations as a
+ * normal page load.
+ */
+function normalizeProgress(input: Partial<UserProgress>): UserProgress {
+  const parsed: Record<string, unknown> = { ...input };
+
+  // streak: a gap of more than one day resets the run
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  const streak = (parsed.streak ?? {}) as Partial<UserProgress["streak"]>;
+  parsed.streak = {
+    current: 0,
+    longest: 0,
+    lastActiveDate: null,
+    ...streak,
+  } as UserProgress["streak"];
+  if (streak.lastActiveDate !== today && streak.lastActiveDate !== yesterday) {
+    (parsed.streak as UserProgress["streak"]).current = 0;
+  }
+
+  // v2: consecutiveCorrect and feynmanStreak merged into correctStreak
+  if (parsed.correctStreak === undefined) {
+    parsed.correctStreak = Math.max(
+      (parsed.consecutiveCorrect as number) ?? 0,
+      (parsed.feynmanStreak as number) ?? 0
+    );
+  }
+  delete parsed.consecutiveCorrect;
+  delete parsed.feynmanStreak;
+  // v3: difficulty ladder retired
+  delete parsed.currentDifficulty;
+  delete parsed.recentResults;
+  // v4: question ids are no longer tracked (selection is mastery-weighted)
+  delete parsed.seenQuestionIds;
+  // theme is owned by next-themes, not by this store
+  if (parsed.preferences) {
+    const stored = parsed.preferences as Partial<UserPreferences>;
+    parsed.preferences = { showOnboarding: stored.showOnboarding ?? true };
+  }
+  // never restore a persisted celebration
+  parsed.lastMasteryUp = null;
+
+  // v2: retired and merged fallacies remap onto surviving keys
+  parsed.fallacyStats = migrateFallacyKeys(parsed.fallacyStats as Record<string, FallacyStats>);
+  parsed.schemaVersion = SCHEMA_VERSION;
+
+  return { ...defaultProgress, ...parsed } as UserProgress;
+}
 
 function loadProgress(): UserProgress {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      const today = new Date().toDateString();
-      const yesterday = new Date(Date.now() - 86400000).toDateString();
-
-      if (parsed.streak.lastActiveDate !== today && parsed.streak.lastActiveDate !== yesterday) {
-        parsed.streak.current = 0;
-      }
-
-      // v2: consecutiveCorrect and feynmanStreak merged into correctStreak
-      if (parsed.correctStreak === undefined) {
-        parsed.correctStreak = Math.max(parsed.consecutiveCorrect ?? 0, parsed.feynmanStreak ?? 0);
-      }
-      delete parsed.consecutiveCorrect;
-      delete parsed.feynmanStreak;
-      // v3: difficulty ladder retired
-      delete parsed.currentDifficulty;
-      delete parsed.recentResults;
-
-      // v2: retired and merged fallacies remap onto surviving keys
-      parsed.fallacyStats = migrateFallacyKeys(parsed.fallacyStats);
-      parsed.schemaVersion = SCHEMA_VERSION;
-
-      return { ...defaultProgress, ...parsed };
+      if (!looksLikeProgress(parsed)) return defaultProgress;
+      return normalizeProgress(parsed);
     }
   } catch (e) {
     console.error("Error loading progress:", e);
@@ -133,7 +173,10 @@ function loadProgress(): UserProgress {
 
 function saveProgress(progress: UserProgress): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    // lastMasteryUp is in-memory only: persisting it would replay the
+    // celebration on the next visit.
+    const { lastMasteryUp: _transient, ...persisted } = progress;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted));
   } catch (e) {
     console.error("Error saving progress:", e);
   }
@@ -142,22 +185,15 @@ function saveProgress(progress: UserProgress): void {
 interface ProgressApi {
   progress: UserProgress;
   updateStreak: () => void;
-  recordAnswer: (fallacyName: string, questionId: string, isCorrect: boolean, attempts: number) => void;
+  recordAnswer: (fallacyName: string, isCorrect: boolean, attempts: number) => void;
   recordSession: (session: Omit<SessionRecord, "date">) => void;
   recordDailyResult: (date: string, score: number, total: number) => void;
-  markQuestionSeen: (questionId: string) => void;
-  resetCorrectStreak: () => void;
   completeOnboarding: () => void;
-  setTheme: (theme: "light" | "dark" | "system") => void;
   resetProgress: () => void;
   exportProgress: () => string;
   importProgress: (data: string) => boolean;
-  getWeakFallacies: () => { fallacy: (typeof enhancedFallacies)[number]; stats: FallacyStats | undefined; mastery: MasteryInfo }[];
-  getUnseenFallacies: () => (typeof enhancedFallacies)[number][];
   getMasteredFallacies: () => (typeof enhancedFallacies)[number][];
-  getOverallMastery: () => number;
   getCategoryMastery: (category: string) => number;
-  shouldShowFeynmanChallenge: () => boolean;
 }
 
 const ProgressContext = createContext<ProgressApi | null>(null);
@@ -196,7 +232,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const recordAnswer = useCallback((
     fallacyName: string,
-    questionId: string,
     isCorrect: boolean,
     attempts: number
   ) => {
@@ -230,7 +265,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         totalQuestionsAnswered: prev.totalQuestionsAnswered + 1,
         correctStreak: newCorrectStreak,
         lastMasteryUp,
-        seenQuestionIds: [...new Set([...prev.seenQuestionIds, questionId])],
         lastUpdated: Date.now(),
         isFirstTime: false,
       };
@@ -250,28 +284,19 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const recordDailyResult = useCallback((date: string, score: number, total: number) => {
-    setProgress(prev => ({
-      ...prev,
-      daily: {
-        lastPlayedDate: date,
-        history: [...prev.daily.history, { date, score, total }].slice(-60),
-      },
-      lastUpdated: Date.now(),
-    }));
-  }, []);
-
-  const markQuestionSeen = useCallback((questionId: string) => {
-    setProgress(prev => ({
-      ...prev,
-      seenQuestionIds: [...new Set([...prev.seenQuestionIds, questionId])],
-    }));
-  }, []);
-
-  const resetCorrectStreak = useCallback(() => {
-    setProgress(prev => ({
-      ...prev,
-      correctStreak: 0,
-    }));
+    setProgress(prev => {
+      // One daily entry per date. This is an invariant, not a UI rule: the
+      // menu, the summary, and a second browser tab all funnel through here.
+      if (prev.daily.lastPlayedDate === date) return prev;
+      return {
+        ...prev,
+        daily: {
+          lastPlayedDate: date,
+          history: [...prev.daily.history, { date, score, total }].slice(-60),
+        },
+        lastUpdated: Date.now(),
+      };
+    });
   }, []);
 
   const completeOnboarding = useCallback(() => {
@@ -285,52 +310,26 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const setTheme = useCallback((theme: "light" | "dark" | "system") => {
-    setProgress(prev => ({
-      ...prev,
-      preferences: {
-        ...prev.preferences,
-        theme,
-      },
-    }));
-  }, []);
-
   const resetProgress = useCallback(() => {
     setProgress(defaultProgress);
   }, []);
 
   const exportProgress = useCallback(() => {
-    return JSON.stringify(progress, null, 2);
+    const { lastMasteryUp: _transient, ...persisted } = progress;
+    return JSON.stringify(persisted, null, 2);
   }, [progress]);
 
   const importProgress = useCallback((data: string) => {
     try {
-      const parsed = JSON.parse(data);
-      // stored backups run through the same migration as loadProgress
-      const migrated = migrateFallacyKeys(parsed.fallacyStats);
-      setProgress({ ...defaultProgress, ...parsed, fallacyStats: migrated, schemaVersion: SCHEMA_VERSION });
+      const parsed: unknown = JSON.parse(data);
+      if (!looksLikeProgress(parsed)) return false;
+      // stored backups run through the same migration as a normal load
+      setProgress(normalizeProgress(parsed));
       return true;
     } catch {
       return false;
     }
   }, []);
-
-  const getWeakFallacies = useCallback(() => {
-    return enhancedFallacies
-      .map(f => ({
-        fallacy: f,
-        stats: progress.fallacyStats[f.name],
-        mastery: getMasteryInfo(progress.fallacyStats[f.name]),
-      }))
-      .filter(({ mastery }) => mastery.level === "learning")
-      .sort((a, b) => a.mastery.percentage - b.mastery.percentage);
-  }, [progress.fallacyStats]);
-
-  const getUnseenFallacies = useCallback(() => {
-    return enhancedFallacies.filter(
-      f => !progress.fallacyStats[f.name] || progress.fallacyStats[f.name].totalSeen === 0
-    );
-  }, [progress.fallacyStats]);
 
   const getMasteredFallacies = useCallback(() => {
     return enhancedFallacies.filter(f => {
@@ -338,11 +337,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       return mastery.level === "master";
     });
   }, [progress.fallacyStats]);
-
-  const getOverallMastery = useCallback(() => {
-    const totalFallacies = enhancedFallacies.length;
-    return (getMasteredFallacies().length / totalFallacies) * 100;
-  }, [getMasteredFallacies]);
 
   const getCategoryMastery = useCallback((category: string) => {
     const fallaciesInCategory = enhancedFallacies.filter(f => f.category === category);
@@ -356,35 +350,22 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     return totalMastery / fallaciesInCategory.length;
   }, [progress.fallacyStats]);
 
-  const shouldShowFeynmanChallenge = useCallback(() => {
-    return progress.correctStreak >= 3 && progress.correctStreak % 3 === 0;
-  }, [progress.correctStreak]);
-
   const value = useMemo<ProgressApi>(() => ({
     progress,
     updateStreak,
     recordAnswer,
     recordSession,
     recordDailyResult,
-    markQuestionSeen,
-    resetCorrectStreak,
     completeOnboarding,
-    setTheme,
     resetProgress,
     exportProgress,
     importProgress,
-    getWeakFallacies,
-    getUnseenFallacies,
     getMasteredFallacies,
-    getOverallMastery,
     getCategoryMastery,
-    shouldShowFeynmanChallenge,
   }), [
-    progress, updateStreak, recordAnswer, recordSession, recordDailyResult, markQuestionSeen,
-    resetCorrectStreak, completeOnboarding, setTheme, resetProgress,
-    exportProgress, importProgress, getWeakFallacies, getUnseenFallacies,
-    getMasteredFallacies, getOverallMastery, getCategoryMastery,
-    shouldShowFeynmanChallenge,
+    progress, updateStreak, recordAnswer, recordSession, recordDailyResult,
+    completeOnboarding, resetProgress, exportProgress, importProgress,
+    getMasteredFallacies, getCategoryMastery,
   ]);
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

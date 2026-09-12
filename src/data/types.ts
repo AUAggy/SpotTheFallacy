@@ -83,10 +83,13 @@ export interface UserProgress {
   totalQuestionsAnswered: number;
   sessionsCompleted: number;
   correctStreak: number;
-  /** transient: fallacy that just crossed the mastery line, for the stamp */
+  /**
+   * Name of the fallacy that just crossed into mastery, for the stamp.
+   * Never persisted: it is cleared before every localStorage write, so a
+   * returning player cannot replay last session's celebration.
+   */
   lastMasteryUp: string | null;
   daily: { lastPlayedDate: string | null; history: DailyRecord[] };
-  seenQuestionIds: string[];
   isFirstTime: boolean;
 }
 
@@ -106,7 +109,6 @@ export interface StreakData {
 }
 
 export interface UserPreferences {
-  theme: "light" | "dark" | "system";
   showOnboarding: boolean;
 }
 
@@ -134,13 +136,21 @@ export interface AnswerRecord {
   timeSpent?: number;
 }
 
-// Feynman challenge
-export interface FeynmanChallenge {
-  question: EnhancedQuestion;
-  userExplanation: string;
-  keywordMatches: string[];
-  score: number;
-  feedback: string;
+/** Result of one answer submission. `duplicate` means it was ignored. */
+export interface SubmitResult {
+  isCorrect: boolean;
+  attempts: number;
+  canRetry: boolean;
+  duplicate?: boolean;
+}
+
+/**
+ * The reflective prompt comes back every third consecutive first-try correct
+ * answer. This is the pure rule; evaluate it against the streak INCLUDING the
+ * answer just given, never against the pre-answer value.
+ */
+export function isFeynmanDue(correctStreak: number): boolean {
+  return correctStreak >= 3 && correctStreak % 3 === 0;
 }
 
 // Mastery levels
