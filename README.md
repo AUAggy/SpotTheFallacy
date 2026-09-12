@@ -54,8 +54,8 @@ Press 1-4 to answer, Enter to continue. The whole game is playable without a mou
 
 ## What You Get
 
-- **43 logical fallacies**, each with a specific pattern diagram, a valid version of the argument, and key terms
-- **129 practice questions**, 3 per fallacy, written for school, work, media, and internet life
+- **40+ logical fallacies**, each with a specific pattern diagram, a valid version of the argument, and key terms
+- **120+ practice questions**, 3 per fallacy, written for school, work, media, and internet life
 - **Wrong options that teach**: distractors are the fallacies each one is most often confused with
 - **Mastery-weighted question selection** in Training Mode
 - **Works offline** after the first load; nothing leaves your browser
