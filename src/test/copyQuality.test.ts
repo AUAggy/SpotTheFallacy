@@ -280,10 +280,36 @@ describe("copy: voice lint (no machine-textured or puffed-up language)", () => {
   });
 });
 
-describe("copy: humor gate (human-judged; enforced via critic agent rounds)", () => {
-  // These become hard tests once the copy voice pass lands the planned
-  // optional `zinger` field (see plans/fallacy-trainer-v2.md, Phase "Copy voice pass").
-  it.todo("every fallacy carries a light, teen-appropriate zinger (planned `zinger` field, <= 120 chars)");
-  it.todo("humor lives in examples and zingers; definition and diagram sentences stay plain and precise");
-  it.todo("critic agent (Feynman persona, teen-humor rubric) scores all copy 8 or higher");
+describe("copy: humor gate (dry, teen-appropriate, never in definitions)", () => {
+  const EMOJI = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
+
+  it("every fallacy carries a zinger (10-120 chars)", () => {
+    for (const f of enhancedFallacies) {
+      expect(f.zinger, `${f.name} has no zinger`).toBeTruthy();
+      expect(
+        f.zinger!.length,
+        `${f.name} zinger is ${f.zinger!.length} chars`
+      ).toBeLessThanOrEqual(120);
+      expect(f.zinger!.length, `${f.name} zinger too short to land`).toBeGreaterThanOrEqual(10);
+    }
+  });
+
+  it("zingers avoid banned phrases and em-dashes like all other copy", () => {
+    for (const f of enhancedFallacies) {
+      const lower = f.zinger!.toLowerCase();
+      for (const phrase of BANNED_PHRASES) {
+        expect(lower.includes(phrase), `${f.name} zinger uses "${phrase}"`).toBe(false);
+      }
+      expect(f.zinger!.includes("\u2014"), `${f.name} zinger uses an em-dash`).toBe(false);
+    }
+  });
+
+  it("definitions and diagrams stay plain: no exclamation marks, no emoji", () => {
+    // jokes live in examples and zingers; teaching text must stay precise
+    for (const f of enhancedFallacies) {
+      expect(f.description.includes("!"), `${f.name} description shouts`).toBe(false);
+      expect(EMOJI.test(f.description), `${f.name} description has emoji`).toBe(false);
+      expect(EMOJI.test(f.structureDiagram), `${f.name} diagram has emoji`).toBe(false);
+    }
+  });
 });

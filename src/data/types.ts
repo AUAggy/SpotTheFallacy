@@ -14,7 +14,11 @@ export type ContextTag =
   | "Advertising"
   | "Science"
   | "Relationships"
-  | "Business";
+  | "Business"
+  | "Entertainment"
+  | "Gaming"
+  | "School"
+  | "Everyday life";
 
 export type Difficulty = 1 | 2 | 3;
 
@@ -29,6 +33,7 @@ export interface Fallacy {
 export interface EnhancedFallacy extends Fallacy {
   category: FallacyCategory;
   aliases?: string[];
+  zinger?: string;
   structureDiagram: string;
   realWorldFrequency: "common" | "moderate" | "rare";
   keyTerms: string[];

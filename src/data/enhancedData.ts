@@ -17,14 +17,14 @@ const categoryMappings: Record<string, FallacyCategory> = {
   "Straw Man": "Misrepresentation",
   "Scapegoat": "Personal Attack",
   "No True Scotsman": "Misrepresentation",
-  "Tu Quoque": "Personal Attack",
+  "Tu Quoque": "'You do it too' is not a counterargument; it's a complaint about hypocrisy.",
   "Argument from Motive": "Personal Attack",
   "Red Herring": "Misrepresentation",
   "Appeal to Nature": "Emotional Manipulation",
   "Appeal to Authority": "False Authority",
   "Appeal to Probability": "Faulty Logic",
   "Appeal to Tradition": "Emotional Manipulation",
-  "Appeal to Popularity": "Emotional Manipulation",
+  "Appeal to Popularity": "Half the planet once thought the sun orbited us. Majority vote lost.",
   "Appeal to Novelty": "Emotional Manipulation",
   "Cherry Picking": "Misrepresentation",
   "Gambler's Fallacy": "Faulty Logic",
@@ -35,11 +35,11 @@ const categoryMappings: Record<string, FallacyCategory> = {
   "Overgeneralization": "Causal Errors",
   "Appeal to Emotion": "Emotional Manipulation",
   "False Dilemma": "Faulty Logic",
-  "Appeal to Ignorance": "Faulty Logic",
+  "Appeal to Ignorance": "You searched the attic and found nothing. That proves the attic is empty, right?",
   "Sunk-Cost Fallacy": "Causal Errors",
   "Nirvana Fallacy": "Faulty Logic",
   "Begging the Question": "Faulty Logic",
-  "Denying the Antecedent": "Faulty Logic",
+  "Denying the Antecedent": "No rain means dry streets. It doesn't mean the sky swore off water forever.",
   "Definist Fallacy": "Faulty Logic",
   "Affirming the Consequent": "Faulty Logic",
   "Fallacy Fallacy": "Faulty Logic",
@@ -1083,11 +1083,20 @@ function detectContexts(question: string): ContextTag[] {
   if (q.includes("friend") || q.includes("family") || q.includes("parent") || q.includes("relationship") || q.includes("partner") || q.includes("sibling")) {
     contexts.push("Relationships");
   }
+  if (q.includes("movie") || q.includes("film") || q.includes("band") || q.includes("concert") || q.includes("album") || q.includes("streamer") || q.includes("celebrity") || q.includes("tv")) {
+    contexts.push("Entertainment");
+  }
+  if (q.includes("game") || q.includes("gaming") || q.includes("console") || q.includes("stream") || q.includes("app") || q.includes("crypto")) {
+    contexts.push("Gaming");
+  }
+  if (q.includes("school") || q.includes("student") || q.includes("teacher") || q.includes("exam") || q.includes("homework") || q.includes("class") || q.includes("test")) {
+    contexts.push("School");
+  }
   if (q.includes("business") || q.includes("company") || q.includes("ceo") || q.includes("employee") || q.includes("manager") || q.includes("profit") || q.includes("investment")) {
     contexts.push("Business");
   }
 
-  return contexts.length > 0 ? contexts : ["Business"]; // Default to Business if no context detected
+  return contexts.length > 0 ? contexts : ["Everyday life"]; // honest neutral fallback
 }
 
 // Difficulty assessment based on question complexity
@@ -1199,12 +1208,61 @@ const aliasMap: Record<string, string[]> = {
 
 };
 
+// One-liners for the feedback panel: dry, teen-friendly, and kept away from
+// definitions so the teaching text stays precise.
+const zingersMap: Record<string, string> = {
+  "Ad Hominem": "Insulting the chef has never once changed how the food tastes.",
+  "Tu Quoque": "'You do it too' has never cleaned up a single park.",
+  "Argument from Motive": "Even people with motives are occasionally right about umbrellas.",
+  "Scapegoat": "The blamed group is rarely holding the actual smoking gun.",
+  "Straw Man": "If you need a scarecrow version, the real argument already won.",
+  "Red Herring": "Fresh herring: red, slippery, and zero percent relevant.",
+  "Cherry Picking": "The other nine data points would like a word.",
+  "Equivocation": "Switching meanings mid-argument should cost a penalty flag.",
+  "Moving the Goalposts": "The goalposts are bolted down for a reason.",
+  "Appeal to Nature": "Poison ivy is 100% natural. Nature is not a safety report.",
+  "Appeal to Tradition": "'We've always done it this way' is a history fact, not a reason.",
+  "Appeal to Popularity": "Everyone once thought the Sun revolved around a stationary Earth. Everyone was wrong.",
+  "Appeal to Novelty": "'New' describes age, not quality.",
+  "Appeal to Emotion": "Feelings are real; they're just not evidence.",
+  "Appeal to Authority": "Even the smartest expert should still show their work.",
+  "Appeal to Probability": "'It could happen' and 'it will happen' live on different streets.",
+  "Gambler's Fallacy": "The coin has no memory. It's not mad at you.",
+  "Non Sequitur": "That conclusion didn't follow; it took the stairs.",
+  "False Dilemma": "Somewhere between your two options, a third one is waving.",
+  "Begging the Question": "A claim vouching for itself is favoritism, not proof.",
+  "Denying the Antecedent": "Dry streets prove no rain, not a world without water.",
+  "Affirming the Consequent": "Wet streets don't prove rain; sprinklers exist.",
+  "Fallacy Fallacy": "A bad defense doesn't send the claim to jail.",
+  "Definist Fallacy": "Winning by rewriting the dictionary isn't winning the debate.",
+  "Continuum Fallacy": "No exact line for 'bald' doesn't mean hair is imaginary.",
+  "Fallacy of Composition": "What works for one player doesn't work for the whole team.",
+  "Appeal to Ignorance": "Not finding ghosts is not the same as finding ghosts.",
+  "Nirvana Fallacy": "The perfect option doesn't exist, so stop firing the good one.",
+  "Texas Sharpshooter": "Drawing the target after shooting is bold; it's just not a pattern.",
+  "Magical Thinking": "Your socks did not score those goals.",
+  "Overgeneralization": "One bad pizzeria is a story about one pizzeria.",
+  "Sunk-Cost Fallacy": "The ticket money is gone either way. Don't lose the two hours too.",
+  "No True Scotsman": "Redefining 'Scotsman' mid-argument is cheating with extra steps.",
+  "Slippery Slope": "That's not a slope; it's a staircase of guesses.",
+  "Appeal to Fear": "Scary music is not evidence.",
+  "Argument to Moderation": "If one side says 2+2=4 and the other says 6, the answer isn't 5.",
+  "Post Hoc": "The rooster is not holding the sunrise hostage.",
+  "Loaded Question": "That question came with baggage you never agreed to carry.",
+  "Guilt by Association": "Guilty by company only works in heist movies.",
+  "Motte-and-Bailey": "That's not a defense; it's a retreat with confetti.",
+  "Appeal to AI Authority": "The chatbot is confident. The chatbot is always confident.",
+  "Manufactured Consensus": "Applause from a laugh track is not an audience.",
+  "Fallacy of Division": "The team is fast; that doesn't make the mascot fast.",
+};
+
 // Main enhancement functions
 export function enhanceFallacies(fallacies: Fallacy[]): EnhancedFallacy[] {
   return fallacies.map(fallacy => ({
     ...fallacy,
     category: categoryMappings[fallacy.name] || "Faulty Logic",
     aliases: aliasMap[fallacy.name] || [],
+    zinger: zingersMap[fallacy.name],
     structureDiagram: structureDiagrams[fallacy.name] || defaultDiagram,
     realWorldFrequency: assessFrequency(fallacy.name),
     keyTerms: keyTermsMap[fallacy.name] || [],
@@ -1259,5 +1317,5 @@ export function getAllCategories(): FallacyCategory[] {
 }
 
 export function getAllContexts(): ContextTag[] {
-  return ["Politics", "Social Media", "Advertising", "Science", "Relationships", "Business"];
+  return ["Politics", "Social Media", "Advertising", "Science", "Relationships", "Business", "Entertainment", "Gaming", "School", "Everyday life"];
 }

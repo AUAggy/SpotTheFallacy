@@ -99,6 +99,10 @@ export function FeedbackPanel({
       </CardHeader>
 
       <CardContent className="space-y-6">
+        {fallacy.zinger && (
+          <p className="text-sm text-muted-foreground italic">{fallacy.zinger}</p>
+        )}
+
         {/* What the user picked and why it was wrong */}
         {isWrong && !timedOut && selectedAnswer && (
           <>

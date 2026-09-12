@@ -155,8 +155,8 @@
     "name": "Overgeneralization",
     "description": "A broad conclusion based on a small or unrepresentative sample. It's a hasty generalization that can lead to stereotypes and incorrect assumptions.",
     "examples": [
-      "Jogging is healthy, so it should help your broken leg.",
-      "I met a rude person from that country, so everyone from that country must be rude."
+      "My cousin tried that energy drink and got sick, so that drink makes everyone sick.",
+      "One of my four teachers assigns homework, so teachers at this school love homework."
     ]
   },
   {
@@ -219,8 +219,8 @@
     "name": "Definist Fallacy",
     "description": "The logical fallacy of defining a term in such a way that it makes one's own position immune to counter-argument. It's a form of moving the goalposts.",
     "examples": [
-      "Soccer is a dull sport, so it can't possibly be more fun than basketball.",
-      "A 'real' fan would never criticize their team."
+      "Sports are only real sports if they involve a ball, so by definition, swimming isn't a sport.",
+      "We define 'income' as take-home pay only, so by definition, our taxes look tiny."
     ]
   },
   {
@@ -259,8 +259,8 @@
     "name": "Fallacy of Composition",
     "description": "The error of assuming that what is true of a member of a group is true for the group as a whole.",
     "examples": [
-      "A baby bit me. Therefore, all young kids are violent.",
-      "Each player on this team is a star, so the team must be the best in the league."
+      "Every byte of this program is under 1KB, so the whole program must be under 1KB.",
+      "Every player on the team is a star, so the team must be unbeatable."
     ]
   },
   {
