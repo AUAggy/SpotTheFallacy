@@ -6,7 +6,7 @@ Run against a production build, because the service worker only exists there:
 
     npm run build
     npm run preview &
-    python3 pwa_harness.py [base-url]
+    python3 scripts/pwa_harness.py [base-url]
 
 Output: .critic/<round>/report.json (round defaults to "pwa").
 """
@@ -18,7 +18,9 @@ from playwright.sync_api import sync_playwright
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:4173"
 ROUND = sys.argv[2] if len(sys.argv) > 2 else "pwa"
-OUT = Path(__file__).parent / ".critic" / ROUND
+# Two levels up from scripts/: artifacts belong at the repo root, not in here.
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / ".critic" / ROUND
 OUT.mkdir(parents=True, exist_ok=True)
 
 checks = []

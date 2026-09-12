@@ -3,6 +3,9 @@
 Critic harness: plays Challenge Mode end-to-end with ground-truth data,
 captures screenshots at every stage, and records objective assertions.
 Output: .critic/<round>/report.json + screenshot-*.png
+
+Needs the dev server running: npm run dev
+Run from the repo root: python3 scripts/critic_harness.py <round>
 """
 import json
 import sys
@@ -12,7 +15,9 @@ from playwright.sync_api import sync_playwright
 
 ROUND = sys.argv[1] if len(sys.argv) > 1 else "round1"
 BASE = "http://localhost:8080"
-OUT = Path(__file__).parent / ".critic" / ROUND
+# Two levels up from scripts/: artifacts belong at the repo root, not in here.
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / ".critic" / ROUND
 OUT.mkdir(parents=True, exist_ok=True)
 
 checks = []   # {name, pass, detail}

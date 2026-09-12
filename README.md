@@ -168,8 +168,8 @@ dependencies. They need a running dev server and Playwright for Python:
 ```bash
 pip install playwright && playwright install chromium
 npm run dev &
-python3 critic_harness.py <round>   # plays Challenge and Training end to end
-python3 copy_harness.py <round>     # screenshots 35+ screen/viewport combos
+python3 scripts/critic_harness.py <round>   # plays Challenge and Training end to end
+python3 scripts/copy_harness.py <round>     # screenshots 35+ screen/viewport combos
 ```
 Both write screenshots and a `report.json` to `.critic/<round>/` (gitignored),
 and both fail loudly on text overflow, wrong feedback states, or a broken
@@ -180,7 +180,7 @@ because that is the only place a service worker exists:
 
 ```bash
 npm run build && npm run preview &
-python3 pwa_harness.py             # manifest, icons, service worker, offline
+python3 scripts/pwa_harness.py             # manifest, icons, service worker, offline
 ```
 
 If the logo changes, regenerate the icon set and commit the result:
@@ -216,7 +216,10 @@ public/
 └── favicon-32.png     # 32px favicon
 
 scripts/
-└── generate-pwa-assets.py     # rebuilds public/icons/* from the logo
+├── generate-pwa-assets.py     # rebuilds public/icons/* from the logo
+├── critic_harness.py          # E2E: plays Challenge and Training modes
+├── copy_harness.py            # layout: overflow checks across viewports
+└── pwa_harness.py             # manifest, service worker, offline launch
 ```
 
 `vite.config.ts` holds the PWA configuration (manifest fields, precache
