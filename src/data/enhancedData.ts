@@ -1065,36 +1065,26 @@ const confusionPairs: Record<string, string[]> = {
 
 // Context detection based on question content
 function detectContexts(question: string): ContextTag[] {
-  const contexts: ContextTag[] = [];
   const q = question.toLowerCase();
 
-  if (q.includes("politician") || q.includes("vote") || q.includes("senator") || q.includes("government") || q.includes("campaign") || q.includes("election") || q.includes("policy")) {
-    contexts.push("Politics");
-  }
-  if (q.includes("social media") || q.includes("online") || q.includes("forum") || q.includes("post") || q.includes("viral") || q.includes("influencer")) {
-    contexts.push("Social Media");
-  }
-  if (q.includes("advertis") || q.includes("commercial") || q.includes("marketing") || q.includes("product") || q.includes("brand") || q.includes("slogan") || q.includes("company")) {
-    contexts.push("Advertising");
-  }
-  if (q.includes("scientist") || q.includes("study") || q.includes("research") || q.includes("evidence") || q.includes("expert") || q.includes("doctor")) {
-    contexts.push("Science");
-  }
-  if (q.includes("friend") || q.includes("family") || q.includes("parent") || q.includes("relationship") || q.includes("partner") || q.includes("sibling")) {
-    contexts.push("Relationships");
-  }
-  if (q.includes("movie") || q.includes("film") || q.includes("band") || q.includes("concert") || q.includes("album") || q.includes("streamer") || q.includes("celebrity") || q.includes("tv")) {
-    contexts.push("Entertainment");
-  }
-  if (q.includes("game") || q.includes("gaming") || q.includes("console") || q.includes("stream") || q.includes("app") || q.includes("crypto")) {
-    contexts.push("Gaming");
-  }
-  if (q.includes("school") || q.includes("student") || q.includes("teacher") || q.includes("exam") || q.includes("homework") || q.includes("class") || q.includes("test")) {
-    contexts.push("School");
-  }
-  if (q.includes("business") || q.includes("company") || q.includes("ceo") || q.includes("employee") || q.includes("manager") || q.includes("profit") || q.includes("investment")) {
-    contexts.push("Business");
-  }
+  // Word-bounded patterns. Matching whole words (plus honest morphological
+  // variants) keeps substrings such as "exam" in "example" or "app" in
+  // "happy" from tagging the wrong context.
+  const contextPatterns: Array<[ContextTag, RegExp]> = [
+    ["Politics", /\b(politician|politicians|vote|votes|voted|voter|voters|senator|senators|government|campaign|campaigns|election|elections|policy|policies)\b/],
+    ["Social Media", /\b(social media|online|forum|forums|post|posts|posted|viral|influencer|influencers)\b/],
+    ["Advertising", /\b(advertis\w*|commercial|commercials|marketing|product|products|brand|brands|slogan|slogans|company|companies)\b/],
+    ["Science", /\b(scientist|scientists|study|studies|research|evidence|expert|experts|doctor|doctors)\b/],
+    ["Relationships", /\b(friend|friends|family|families|parent|parents|relationship|relationships|partner|partners|sibling|siblings)\b/],
+    ["Entertainment", /\b(movie|movies|film|films|band|bands|concert|concerts|album|albums|streamer|streamers|celebrity|celebrities|tv)\b/],
+    ["Gaming", /\b(game|games|gaming|gamer|gamers|console|consoles|stream|streams|streaming|streamer|streamers|app|apps|crypto)\b/],
+    ["School", /\b(school|schools|student|students|teacher|teachers|exam|exams|examination|homework|class|classes|test|tests|testing)\b/],
+    ["Business", /\b(business|businesses|company|companies|ceo|employee|employees|manager|managers|profit|profits|investment|investments)\b/],
+  ];
+
+  const contexts = contextPatterns
+    .filter(([, pattern]) => pattern.test(q))
+    .map(([context]) => context);
 
   return (contexts.length > 0 ? contexts : ["Everyday life" as ContextTag]).slice(0, 3);
 }
@@ -1123,7 +1113,7 @@ function assessDifficulty(question: QuizQuestion): Difficulty {
 }
 
 // Generate valid argument version
-function generateValidVersion(fallacy: Fallacy, question: string): string {
+function generateValidVersion(fallacy: Fallacy): string {
   const validVersionTemplates: Record<string, string> = {
     "Ad Hominem": "A valid argument would address the actual claims made rather than the person's character. For example: 'Let's examine the specific points in this proposal one at a time.'",
     "Straw Man": "A valid approach would accurately represent the original argument. For example: 'If I understand correctly, you're saying X. Here's why I disagree with X specifically.'",
@@ -1212,46 +1202,46 @@ const aliasMap: Record<string, string[]> = {
 // definitions so the teaching text stays precise.
 const zingersMap: Record<string, string> = {
   "Ad Hominem": "Insulting the chef has never once changed how the food tastes.",
-  "Tu Quoque": "'You do it too' has never cleaned up a single park.",
-  "Argument from Motive": "Even people with motives are occasionally right about umbrellas.",
-  "Scapegoat": "The blamed group is rarely holding the actual smoking gun.",
+  "Tu Quoque": "Two dirty hands don't make a clean table.",
+  "Argument from Motive": "A used-car dealer can still be right about Tuesday.",
+  "Scapegoat": "A piñata is not a confession.",
   "Straw Man": "If you need a scarecrow version, the real argument already won.",
-  "Red Herring": "Fresh herring: red, slippery, and zero percent relevant.",
+  "Red Herring": "A scenic detour is still a detour.",
   "Cherry Picking": "The other nine data points would like a word.",
-  "Equivocation": "Switching meanings mid-argument should cost a penalty flag.",
-  "Moving the Goalposts": "The goalposts are bolted down for a reason.",
+  "Equivocation": "You changed the definition and kept the trophy.",
+  "Moving the Goalposts": "Every time I score, you invent a new sport.",
   "Appeal to Nature": "Poison ivy is 100% natural. Nature is not a safety report.",
-  "Appeal to Tradition": "'We've always done it this way' is a history fact, not a reason.",
+  "Appeal to Tradition": "That is a history note. It is not a reason.",
   "Appeal to Popularity": "Everyone once thought the Sun revolved around a stationary Earth. Everyone was wrong.",
   "Appeal to Novelty": "'New' describes age, not quality.",
   "Appeal to Emotion": "Feelings are real; they're just not evidence.",
   "Appeal to Authority": "Even the smartest expert should still show their work.",
-  "Appeal to Probability": "'It could happen' and 'it will happen' live on different streets.",
+  "Appeal to Probability": "It could happen. So could a lot of things that will not.",
   "Gambler's Fallacy": "The coin has no memory. It's not mad at you.",
   "Non Sequitur": "That conclusion didn't follow; it took the stairs.",
-  "False Dilemma": "Somewhere between your two options, a third one is waving.",
+  "False Dilemma": "A third choice exists. It was not invited.",
   "Begging the Question": "A claim vouching for itself is favoritism, not proof.",
   "Denying the Antecedent": "Dry streets prove no rain, not a world without water.",
   "Affirming the Consequent": "Wet streets don't prove rain; sprinklers exist.",
-  "Fallacy Fallacy": "A bad defense doesn't send the claim to jail.",
+  "Fallacy Fallacy": "Bad reasoning is a problem for the reasoning.",
   "Definist Fallacy": "Winning by rewriting the dictionary isn't winning the debate.",
   "Continuum Fallacy": "No exact line for 'bald' doesn't mean hair is imaginary.",
   "Fallacy of Composition": "What works for one player doesn't work for the whole team.",
   "Appeal to Ignorance": "Not finding ghosts is not the same as finding ghosts.",
-  "Nirvana Fallacy": "The perfect option doesn't exist, so stop firing the good one.",
-  "Texas Sharpshooter": "Drawing the target after shooting is bold; it's just not a pattern.",
+  "Nirvana Fallacy": "The perfect option doesn't exist, so stop rejecting the good one.",
+  "Texas Sharpshooter": "The circle was painted afterwards. The holes were already there.",
   "Magical Thinking": "Your socks did not score those goals.",
   "Overgeneralization": "One bad pizzeria is a story about one pizzeria.",
-  "Sunk-Cost Fallacy": "The ticket money is gone either way. Don't lose the two hours too.",
+  "Sunk-Cost Fallacy": "The hours ahead are still refundable. The money is not.",
   "No True Scotsman": "Redefining 'Scotsman' mid-argument is cheating with extra steps.",
-  "Slippery Slope": "That's not a slope; it's a staircase of guesses.",
-  "Appeal to Fear": "Scary music is not evidence.",
+  "Slippery Slope": "That is a possible future. Several others are also available.",
+  "Appeal to Fear": "Something bad might happen. This is true of most Fridays.",
   "Argument to Moderation": "If one side says 2+2=4 and the other says 6, the answer isn't 5.",
   "Post Hoc": "The rooster is not holding the sunrise hostage.",
   "Loaded Question": "That question came with baggage you never agreed to carry.",
   "Guilt by Association": "Guilty by company only works in heist movies.",
-  "Motte-and-Bailey": "That's not a defense; it's a retreat with confetti.",
-  "Appeal to AI Authority": "The chatbot is confident. The chatbot is always confident.",
+  "Motte-and-Bailey": "You advertised the mansion, then defended the shed.",
+  "Appeal to AI Authority": "The chatbot is confident. It has no other setting.",
   "Manufactured Consensus": "Applause from a laugh track is not an audience.",
   "Fallacy of Division": "The team is fast; that doesn't make the mascot fast.",
 };
@@ -1310,10 +1300,7 @@ export function enhanceQuestions(questions: QuizQuestion[], fallacies: EnhancedF
       id: `q_${question.fallacy_name.replace(/\s+/g, '_').toLowerCase()}_${index}`,
       difficulty: assessDifficulty(question),
       contexts: detectContexts(question.question),
-      validVersion: generateValidVersion(
-        byName.get(correct) || fallacies[0],
-        question.question
-      ),
+      validVersion: generateValidVersion(byName.get(correct) || fallacies[0]),
       optionExplanations: generateOptionExplanations(
         { ...question, options, correct_answer: correct },
         fallacies
@@ -1332,10 +1319,6 @@ export function getFallacyByName(name: string): EnhancedFallacy | undefined {
   return enhancedFallacies.find(f => f.name === name);
 }
 
-export function getQuestionsByFallacy(fallacyName: string): EnhancedQuestion[] {
-  return enhancedQuestions.filter(q => q.fallacy_name === fallacyName);
-}
-
 export function getQuestionsByCategory(category: FallacyCategory): EnhancedQuestion[] {
   const fallaciesInCategory = enhancedFallacies
     .filter(f => f.category === category)
@@ -1345,10 +1328,6 @@ export function getQuestionsByCategory(category: FallacyCategory): EnhancedQuest
 
 export function getQuestionsByContext(context: ContextTag): EnhancedQuestion[] {
   return enhancedQuestions.filter(q => q.contexts.includes(context));
-}
-
-export function getQuestionsByDifficulty(difficulty: Difficulty): EnhancedQuestion[] {
-  return enhancedQuestions.filter(q => q.difficulty === difficulty);
 }
 
 export function getAllCategories(): FallacyCategory[] {
