@@ -11,7 +11,8 @@ SpotTheFallacy.com is a practice tool for learning to spot logical fallacies: th
 1. **Training Mode** (recommended)
    - 10 questions per session, no time pressure
    - Wrong answers can be retried; explanations for every answer
-   - Questions you have missed weigh 4x, unseen fallacies 2x
+   - Questions you have missed weigh 4x, unseen fallacies 2x — including
+     mistakes you retried your way out of
 
 2. **Challenge Mode**
    - Questions only from fallacies you have not yet mastered
@@ -20,7 +21,7 @@ SpotTheFallacy.com is a practice tool for learning to spot logical fallacies: th
 
 3. **Today's 5** (daily challenge)
    - 5 questions, same set for everyone on that date
-   - One attempt; replays are locked until tomorrow
+   - One attempt; the store refuses a second entry for the same day
 
 4. **Quick Round**
    - 3 questions, about a minute
@@ -39,7 +40,9 @@ A dry one-liner comes with each fallacy. Two favorites: "The coin has no memory.
 
 ### The Feynman prompt
 
-After three correct answers in a row, the app asks you to explain the fallacy in your own words. There is no scoring; writing the explanation is the exercise.
+Every third consecutive first-try correct answer, the app asks you to explain
+the fallacy in your own words. There is no scoring; writing the explanation is
+the exercise.
 
 ### Progress that stays on your device
 
@@ -66,22 +69,74 @@ Press 1-4 to answer, Enter to continue. The whole game is playable without a mou
 - React + TypeScript + Vite
 - Tailwind CSS + shadcn-ui
 - localStorage for all progress (with schema migrations)
-- Vitest for unit tests; Playwright harnesses for end-to-end checks
+- Vitest for unit tests; two Playwright harnesses for end-to-end checks
+
+## Design Decisions
+
+Short notes on why things are the way they are. Several of these replaced
+earlier designs; the reasoning is recorded so they do not get reinvented.
+
+**Client-only, no backend.** All progress lives in localStorage under one key
+(`fallacy_trainer_progress`). No accounts, no network calls, nothing to host
+except static files. Cost: progress is per-device, and export/import is the only
+backup. 
+
+**Mastery-weighted selection, not a difficulty ladder.** An earlier version
+adapted a numeric difficulty level up and down with performance. It was retired
+because the same adjustment falls out of weighting instead: a fallacy you have
+missed weighs 4x, one you have never seen weighs 2x, everything else 1x. A
+ladder also had to be persisted and explained; the weights are derived from
+stats that were already being recorded.
+
+**One daily attempt per date, enforced in the progress store.** The menu hides
+an already-played daily, but that is presentation. `recordDailyResult` refuses a
+second write for a date, so a stale tab, a replay path, or a second browser
+tab cannot inflate the history or break the "same set for everyone" promise.
+The set itself is generated from a date-seeded PRNG.
+
+**The Feynman prompt is unscored.** It used to award points for keyword matches,
+which turned a reflection exercise into a guessing game. Writing the
+explanation is the exercise; the app does not grade it.
+
+**One progress store, versioned, with content migrations.** Fallacies get
+renamed and merged, so stored per-fallacy stats are remapped through
+`FALLACY_KEY_MIGRATION` (chains are followed) on every load. `schemaVersion`
+marks the shape. Transient UI state (which fallacy just crossed into mastery)
+is deliberately never persisted.
+
+**Content is data, and the tests are the gate.** `fallacies.json` and
+`quiz-questions.json` are the source of truth; categories, pattern diagrams,
+valid versions, per-option explanations, distractors, contexts, and difficulty
+are derived at load. Diagrams, brevity limits, banned phrases, option integrity,
+and context sanity are enforced by tests, so a content change cannot land
+half-done.
 
 ## For Developers
 
 ```bash
 npm install        # install dependencies
 npm run dev        # dev server on http://localhost:8080
-npm run test       # unit + copy-quality tests
+npm run test       # unit + copy-quality + context tests
 npm run lint       # eslint
 npm run build      # production build
+npx tsc --noEmit -p tsconfig.app.json   # typecheck
 ```
 
-Additional verification tools (need `python3` with Playwright and a running dev server):
+All four of `test`, `lint`, `build`, and the typecheck should be green before a
+change lands.
 
-- `python3 critic_harness.py <round>` plays Challenge and Training modes end to end and checks feedback, timer expiry, session recording, and tallies
-- `python3 copy_harness.py <round>` screenshots 35+ screen and viewport combinations (mobile portrait, tablet, desktop) and fails on any text overflow
+The end-to-end harnesses are local Python tools and are **not** npm
+dependencies. They need a running dev server and Playwright for Python:
+
+```bash
+pip install playwright && playwright install chromium
+npm run dev &
+python3 critic_harness.py <round>   # plays Challenge and Training end to end
+python3 copy_harness.py <round>     # screenshots 35+ screen/viewport combos
+```
+Both write screenshots and a `report.json` to `.critic/<round>/` (gitignored),
+and both fail loudly on text overflow, wrong feedback states, or a broken
+timer.
 
 ## Project Structure
 
