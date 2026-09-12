@@ -34,3 +34,6 @@ plans/
 
 # Local agent instructions (not merged)
 AGENTS.md
+
+# Local dependency audit notes
+DEPENDENCY-AUDIT.md
