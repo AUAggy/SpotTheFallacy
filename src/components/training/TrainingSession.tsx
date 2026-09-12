@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,7 @@ import { QuestionCard } from "@/components/training/QuestionCard";
 import { FeedbackPanel } from "@/components/training/FeedbackPanel";
 import { FeynmanChallenge } from "@/components/training/FeynmanChallenge";
 import { SessionSummary } from "@/components/training/SessionSummary";
+import { ConfettiBurst } from "@/components/training/ConfettiBurst";
 import { ArrowLeft, X } from "lucide-react";
 
 interface TrainingSessionProps {
@@ -69,6 +70,25 @@ export function TrainingSession({
   const [phase, setPhase] = useState<Phase>("question");
   const [lastAnswer, setLastAnswer] = useState<AnswerInfo | null>(null);
   const [questionForFeynman, setQuestionForFeynman] = useState(currentQuestion);
+  const [burst, setBurst] = useState(0);
+  const celebratedRef = useRef<string | null>(null);
+
+  // celebrate a fresh mastery crossing exactly once
+  useEffect(() => {
+    const up = progress.lastMasteryUp;
+    if (up && up !== celebratedRef.current) {
+      celebratedRef.current = up;
+      setBurst(b => b + 1);
+    }
+    if (!up) celebratedRef.current = null;
+  }, [progress.lastMasteryUp]);
+
+  // celebrate strong sessions once, when the summary appears
+  useEffect(() => {
+    if (phase === "summary" && sessionStats && sessionStats.accuracy >= 80) {
+      setBurst(b => b + 1);
+    }
+  }, [phase, sessionStats]);
 
   // Initialize session
   useEffect(() => {
@@ -191,6 +211,7 @@ export function TrainingSession({
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ConfettiBurst trigger={burst} />
       {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10">
         <div className="container flex items-center justify-between h-14 px-4">
@@ -232,6 +253,7 @@ export function TrainingSession({
             isCorrect={lastAnswer?.isCorrect ?? false}
             timedOut={lastAnswer?.timedOut ?? false}
             selectedAnswer={lastAnswer?.selectedAnswer ?? null}
+            masteryUp={lastAnswer?.isCorrect ? progress.lastMasteryUp : null}
             onContinue={handleContinue}
           />
         ) : (

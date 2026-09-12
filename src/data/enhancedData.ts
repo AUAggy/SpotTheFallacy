@@ -1096,7 +1096,7 @@ function detectContexts(question: string): ContextTag[] {
     contexts.push("Business");
   }
 
-  return contexts.length > 0 ? contexts : ["Everyday life"]; // honest neutral fallback
+  return (contexts.length > 0 ? contexts : ["Everyday life" as ContextTag]).slice(0, 3);
 }
 
 // Difficulty assessment based on question complexity
@@ -1270,23 +1270,62 @@ export function enhanceFallacies(fallacies: Fallacy[]): EnhancedFallacy[] {
   }));
 }
 
-export function enhanceQuestions(questions: QuizQuestion[], fallacies: Fallacy[]): EnhancedQuestion[] {
-  return questions.map((question, index) => ({
-    ...question,
-    id: `q_${question.fallacy_name.replace(/\s+/g, '_').toLowerCase()}_${index}`,
-    difficulty: assessDifficulty(question),
-    contexts: detectContexts(question.question),
-    validVersion: generateValidVersion(
-      fallacies.find(f => f.name === question.fallacy_name) || fallacies[0],
-      question.question
-    ),
-    optionExplanations: generateOptionExplanations(question, fallacies),
-  }));
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+export function enhanceQuestions(questions: QuizQuestion[], fallacies: EnhancedFallacy[]): EnhancedQuestion[] {
+  const byName = new Map(fallacies.map(f => [f.name, f]));
+
+  return questions.map((question, index) => {
+    const correct = question.correct_answer;
+    const correctFallacy = byName.get(correct);
+    const confused = correctFallacy?.confusedWith ?? [];
+
+    // Curated distractors: confusable fallacies first, then the same
+    // category, so every wrong answer teaches a real distinction.
+    const pool: string[] = [
+      ...confused.filter(n => byName.has(n) && n !== correct),
+      ...fallacies.filter(f => f.category === correctFallacy?.category && f.name !== correct).map(f => f.name),
+      ...fallacies.map(f => f.name),
+    ];
+    const chosen = new Set<string>([correct]);
+    const distractors: string[] = [];
+    for (const candidate of pool) {
+      if (chosen.size > 3) break;
+      if (chosen.has(candidate)) continue;
+      chosen.add(candidate);
+      distractors.push(candidate);
+    }
+    const options = shuffleArray([correct, ...distractors]);
+    const enhanced: EnhancedQuestion = {
+      ...question,
+      options,
+      correct_answer: correct,
+      id: `q_${question.fallacy_name.replace(/\s+/g, '_').toLowerCase()}_${index}`,
+      difficulty: assessDifficulty(question),
+      contexts: detectContexts(question.question),
+      validVersion: generateValidVersion(
+        byName.get(correct) || fallacies[0],
+        question.question
+      ),
+      optionExplanations: generateOptionExplanations(
+        { ...question, options, correct_answer: correct },
+        fallacies
+      ),
+    };
+    return enhanced;
+  });
 }
 
 // Export pre-enhanced data
 export const enhancedFallacies = enhanceFallacies(fallaciesData as Fallacy[]);
-export const enhancedQuestions = enhanceQuestions(questionsData as QuizQuestion[], fallaciesData as Fallacy[]);
+export const enhancedQuestions = enhanceQuestions(questionsData as QuizQuestion[], enhancedFallacies);
 
 // Helper functions
 export function getFallacyByName(name: string): EnhancedFallacy | undefined {

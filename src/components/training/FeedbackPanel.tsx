@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,8 @@ interface FeedbackPanelProps {
   timedOut?: boolean;
   /** The answer the user picked (null when timed out). */
   selectedAnswer?: string | null;
+  /** set when this answer pushed a fallacy across the mastery line */
+  masteryUp?: string | null;
   onContinue: () => void;
 }
 
@@ -25,8 +28,17 @@ export function FeedbackPanel({
   isCorrect,
   timedOut = false,
   selectedAnswer,
+  masteryUp,
   onContinue
 }: FeedbackPanelProps) {
+  // Keyboard play: Enter continues
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") onContinue();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onContinue]);
   const fallacy = getFallacyByName(question.fallacy_name);
 
   if (!fallacy) return null;
@@ -99,6 +111,11 @@ export function FeedbackPanel({
       </CardHeader>
 
       <CardContent className="space-y-6">
+        {masteryUp === fallacy.name && (
+          <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
+            🏆 New: {fallacy.name} mastered!
+          </p>
+        )}
         {fallacy.zinger && (
           <p className="text-sm text-muted-foreground italic">{fallacy.zinger}</p>
         )}

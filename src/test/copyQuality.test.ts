@@ -138,6 +138,23 @@ describe("copy: coverage and correctness", () => {
     }
   });
 
+  it("wrong options teach real distinctions (confusable or same-category)", () => {
+    const byName = new Map(enhancedFallacies.map(f => [f.name, f]));
+    for (const q of enhancedQuestions) {
+      const f = byName.get(q.correct_answer);
+      const allowed = new Set([
+        ...(f?.confusedWith ?? []),
+        ...enhancedFallacies.filter(x => x.category === f?.category).map(x => x.name),
+      ]);
+      const wrong = q.options.filter(o => o !== q.correct_answer);
+      const hits = wrong.filter(o => allowed.has(o)).length;
+      expect(
+        hits / wrong.length,
+        `${q.id} distractors are not drawn from confusable/same-category fallacies`
+      ).toBeGreaterThanOrEqual(0.6);
+    }
+  });
+
   it("explanations name the right fallacy and contain no template artifacts", () => {
     for (const q of enhancedQuestions) {
       for (const [opt, exp] of Object.entries(q.optionExplanations)) {

@@ -77,6 +77,8 @@ export interface UserProgress {
   totalQuestionsAnswered: number;
   sessionsCompleted: number;
   correctStreak: number;
+  /** transient: fallacy that just crossed the mastery line, for the stamp */
+  lastMasteryUp: string | null;
   seenQuestionIds: string[];
   isFirstTime: boolean;
 }

@@ -43,7 +43,7 @@ OVERFLOW_JS = """() => {
     let p = el.parentElement;
     while (p && p !== document.body) {
       const ov = getComputedStyle(p).overflowX;
-      if (ov === 'auto' || ov === 'scroll' || ov === 'overlay') return true;
+      if (ov === 'auto' || ov === 'scroll' || ov === 'overlay' || ov === 'hidden' || ov === 'clip') return true;
       p = p.parentElement;
     }
     return false;

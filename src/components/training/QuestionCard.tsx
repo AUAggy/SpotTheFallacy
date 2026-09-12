@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,16 +30,30 @@ export function QuestionCard({
 
   const handleOptionClick = (option: string) => {
     if (feedback?.isCorrect) return; // Already answered correctly
-    
+    if (mode === "challenge" && feedback) return; // one shot per question
+
     setSelectedAnswer(option);
     const result = onAnswer(option);
     setFeedback(result);
-    
+
     if (!result.isCorrect && result.canRetry) {
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 500);
     }
   };
+
+  // Keyboard play: 1-4 pick an option
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (feedback && (feedback.isCorrect || mode === "challenge")) return;
+      const i = ["1", "2", "3", "4"].indexOf(e.key);
+      if (i >= 0 && i < question.options.length) {
+        handleOptionClick(question.options[i]);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  });
 
   const getTierBadge = (difficulty: number) => {
     return difficulty <= 1
@@ -77,7 +91,7 @@ export function QuestionCard({
     )}>
       <CardHeader className="space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className={getTierBadge(question.difficulty)}>
               {tierLabel}
             </Badge>

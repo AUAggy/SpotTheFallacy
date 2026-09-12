@@ -91,6 +91,7 @@ const defaultProgress: UserProgress = {
   totalQuestionsAnswered: 0,
   sessionsCompleted: 0,
   correctStreak: 0,
+  lastMasteryUp: null,
   seenQuestionIds: [],
   isFirstTime: true,
 };
@@ -213,6 +214,11 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       const newCorrectStreak = firstTry ? prev.correctStreak + 1 : 0;
       newStats.lastAttemptCorrect = isCorrect;
 
+      // one-shot celebration marker when a fallacy crosses the mastery line
+      const prevPct = getMasteryInfo(currentStats).percentage;
+      const newPct = getMasteryInfo(newStats).percentage;
+      const lastMasteryUp = prevPct < 90 && newPct >= 90 ? fallacyName : null;
+
       return {
         ...prev,
         fallacyStats: {
@@ -221,6 +227,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         },
         totalQuestionsAnswered: prev.totalQuestionsAnswered + 1,
         correctStreak: newCorrectStreak,
+        lastMasteryUp,
         seenQuestionIds: [...new Set([...prev.seenQuestionIds, questionId])],
         lastUpdated: Date.now(),
         isFirstTime: false,
